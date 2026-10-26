@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="145" viewBox="0 0 500 145"><g transform="translate(7,12)"><defs><linearGradient id="ribbon" gradientUnits="userSpaceOnUse" x1="12" y1="12" x2="115" y2="115"><stop offset="0%" stop-color="#F8DDD5"/><stop offset="45%" stop-color="#F2B5A7"/><stop offset="100%" stop-color="#B77C70"/></linearGradient></defs><path d="M22 96 V25" fill="none" stroke="url(#ribbon)" stroke-width="20" stroke-linecap="round"/>
+  <path d="M22 25 L98 96" fill="none" stroke="url(#ribbon)" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M98 96 V25" fill="none" stroke="url(#ribbon)" stroke-width="20" stroke-linecap="round"/>
+  <path d="M18 30 L18 84" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-opacity=".17" stroke-linecap="round"/></g><text x="145" y="88" font-family="Plus Jakarta Sans,Arial,sans-serif" font-size="61" font-weight="700" letter-spacing="-2" fill="#302D2C">iMaGo</text></svg>

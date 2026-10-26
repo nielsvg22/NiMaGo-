@@ -1,0 +1,1 @@
+import Link from 'next/link';export default function NotFound(){return <section className="container page-hero"><span className="eyebrow">404 / PAGINA NIET GEVONDEN</span><h1>Hier is iets <em>verdwaald.</em></h1><p>Deze pagina bestaat niet (meer). Gelukkig vind je de weg terug in één klik.</p><Link href="/" className="button button-primary">Terug naar home</Link></section>}

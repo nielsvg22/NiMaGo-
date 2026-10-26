@@ -1,0 +1,2 @@
+import Link from 'next/link';import {ArrowUpRight} from 'lucide-react';
+export default function CTA(){return <section className="container cta-wrap"><div className="cta-panel"><span className="eyebrow">SAMEN IETS MOOIS MAKEN?</span><h2>Goed idee? <em>We denken mee.</em></h2><p>Vertel ons waar je tegenaan loopt of wat je wilt bereiken. Dan kijken we samen wat digitaal mogelijk is.</p><Link href="/contact" className="button button-dark">Laten we kennismaken <ArrowUpRight size={18}/></Link></div></section>}

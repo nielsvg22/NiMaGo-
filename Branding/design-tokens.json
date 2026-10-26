@@ -1,0 +1,42 @@
+{
+  "brand": "NiMaGo",
+  "tagline": "Digitale ideeën. Sterk uitgevoerd.",
+  "descriptor": "Digital Solutions",
+  "colors": {
+    "cream": "#FAF7F3",
+    "salmon": "#F2B5A7",
+    "blush": "#F8DDD5",
+    "champagne": "#E9D4C5",
+    "terracotta": "#B77C70",
+    "charcoal": "#302D2C",
+    "white": "#FFFFFF",
+    "muted": "#776F6B",
+    "line": "#EAE0D9",
+    "rose": "#D89383"
+  },
+  "fonts": {
+    "display": "Plus Jakarta Sans, Inter, system-ui, sans-serif",
+    "body": "Inter, Arial, system-ui, sans-serif"
+  },
+  "radius": {
+    "small": 12,
+    "medium": 20,
+    "large": 32,
+    "pill": 999
+  },
+  "shadows": {
+    "card": "0 16px 55px rgba(48,45,44,.07)",
+    "hover": "0 24px 65px rgba(48,45,44,.12)"
+  },
+  "spacingBasePx": 4,
+  "logoSafeArea": "Minimaal 0,25x de hoogte van het beeldmerk rondom het logo.",
+  "logoMinimumWidthPx": {
+    "horizontal": 140,
+    "mark": 24
+  },
+  "motion": {
+    "normalMs": 260,
+    "slowMs": 600,
+    "prefersReducedMotion": true
+  }
+}

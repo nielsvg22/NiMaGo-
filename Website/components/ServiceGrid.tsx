@@ -1,0 +1,3 @@
+import Link from 'next/link';import {ArrowUpRight,Monitor,ShoppingBag,Layers3,Workflow,PenTool,LifeBuoy} from 'lucide-react';import {services} from '@/data/site';
+const icons=[Monitor,ShoppingBag,Layers3,Workflow,PenTool,LifeBuoy];
+export default function ServiceGrid(){return <div className="service-grid">{services.map((s,i)=>{const I=icons[i];return <Link className="service-card" href={'/diensten/'+s.slug} key={s.slug}><span className="service-icon"><I size={25} strokeWidth={1.65}/></span><span className="service-arrow"><ArrowUpRight size={18}/></span><h3>{s.title}</h3><p>{s.lead}</p></Link>})}</div>}

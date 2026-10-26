@@ -1,0 +1,615 @@
+{
+  "release": "NiMaGo Complete Brand & Digital Studio",
+  "date": "2026-10-26",
+  "note": "Concept assets; legal/business details require verification.",
+  "files": [
+    {
+      "path": ".gitignore",
+      "bytes": 56
+    },
+    {
+      "path": "Brandbook/NiMaGo_Brandbook_2026.pdf",
+      "bytes": 2351301
+    },
+    {
+      "path": "Branding/3D-N-beeldmerk-concept.png",
+      "bytes": 1489952
+    },
+    {
+      "path": "Branding/NiMaGo_moodboard.png",
+      "bytes": 675026
+    },
+    {
+      "path": "Branding/NiMaGo_responsive_websiteoverzicht.png",
+      "bytes": 1011656
+    },
+    {
+      "path": "Branding/achtergrondpatroon.svg",
+      "bytes": 540
+    },
+    {
+      "path": "Branding/brand-guidelines.md",
+      "bytes": 2165
+    },
+    {
+      "path": "Branding/design-tokens.json",
+      "bytes": 978
+    },
+    {
+      "path": "Branding/kleur-en-componentensysteem.png",
+      "bytes": 77580
+    },
+    {
+      "path": "Documenten/01_Offerte_template.docx",
+      "bytes": 72198
+    },
+    {
+      "path": "Documenten/02_Factuur_template.docx",
+      "bytes": 72084
+    },
+    {
+      "path": "Documenten/03_Kwitantie_template.docx",
+      "bytes": 72010
+    },
+    {
+      "path": "Documenten/04_Briefpapier_template.docx",
+      "bytes": 71592
+    },
+    {
+      "path": "Documenten/05_Projectvoorstel_template.docx",
+      "bytes": 71814
+    },
+    {
+      "path": "Documenten/06_Samenwerkingsvoorstel_template.docx",
+      "bytes": 71820
+    },
+    {
+      "path": "Documenten/07_Onboarding_klant_template.docx",
+      "bytes": 71826
+    },
+    {
+      "path": "Documenten/08_Intakevragenlijst_template.docx",
+      "bytes": 71864
+    },
+    {
+      "path": "Documenten/09_Projectoplevering_template.docx",
+      "bytes": 71852
+    },
+    {
+      "path": "Documenten/10_Contract_basis_template.docx",
+      "bytes": 72013
+    },
+    {
+      "path": "Documenten/11_Prijsoverzicht_indicatief.docx",
+      "bytes": 72085
+    },
+    {
+      "path": "Documenten/12_Support_overeenkomst_template.docx",
+      "bytes": 71772
+    },
+    {
+      "path": "Documenten/13_Emailhandtekening.html",
+      "bytes": 877
+    },
+    {
+      "path": "Documenten/PDF_voorbeeldweergaven/01_Offerte_template.pdf",
+      "bytes": 62790
+    },
+    {
+      "path": "Documenten/PDF_voorbeeldweergaven/02_Factuur_template.pdf",
+      "bytes": 57783
+    },
+    {
+      "path": "Documenten/PDF_voorbeeldweergaven/03_Kwitantie_template.pdf",
+      "bytes": 55167
+    },
+    {
+      "path": "Documenten/PDF_voorbeeldweergaven/04_Briefpapier_template.pdf",
+      "bytes": 39217
+    },
+    {
+      "path": "Documenten/PDF_voorbeeldweergaven/05_Projectvoorstel_template.pdf",
+      "bytes": 60407
+    },
+    {
+      "path": "Documenten/PDF_voorbeeldweergaven/06_Samenwerkingsvoorstel_template.pdf",
+      "bytes": 56290
+    },
+    {
+      "path": "Documenten/PDF_voorbeeldweergaven/07_Onboarding_klant_template.pdf",
+      "bytes": 59207
+    },
+    {
+      "path": "Documenten/PDF_voorbeeldweergaven/08_Intakevragenlijst_template.pdf",
+      "bytes": 64407
+    },
+    {
+      "path": "Documenten/PDF_voorbeeldweergaven/09_Projectoplevering_template.pdf",
+      "bytes": 61736
+    },
+    {
+      "path": "Documenten/PDF_voorbeeldweergaven/10_Contract_basis_template.pdf",
+      "bytes": 61336
+    },
+    {
+      "path": "Documenten/PDF_voorbeeldweergaven/11_Prijsoverzicht_indicatief.pdf",
+      "bytes": 61058
+    },
+    {
+      "path": "Documenten/PDF_voorbeeldweergaven/12_Support_overeenkomst_template.pdf",
+      "bytes": 54579
+    },
+    {
+      "path": "Documenten/visitekaart-achterzijde.png",
+      "bytes": 14100
+    },
+    {
+      "path": "Documenten/visitekaart-voorzijde.png",
+      "bytes": 28673
+    },
+    {
+      "path": "LEES_MIJ_EERST.md",
+      "bytes": 2213
+    },
+    {
+      "path": "Logo/01_logo_primair.png",
+      "bytes": 35030
+    },
+    {
+      "path": "Logo/01_logo_primair.svg",
+      "bytes": 1094
+    },
+    {
+      "path": "Logo/02_logo_zonder_ondertitel.png",
+      "bytes": 28885
+    },
+    {
+      "path": "Logo/02_logo_zonder_ondertitel.svg",
+      "bytes": 966
+    },
+    {
+      "path": "Logo/03_logo_donker.png",
+      "bytes": 29909
+    },
+    {
+      "path": "Logo/03_logo_donker.svg",
+      "bytes": 1094
+    },
+    {
+      "path": "Logo/04_logo_eenkleur_zwart.png",
+      "bytes": 31142
+    },
+    {
+      "path": "Logo/04_logo_eenkleur_zwart.svg",
+      "bytes": 1094
+    },
+    {
+      "path": "Logo/05_logo_eenkleur_wit.png",
+      "bytes": 24012
+    },
+    {
+      "path": "Logo/05_logo_eenkleur_wit.svg",
+      "bytes": 1094
+    },
+    {
+      "path": "Logo/06_logo_gestapeld.png",
+      "bytes": 29980
+    },
+    {
+      "path": "Logo/06_logo_gestapeld.svg",
+      "bytes": 1139
+    },
+    {
+      "path": "Logo/07_logo_gestapeld_donker.png",
+      "bytes": 25925
+    },
+    {
+      "path": "Logo/07_logo_gestapeld_donker.svg",
+      "bytes": 1139
+    },
+    {
+      "path": "Logo/08_beeldmerk.png",
+      "bytes": 11269
+    },
+    {
+      "path": "Logo/08_beeldmerk.svg",
+      "bytes": 781
+    },
+    {
+      "path": "Logo/09_beeldmerk_wit.png",
+      "bytes": 6534
+    },
+    {
+      "path": "Logo/09_beeldmerk_wit.svg",
+      "bytes": 781
+    },
+    {
+      "path": "Logo/10_beeldmerk_antraciet.png",
+      "bytes": 8007
+    },
+    {
+      "path": "Logo/10_beeldmerk_antraciet.svg",
+      "bytes": 781
+    },
+    {
+      "path": "Logo/11_app_icon_licht.png",
+      "bytes": 13846
+    },
+    {
+      "path": "Logo/11_app_icon_licht.svg",
+      "bytes": 836
+    },
+    {
+      "path": "Logo/12_app_icon_donker.png",
+      "bytes": 15159
+    },
+    {
+      "path": "Logo/12_app_icon_donker.svg",
+      "bytes": 836
+    },
+    {
+      "path": "Logo/Concepten/A_ribbon-N-gekozen.svg",
+      "bytes": 781
+    },
+    {
+      "path": "Logo/Concepten/B_tweeling-bogen.svg",
+      "bytes": 605
+    },
+    {
+      "path": "Logo/Concepten/C_verbonden-ringen.svg",
+      "bytes": 602
+    },
+    {
+      "path": "Logo/Concepten/D_grid-monogram.svg",
+      "bytes": 604
+    },
+    {
+      "path": "Logo/Concepten/E_woordmerk.svg",
+      "bytes": 518
+    },
+    {
+      "path": "Logo/Concepten/logoconcepten-overzicht.png",
+      "bytes": 82832
+    },
+    {
+      "path": "Logo/README.md",
+      "bytes": 521
+    },
+    {
+      "path": "Logo/apple-touch-icon.png",
+      "bytes": 11300
+    },
+    {
+      "path": "Logo/favicon-16.png",
+      "bytes": 654
+    },
+    {
+      "path": "Logo/favicon-32.png",
+      "bytes": 1534
+    },
+    {
+      "path": "Logo/favicon.ico",
+      "bytes": 8345
+    },
+    {
+      "path": "OPLEVERSTATUS.json",
+      "bytes": 1547
+    },
+    {
+      "path": "Presentatie/NiMaGo_Bedrijfspresentatie.pdf",
+      "bytes": 116362
+    },
+    {
+      "path": "Presentatie/NiMaGo_Bedrijfspresentatie.pptx",
+      "bytes": 51352
+    },
+    {
+      "path": "Social_Media/advertentie-banner-1200x628.png",
+      "bytes": 30330
+    },
+    {
+      "path": "Social_Media/instagram-dienst-1080.png",
+      "bytes": 47383
+    },
+    {
+      "path": "Social_Media/instagram-lancering-1080.png",
+      "bytes": 50640
+    },
+    {
+      "path": "Social_Media/instagram-profiel-1024.png",
+      "bytes": 18309
+    },
+    {
+      "path": "Social_Media/instagram-story-1080x1920.png",
+      "bytes": 51158
+    },
+    {
+      "path": "Social_Media/linkedin-banner-1584x396.png",
+      "bytes": 20455
+    },
+    {
+      "path": "Social_Media/linkedin-post-1200x627.png",
+      "bytes": 28965
+    },
+    {
+      "path": "Social_Media/nieuwsbrief-template.html",
+      "bytes": 1058
+    },
+    {
+      "path": "Social_Media/social-copy.md",
+      "bytes": 1034
+    },
+    {
+      "path": "Strategie/01_Merkstrategie_en_positionering.md",
+      "bytes": 2720
+    },
+    {
+      "path": "Strategie/02_Diensten_pakketten_en_prijzen.md",
+      "bytes": 2550
+    },
+    {
+      "path": "Strategie/03_Online_zichtbaarheid_SEO_en_leadgeneratie.md",
+      "bytes": 2260
+    },
+    {
+      "path": "Strategie/04_Starterschecklist_Nederland.md",
+      "bytes": 2180
+    },
+    {
+      "path": "Strategie/05_Lanceringsplan_30_dagen.md",
+      "bytes": 1323
+    },
+    {
+      "path": "Website/.env.example",
+      "bytes": 197
+    },
+    {
+      "path": "Website/COMPONENTEN.md",
+      "bytes": 1544
+    },
+    {
+      "path": "Website/README.md",
+      "bytes": 2185
+    },
+    {
+      "path": "Website/app/algemene-voorwaarden/page.tsx",
+      "bytes": 1484
+    },
+    {
+      "path": "Website/app/api/contact/route.ts",
+      "bytes": 2068
+    },
+    {
+      "path": "Website/app/contact/page.tsx",
+      "bytes": 685
+    },
+    {
+      "path": "Website/app/cookiebeleid/page.tsx",
+      "bytes": 959
+    },
+    {
+      "path": "Website/app/diensten/[slug]/page.tsx",
+      "bytes": 1404
+    },
+    {
+      "path": "Website/app/diensten/page.tsx",
+      "bytes": 645
+    },
+    {
+      "path": "Website/app/faq/page.tsx",
+      "bytes": 1464
+    },
+    {
+      "path": "Website/app/globals.css",
+      "bytes": 14579
+    },
+    {
+      "path": "Website/app/layout.tsx",
+      "bytes": 776
+    },
+    {
+      "path": "Website/app/not-found.tsx",
+      "bytes": 379
+    },
+    {
+      "path": "Website/app/over-ons/page.tsx",
+      "bytes": 1205
+    },
+    {
+      "path": "Website/app/page.tsx",
+      "bytes": 3287
+    },
+    {
+      "path": "Website/app/privacyverklaring/page.tsx",
+      "bytes": 1514
+    },
+    {
+      "path": "Website/app/projecten/[slug]/page.tsx",
+      "bytes": 1500
+    },
+    {
+      "path": "Website/app/projecten/page.tsx",
+      "bytes": 574
+    },
+    {
+      "path": "Website/app/robots.ts",
+      "bytes": 210
+    },
+    {
+      "path": "Website/app/sitemap.ts",
+      "bytes": 485
+    },
+    {
+      "path": "Website/app/werkwijze/page.tsx",
+      "bytes": 717
+    },
+    {
+      "path": "Website/components/Brand.tsx",
+      "bytes": 338
+    },
+    {
+      "path": "Website/components/CTA.tsx",
+      "bytes": 510
+    },
+    {
+      "path": "Website/components/ContactForm.tsx",
+      "bytes": 2313
+    },
+    {
+      "path": "Website/components/Footer.tsx",
+      "bytes": 973
+    },
+    {
+      "path": "Website/components/Header.tsx",
+      "bytes": 986
+    },
+    {
+      "path": "Website/components/ProjectGrid.tsx",
+      "bytes": 964
+    },
+    {
+      "path": "Website/components/ServiceGrid.tsx",
+      "bytes": 610
+    },
+    {
+      "path": "Website/data/site.ts",
+      "bytes": 4341
+    },
+    {
+      "path": "Website/next-env.d.ts",
+      "bytes": 262
+    },
+    {
+      "path": "Website/next.config.ts",
+      "bytes": 125
+    },
+    {
+      "path": "Website/package-lock.json",
+      "bytes": 33327
+    },
+    {
+      "path": "Website/package.json",
+      "bytes": 484
+    },
+    {
+      "path": "Website/preview/README.md",
+      "bytes": 540
+    },
+    {
+      "path": "Website/preview/home-desktop.png",
+      "bytes": 1427964
+    },
+    {
+      "path": "Website/preview/home-mobile.png",
+      "bytes": 768060
+    },
+    {
+      "path": "Website/preview/home-tablet.png",
+      "bytes": 1000965
+    },
+    {
+      "path": "Website/preview/index.html",
+      "bytes": 23027
+    },
+    {
+      "path": "Website/preview/nimago-desktop-eerste-scherm.png",
+      "bytes": 572068
+    },
+    {
+      "path": "Website/preview/nimago-desktop-mobiel-presentatie.png",
+      "bytes": 757629
+    },
+    {
+      "path": "Website/preview/nimago-desktop-volledige-pagina.png",
+      "bytes": 1417610
+    },
+    {
+      "path": "Website/preview/nimago-mobiel-eerste-scherm.png",
+      "bytes": 211070
+    },
+    {
+      "path": "Website/preview/nimago-mobiel-volledige-pagina.png",
+      "bytes": 730734
+    },
+    {
+      "path": "Website/preview/nimago-tablet-eerste-scherm.png",
+      "bytes": 394648
+    },
+    {
+      "path": "Website/preview/nimago-tablet-volledige-pagina.png",
+      "bytes": 980412
+    },
+    {
+      "path": "Website/preview/preview-desktop-fold.png",
+      "bytes": 578708
+    },
+    {
+      "path": "Website/preview/preview-mobile-fold.png",
+      "bytes": 215270
+    },
+    {
+      "path": "Website/public/apple-touch-icon.png",
+      "bytes": 11300
+    },
+    {
+      "path": "Website/public/favicon-16.png",
+      "bytes": 654
+    },
+    {
+      "path": "Website/public/favicon-32.png",
+      "bytes": 1534
+    },
+    {
+      "path": "Website/public/favicon.ico",
+      "bytes": 8345
+    },
+    {
+      "path": "Website/public/favicon.svg",
+      "bytes": 836
+    },
+    {
+      "path": "Website/public/images/hero-ribbon.png",
+      "bytes": 1479994
+    },
+    {
+      "path": "Website/public/logos/01_logo_primair.png",
+      "bytes": 35030
+    },
+    {
+      "path": "Website/public/logos/01_logo_primair.svg",
+      "bytes": 1094
+    },
+    {
+      "path": "Website/public/logos/03_logo_donker.png",
+      "bytes": 29909
+    },
+    {
+      "path": "Website/public/logos/03_logo_donker.svg",
+      "bytes": 1094
+    },
+    {
+      "path": "Website/public/logos/08_beeldmerk.png",
+      "bytes": 11269
+    },
+    {
+      "path": "Website/public/logos/08_beeldmerk.svg",
+      "bytes": 781
+    },
+    {
+      "path": "Website/public/logos/11_app_icon_licht.png",
+      "bytes": 13846
+    },
+    {
+      "path": "Website/public/logos/11_app_icon_licht.svg",
+      "bytes": 836
+    },
+    {
+      "path": "Website/tsconfig.json",
+      "bytes": 667
+    },
+    {
+      "path": "Website/tsconfig.tsbuildinfo",
+      "bytes": 97965
+    }
+  ]
+}
