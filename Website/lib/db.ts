@@ -1,6 +1,6 @@
 import Database from 'better-sqlite3';import fs from 'node:fs';import path from 'node:path';
 /** SQLite-database. Op Coolify moet DATA_DIR naar een persistent volume wijzen (bv. /data). */
-const dir=process.env.DATA_DIR||path.join(process.cwd(),'data');
+const dir=process.env.DATA_DIR||path.join(process.cwd(),'.data');
 let _db:Database.Database|null=null;
 export function db():Database.Database{
   if(_db)return _db;
