@@ -1,23 +1,24 @@
 /* NiMaGo design v2: zalm & koraal. Tokens bovenaan; alles daaronder gebruikt ze. */
 @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&display=swap');
 :root{
-  --cream:#FFFFFF; --paper:#FFFFFF; --blush:#FFF1EC; --peach:#FFD8CC; --salmon:#F9A793; --coral:#F58F79; --coral-deep:#E27560; --coral-ink:#B85540;
-  --ink:#2A1713; --brown:#6B3A2E; --copper:#A8603E; --copper-hover:#8F4F31; --amber:#E2A06A; --ink-2:#3A2520; --muted:#7A5F58; --line:#F6E3DB;
+  --cream:#241310; --paper:#33201A; --blush:rgba(226,160,106,.14); --peach:#FFD8CC; --salmon:#F9A793; --coral:#F58F79; --coral-deep:#E27560; --coral-ink:#F0B48A;
+  --ink:#2A1713; --brown:#F0C7A6; --copper:#A8603E; --copper-hover:#8F4F31; --amber:#E2A06A; --ink-2:#3A2520; --muted:#CDB3A8; --line:rgba(255,255,255,.1);
   --grad:linear-gradient(135deg,#FFC8B9 0%,#F58F79 58%,#E27560 100%);
   --display:'Bricolage Grotesque','Inter',system-ui,sans-serif; --body:'Inter',system-ui,-apple-system,sans-serif;
-  --r:28px; --shadow:0 24px 70px rgba(122,42,26,.10); --shadow-sm:0 10px 30px rgba(122,42,26,.08);
+  --r:28px; --shadow:0 24px 70px rgba(0,0,0,.35); --shadow-sm:0 10px 30px rgba(0,0,0,.28); color-scheme:dark;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;color:var(--ink);background:var(--cream);font:400 16px/1.7 var(--body);-webkit-font-smoothing:antialiased}
+html{background:#241310}
+body{margin:0;color:#F6E9E2;background:var(--cream);font:400 16px/1.7 var(--body);-webkit-font-smoothing:antialiased}
 h1,h2,h3,p{margin-top:0}
 h1,h2,h3{font-family:var(--display);line-height:1.08;letter-spacing:-.03em;text-wrap:balance;font-weight:700}
 img,svg{max-width:100%}
 a{color:inherit;text-decoration:none}
 button,input,textarea,select{font:inherit}
-:focus-visible{outline:3px solid var(--ink);outline-offset:3px;border-radius:10px}
+:focus-visible{outline:3px solid var(--amber);outline-offset:3px;border-radius:10px}
 .container{width:min(1200px,calc(100% - 56px));margin:0 auto}
-em{font-style:normal;background:linear-gradient(95deg,#6B3A2E,#D4604A);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;padding-bottom:.06em}
+em{font-style:normal;background:linear-gradient(95deg,#F6D2B4,#DC9663);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;padding-bottom:.06em}
 .eyebrow{display:inline-block;font:700 12px/1.4 var(--body);letter-spacing:.16em;text-transform:uppercase;color:var(--brown)}
 .eyebrow-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ink);margin-right:10px;vertical-align:middle}
 .accent-dot{color:var(--coral)}
@@ -33,7 +34,7 @@ em{font-style:normal;background:linear-gradient(95deg,#6B3A2E,#D4604A);-webkit-b
 .text-link:hover{text-decoration:underline;text-underline-offset:4px}
 
 /* header */
-.site-header{position:sticky;top:0;z-index:50;background:rgba(42,23,19,.88);backdrop-filter:blur(20px) saturate(1.3);border-bottom:1px solid rgba(255,255,255,.08)}
+.site-header{position:sticky;top:0;z-index:50;background:rgba(36,19,16,.9);backdrop-filter:blur(20px) saturate(1.3);border-bottom:1px solid rgba(255,255,255,.08)}
 .header-inner{display:flex;align-items:center;justify-content:space-between;gap:28px;min-height:82px}
 .brand{display:inline-flex;align-items:center;gap:4px}
 .brand-mark{width:38px;height:38px;flex:none}
@@ -103,7 +104,7 @@ em{font-style:normal;background:linear-gradient(95deg,#6B3A2E,#D4604A);-webkit-b
 .sc-1 .service-icon{background:rgba(255,255,255,.6)}.sc-1 .tags span{background:rgba(255,255,255,.55);border-color:rgba(255,255,255,.7);color:var(--ink)}.sc-1 p{color:#5A3a33}
 
 /* projecten */
-.section-projects{background:linear-gradient(180deg,#FFF1EC,#FFF8F5)}
+.section-projects{background:linear-gradient(180deg,#2E1A15,#241310)}
 .project-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
 .project-card{display:block;background:var(--paper);border-radius:var(--r);overflow:hidden;border:1px solid rgba(243,222,212,.9);transition:transform .35s,box-shadow .35s;min-width:0}
 .project-card:hover{transform:translateY(-6px);box-shadow:var(--shadow)}
@@ -260,3 +261,38 @@ em{font-style:normal;background:linear-gradient(95deg,#6B3A2E,#D4604A);-webkit-b
 .hero-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(42,23,19,.35),rgba(42,23,19,0) 35%);pointer-events:none}
 @media(max-width:1020px){.hero-photo{margin:0 auto;max-width:520px}}
 @media(max-width:740px){.hero-photo{border-radius:24px}}
+
+/* herfst-thema over de hele site */
+.eyebrow,.eyebrow-dot{}.eyebrow{color:var(--amber)}.eyebrow-dot{background:var(--amber)}
+.text-link{color:#F6D2B4}
+.button-primary,.hero .button-primary,.site-header .button-primary{background:var(--copper);color:#fff}
+.button-primary:hover{background:var(--copper-hover)}.button-primary svg{color:#fff}
+.button-outline{background:rgba(255,255,255,.06);border-color:rgba(226,160,106,.55);color:#fff}
+.service-icon{color:var(--amber)}.service-arrow{color:var(--amber)}
+.service-card:hover .service-arrow,.project-card:hover .circle-arrow{background:var(--copper);color:#fff;border-color:var(--copper)}
+.circle-arrow{color:var(--amber)}
+.sc-1{color:#2A1713}.sc-1 h3,.sc-1 p{color:#2A1713}.sc-1 .service-icon,.sc-1 .service-arrow{color:#2A1713}.sc-1 p{color:#4A2A24}
+.sc-1:hover .service-arrow{background:#2A1713;color:#fff}
+.tags span{background:rgba(255,255,255,.05);color:var(--brown)}.sc-1 .tags span{color:#2A1713}
+.quote-card{color:#2A1713}.quote-card .eyebrow{color:#7A3A28}
+.pillars li{background:var(--paper)}
+.project-body h3,.service-card h3{color:#fff}
+.workflow-bg{border-block:1px solid rgba(255,255,255,.08);background:radial-gradient(50% 70% at 90% 0%,rgba(226,160,106,.28),rgba(226,160,106,0) 70%),radial-gradient(40% 60% at 0% 100%,rgba(168,96,62,.3),rgba(168,96,62,0) 70%),#2E1A15}
+.step-number,.process-item>span{background:linear-gradient(135deg,#F6D2B4,#DC9663);-webkit-background-clip:text;background-clip:text}
+.footer{border-top:1px solid rgba(255,255,255,.08);background:#1B0E0B}
+.faq-list summary::after{color:var(--amber)}
+.detail-aside p,.detail-aside p svg{color:#F6E9E2}.detail-aside p svg{color:var(--amber)}
+.detail-main p{color:var(--muted)}
+.contact-form input,.contact-form textarea,.contact-form select{color:#F6E9E2;background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.14)}
+.contact-form input::placeholder,.contact-form textarea::placeholder{color:#A88F84}
+.contact-form input:focus,.contact-form textarea:focus,.contact-form select:focus{border-color:var(--amber);background:rgba(255,255,255,.08);box-shadow:0 0 0 4px rgba(226,160,106,.25)}
+.contact-form select option{color:#2A1713}
+.contact-note,.legal-notice{background:rgba(226,160,106,.12)}.contact-note span,.legal-notice{color:#EAD3C8}
+.contact-note strong{color:#fff}
+.form-message{background:#1F3B2E;color:#BDF0D6}.form-message.form-error{background:#4A2018;color:#FFD6C9}
+.legal-page h1,.legal-page h2{color:#fff}
+.mockart{filter:none}
+.project-label{background:#fff;color:#2A1713}
+.disclaimer,.note{color:var(--muted)}
+.accent-dot{color:var(--amber)}
+.service-card.sc-1 h3{color:#2A1713}
