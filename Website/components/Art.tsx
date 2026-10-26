@@ -15,44 +15,6 @@ export function Mark({className = '', white = false}: {className?: string; white
   );
 }
 
-export function HeroScene() {
-  return (
-    <div className="scene" role="img" aria-label="Abstracte compositie: een koraalkleurige bol met het NiMaGo-beeldmerk, omringd door interfacekaarten voor een webshop, dashboard en automatisering">
-      <div className="scene-glow"/>
-      <svg className="ring ring-back" viewBox="0 0 100 100" aria-hidden="true">
-        <defs><linearGradient id="rg" x1="0" x2="1"><stop offset="0" stopColor="#FFFFFF" stopOpacity=".1"/><stop offset=".5" stopColor="#FFFFFF" stopOpacity=".9"/><stop offset="1" stopColor="#FFD3C4" stopOpacity=".3"/></linearGradient></defs>
-        <g transform="rotate(-18 50 50)"><path d="M1 50A49 15 0 0 1 99 50" fill="none" stroke="url(#rg)" strokeWidth=".7"/><path d="M5 50A45 12 0 0 1 95 50" fill="none" stroke="url(#rg)" strokeWidth=".3"/></g>
-      </svg>
-      <div className="orb"><div className="orb-shine"/><Mark white className="orb-mark"/></div>
-      <svg className="ring ring-front" viewBox="0 0 100 100" aria-hidden="true">
-        <g transform="rotate(-18 50 50)"><path d="M1 50A49 15 0 0 0 99 50" fill="none" stroke="url(#rg)" strokeWidth=".7"/><path d="M5 50A45 12 0 0 0 95 50" fill="none" stroke="url(#rg)" strokeWidth=".3"/></g>
-      </svg>
-      <div className="orb-shadow"/>
-
-      <div className="gcard gc-shop" aria-hidden="true">
-        <div className="gc-dots"><i/><i/><i/></div>
-        <div className="gc-tiles"><span style={{background:'linear-gradient(135deg,#FFD6C8,#F9A793)'}}/><span style={{background:'linear-gradient(135deg,#FFE9E0,#FFB9A5)'}}/><span style={{background:'linear-gradient(135deg,#F9B9A6,#EE7D66)'}}/><span style={{background:'linear-gradient(135deg,#FFE3D8,#F9B2A1)'}}/></div>
-        <div className="gc-line w60"/><div className="gc-line w35 hot"/>
-      </div>
-
-      <div className="gcard gc-dash" aria-hidden="true">
-        <div className="gc-title">Overzicht</div>
-        <svg viewBox="0 0 120 56" className="gc-chart">
-          <defs><linearGradient id="ar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#F58F79" stopOpacity=".35"/><stop offset="1" stopColor="#F58F79" stopOpacity="0"/></linearGradient></defs>
-          <path d="M0 44C14 40 20 30 34 32S54 46 68 30 92 10 120 8V56H0Z" fill="url(#ar)"/>
-          <path d="M0 44C14 40 20 30 34 32S54 46 68 30 92 10 120 8" fill="none" stroke="#EE7D66" strokeWidth="2.2" strokeLinecap="round"/>
-          <circle cx="120" cy="8" r="3.6" fill="#fff" stroke="#EE7D66" strokeWidth="2"/>
-        </svg>
-      </div>
-
-      <div className="gcard gc-flow" aria-hidden="true">
-        <div className="gc-nodes"><b/><u/><b/><u/><b className="on"/></div>
-        <div className="gc-pill"><i/>Koppeling actief</div>
-      </div>
-    </div>
-  );
-}
-
 const frame = (children: React.ReactNode, dark = false) => (
   <svg viewBox="0 0 480 300" className="mockart" role="img" aria-label="Illustratief interfaceontwerp (concept)">
     <defs>
@@ -128,4 +90,25 @@ export function WaveArt() {
       </svg>
     </div>
   );
+}
+
+const bgs=['#6B3A2E','#2A1713'];
+function Backdrop({id}:{id:string}){return <><defs><linearGradient id={`${id}-bg`} x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor={bgs[0]}/><stop offset="1" stopColor={bgs[1]}/></linearGradient><radialGradient id={`${id}-gl`} cx=".75" cy=".2" r=".7"><stop offset="0" stopColor="#E2A06A" stopOpacity=".7"/><stop offset="1" stopColor="#E2A06A" stopOpacity="0"/></radialGradient></defs><rect width="400" height="240" fill={`url(#${id}-bg)`}/><rect width="400" height="240" fill={`url(#${id}-gl)`}/><circle cx="60" cy="210" r="90" fill="#A8603E" opacity=".25"/></>}
+
+export function ServiceArt({slug,src}:{slug:string;src:string|null}){
+  if(src) return <img className="svc-photo" src={src} alt="" loading="lazy"/>;
+  const id='sv-'+slug;
+  let body:React.ReactNode=null;
+  if(slug==='websites') body=<><rect x="60" y="40" width="250" height="160" rx="12" fill="#FFF8F3"/><rect x="60" y="40" width="250" height="20" rx="12" fill="#F3DED4"/><circle cx="74" cy="50" r="3" fill="#E2A06A"/><circle cx="86" cy="50" r="3" fill="#F9A793"/><rect x="74" y="74" width="120" height="104" rx="8" fill="#A8603E"/><rect x="204" y="76" width="90" height="9" rx="4" fill="#2A1713"/><rect x="204" y="94" width="64" height="6" rx="3" fill="#2A1713" opacity=".35"/><rect x="204" y="110" width="52" height="14" rx="7" fill="#2A1713"/><rect x="204" y="138" width="90" height="40" rx="8" fill="#F9D9CC"/><rect x="290" y="78" width="70" height="130" rx="12" fill="#FFF8F3" stroke="#2A1713" strokeWidth="3"/><rect x="298" y="90" width="54" height="40" rx="6" fill="#E2A06A"/><rect x="298" y="138" width="40" height="6" rx="3" fill="#2A1713"/><rect x="298" y="150" width="30" height="6" rx="3" fill="#2A1713" opacity=".35"/></>;
+  if(slug==='webshops') body=<><rect x="110" y="26" width="104" height="190" rx="16" fill="#FFF8F3" stroke="#2A1713" strokeWidth="3"/>{[0,1,2,3].map(i=><rect key={i} x={120+(i%2)*46} y={44+Math.floor(i/2)*58} width="40" height="50" rx="8" fill={['#F9A793','#E2A06A','#C98B5E','#FFD8CC'][i]}/>)}<rect x="120" y="166" width="70" height="7" rx="3" fill="#2A1713"/><rect x="120" y="180" width="40" height="7" rx="3" fill="#A8603E"/><rect x="232" y="70" width="100" height="64" rx="12" fill="#FFF8F3"/><circle cx="256" cy="102" r="14" fill="#A8603E"/><rect x="278" y="92" width="44" height="7" rx="3" fill="#2A1713"/><rect x="278" y="106" width="30" height="7" rx="3" fill="#2A1713" opacity=".35"/></>;
+  if(slug==='maatwerk-software') body=<><rect x="50" y="36" width="300" height="170" rx="14" fill="#1B0E0B"/><rect x="50" y="36" width="300" height="22" rx="14" fill="#33201A"/><circle cx="66" cy="47" r="3.5" fill="#E2A06A"/><circle cx="80" cy="47" r="3.5" fill="#F9A793"/>{[[70,76,90,'#E2A06A'],[86,92,120,'#F6D2B4'],[86,108,70,'#A8603E'],[86,124,140,'#F6D2B4'],[70,140,60,'#E2A06A'],[86,156,100,'#C98B5E'],[70,172,50,'#E2A06A']].map(([x,y,w,c],i)=><rect key={i} x={x as number} y={y as number} width={w as number} height="7" rx="3.5" fill={c as string} opacity=".9"/>)}<rect x="250" y="70" width="84" height="110" rx="10" fill="#33201A"/><rect x="260" y="82" width="50" height="7" rx="3" fill="#F6D2B4"/><rect x="260" y="100" width="64" height="20" rx="6" fill="#A8603E"/><rect x="260" y="130" width="64" height="20" rx="6" fill="#FFFFFF" opacity=".12"/></>;
+  if(slug==='koppelingen-automatisering') body=<><path d="M96 70 200 120 M96 170 200 120 M304 70 200 120 M304 170 200 120" stroke="#E2A06A" strokeWidth="3" strokeDasharray="2 7" strokeLinecap="round"/>{[[70,48],[70,148],[278,48],[278,148]].map(([x,y],i)=><rect key={i} x={x} y={y} width="52" height="52" rx="14" fill="#FFF8F3"/>)}{[[96,74,'#A8603E'],[96,174,'#E2A06A'],[304,74,'#F9A793'],[304,174,'#C98B5E']].map(([x,y,c],i)=><circle key={i} cx={x as number} cy={y as number} r="11" fill={c as string}/>)}<circle cx="200" cy="120" r="34" fill="#A8603E"/><circle cx="200" cy="120" r="34" fill="none" stroke="#FFD8CC" strokeWidth="3" opacity=".7"/><path d="M186 121l10 10 20-22" fill="none" stroke="#fff" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round"/></>;
+  if(slug==='design-branding') body=<><rect x="64" y="52" width="130" height="150" rx="16" fill="#FFF8F3" transform="rotate(-6 129 127)"/><rect x="150" y="40" width="150" height="150" rx="16" fill="#A8603E" transform="rotate(5 225 115)"/><g transform="translate(190 75) scale(.7)"><path d="M22 96V25M22 25 98 96M98 96V25" fill="none" stroke="#FFF8F3" strokeWidth="20" strokeLinecap="round" strokeLinejoin="round"/></g>{['#F9A793','#E2A06A','#6B3A2E','#2A1713'].map((c,i)=><circle key={i} cx={86+i*24} cy="182" r="9" fill={c} stroke="#FFF8F3" strokeWidth="2"/>)}</>;
+  if(slug==='onderhoud-doorontwikkeling') body=<><rect x="52" y="38" width="296" height="168" rx="14" fill="#FFF8F3"/>{[34,52,40,70,58,88,76].map((h,i)=><rect key={i} x={72+i*30} y={180-h} width="18" height={h} rx="6" fill={i===5?'#A8603E':'#E8C3AE'}/>)}<rect x="290" y="56" width="48" height="48" rx="12" fill="#2A1713"/><path d="M303 80l8 8 15-17" fill="none" stroke="#E2A06A" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"/><rect x="72" y="56" width="90" height="8" rx="4" fill="#2A1713"/><rect x="72" y="72" width="60" height="6" rx="3" fill="#2A1713" opacity=".35"/></>;
+  return <svg className="svc-art" viewBox="0 0 400 240" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustratieve weergave van de dienst"><Backdrop id={id}/>{body}</svg>;
+}
+
+export function Hills({src,mark=false}:{src:string|null;mark?:boolean}){
+  if(src) return <img className="hills-photo" src={src} alt="" loading="lazy"/>;
+  return <svg className="hills" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Abstract herfstlandschap in warme tinten"><defs><linearGradient id="hs" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#F6C99B"/><stop offset=".55" stopColor="#D98A55"/><stop offset="1" stopColor="#8F4F31"/></linearGradient><radialGradient id="hg" cx=".7" cy=".3" r=".5"><stop offset="0" stopColor="#FFF1D8"/><stop offset="1" stopColor="#FFF1D8" stopOpacity="0"/></radialGradient></defs><rect width="800" height="400" fill="url(#hs)"/><rect width="800" height="400" fill="url(#hg)"/><circle cx="560" cy="120" r="46" fill="#FFF1D8" opacity=".9"/><path d="M0 250C120 190 230 230 340 250S560 210 800 240V400H0Z" fill="#B96A3E"/><path d="M0 290C140 240 260 285 380 295S620 250 800 285V400H0Z" fill="#8F4F31"/><path d="M0 340C160 300 300 335 430 345S660 315 800 335V400H0Z" fill="#5A2E22"/><path d="M0 380C200 350 420 385 800 365V400H0Z" fill="#2A1713"/>{mark&&<g transform="translate(300 90) scale(1.6)"><path d="M22 96V25M22 25 98 96M98 96V25" fill="none" stroke="#FFF1D8" strokeWidth="20" strokeLinecap="round" strokeLinejoin="round" opacity=".95"/></g>}</svg>;
 }
