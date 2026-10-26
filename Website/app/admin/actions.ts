@@ -86,3 +86,12 @@ export async function saveSettings(fd:FormData){
 }
 export async function toggleMessage(fd:FormData){await requireAdmin();const id=Number(fd.get('id'));db().prepare('UPDATE messages SET is_read=1-is_read WHERE id=?').run(id);revalidatePath('/admin','layout')}
 export async function deleteMessage(fd:FormData){await requireAdmin();db().prepare('DELETE FROM messages WHERE id=?').run(Number(fd.get('id')));revalidatePath('/admin','layout')}
+
+/** Wist klanten, facturen en berichten (niet de instellingen). Bedoeld om te testen voordat je live gaat; vraagt om de tekst WISSEN. */
+export async function resetData(fd:FormData){
+  await requireAdmin();
+  if(String(fd.get('confirm')||'').trim()!=='WISSEN')redirect('/admin/instellingen?wisfout=1');
+  const d=db();
+  d.transaction(()=>{d.exec("DELETE FROM invoice_lines; DELETE FROM invoices; DELETE FROM customers; DELETE FROM messages; DELETE FROM sqlite_sequence WHERE name IN ('invoice_lines','invoices','customers','messages');")})();
+  revalidatePath('/admin','layout');redirect('/admin/instellingen?gewist=1');
+}
