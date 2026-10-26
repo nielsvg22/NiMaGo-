@@ -1,5 +1,5 @@
 {
-  "versie": "Concept 1.1 — 26 oktober 2026",
+  "versie": "Concept 2.0 — 26 oktober 2026",
   "merk": "NiMaGo",
   "slogan": "Digitale ideeën. Sterk uitgevoerd.",
   "design": {
@@ -13,11 +13,12 @@
     "documenten": "12 bewerkbare concept-DOCX",
     "presentatie": "PPTX-concept",
     "brandbook": "12 pagina’s PDF",
-    "website": "Next.js 15 / React 19 / TypeScript: `npm install`, `tsc --noEmit` en `next build` zijn geslaagd (25 statische pagina's). Visueel gecontroleerd op desktop (1440px) en mobiel (390px): geen horizontale scroll, geen consolefouten.",
+    "website": "Next.js 15: herfstontwerp, alle pagina's gevuld, echte projecten (iSelectStore, AIGWise, OME, ALRA LED) en live op Coolify.",
     "html_preview": "losse, lokaal te openen demonstratie van homepage; geen volwaardig alternatief voor Next.js",
-    "contactformulier": "serverroute voorbereid op Resend; providerconfiguratie vereist",
-    "juridisch": "concept; niet klaar voor directe publicatie",
-    "strategie": "5 documenten: merk, diensten & prijzen, SEO & leads, NL-starterschecklist, 30-dagenplan"
+    "contactformulier": "Berichten komen in de admin (Berichten). E-mailmelding via Resend optioneel.",
+    "juridisch": "Privacy, cookies en voorwaarden zijn uitgeschreven maar nog niet door een jurist getoetst.",
+    "strategie": "5 documenten: merk, diensten & prijzen, SEO & leads, NL-starterschecklist, 30-dagenplan",
+    "admin": "/admin: wachtwoord-login, klanten, facturen (concept → definitief met doorlopend nummer → betaald), PDF in NiMaGo-huisstijl, instellingen en berichten-inbox. SQLite op persistent volume /data."
   },
   "gecontroleerd": {
     "handelsnaam": false,
@@ -25,11 +26,14 @@
     "eigenaar_en_rechtsvorm": false,
     "btwstatus": false,
     "echte_referenties": false,
-    "productiebuild": true
+    "productiebuild": true,
+    "admin_live_getest": true,
+    "database_overleeft_deploy": true
   },
   "afwijkingen": [
-    "Website gebruikt eigen CSS (globals.css) in plaats van Tailwind; Tailwind was een voorkeur, geen eis.",
-    "Prijzen zijn indicatieve aannames.",
-    "Domein, handelsnaam, KvK, btw en juridische teksten zijn niet gecontroleerd."
+    "Eigen CSS in plaats van Tailwind.",
+    "Prijzen in Strategie/ zijn indicatieve aannames.",
+    "Handelsnaam, domein, KvK, btw, IBAN en juridische teksten zijn niet gecontroleerd.",
+    "Factuurontwerp volgt de structuur van het Word-template, maar in het huidige koper/bruin-palet."
   ]
 }
