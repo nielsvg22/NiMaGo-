@@ -1,0 +1,4 @@
+'use client';
+import Link from 'next/link';import {usePathname} from 'next/navigation';
+const items=[['/admin','Overzicht'],['/admin/facturen','Facturen'],['/admin/klanten','Klanten'],['/admin/berichten','Berichten'],['/admin/instellingen','Instellingen']] as const;
+export default function AdminNav({unread}:{unread:number}){const p=usePathname();return <nav className="adm-nav" aria-label="Admin">{items.map(([h,l])=>{const on=h==='/admin'?p===h:p.startsWith(h);return <Link key={h} href={h} className={on?'on':''} aria-current={on?'page':undefined}>{l}{h==='/admin/berichten'&&unread>0&&<span className="adm-badge">{unread}</span>}</Link>})}</nav>}

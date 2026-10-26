@@ -31,3 +31,15 @@ Open `http://localhost:3000`. `npm run build` maakt een productiebuild. Node 20+
 `app/` routes en pagina's; `components/` hergebruik; `data/site.ts` centrale copy; `public/images/` merkvisual; `public/logos/` schaalbare SVG/PNG.
 
 Deze starter is nog niet live gepubliceerd en is niet vooraf door een externe pentest gegaan.
+
+
+## Admin (facturen, klanten, berichten)
+Op `/admin` staat een beveiligde beheeromgeving.
+
+- **Inloggen:** wachtwoord uit de omgevingsvariabele `ADMIN_PASSWORD` (minimaal 10 tekens). Zonder deze variabele is de admin uitgeschakeld. Sessies zijn 12 uur geldig (ondertekende, httpOnly-cookie) en inlogpogingen worden afgeremd.
+- **Instellingen:** vul eerst je bedrijfsgegevens in (naam, adres, KvK, btw-id, IBAN). Die komen op de facturen én in de footer, de contactpagina en de juridische teksten van de site.
+- **Klanten en facturen:** concept maken, definitief maken (dan krijgt de factuur een doorlopend nummer, bv. NM-2026-001, en is hij vergrendeld), als betaald markeren en als PDF downloaden in de NiMaGo-huisstijl. Btw 21%, 9%, 0% of verlegd.
+- **Berichten:** het contactformulier op de site slaat berichten op in de admin. Een e-mailmelding via Resend is optioneel.
+- **Opslag:** SQLite in `DATA_DIR` (op de server `/data`). Koppel hier een persistent volume aan en maak er back-ups van; zonder volume verdwijnen de gegevens bij elke nieuwe deploy.
+
+Controleer facturen, btw-regime en voorwaarden met je boekhouder voordat je ze gebruikt.

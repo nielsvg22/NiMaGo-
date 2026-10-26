@@ -1,0 +1,3 @@
+import type {Metadata} from 'next';import CTA from '@/components/CTA';import Faq from '@/components/Faq';import {faqs} from '@/data/content';
+export const metadata:Metadata={title:'Veelgestelde vragen',description:'Antwoorden op veelgestelde vragen over websites, webshops, maatwerk software, onderhoud en samenwerking met NiMaGo.'};
+export default function Page(){return <><section className="page-hero container"><span className="eyebrow">Veelgestelde vragen</span><h1>Goede vragen.<br/><em>Heldere antwoorden.</em></h1><p>Staat je vraag er niet bij? Stel hem gerust, we denken graag met je mee.</p></section><section className="section container small-top"><Faq items={faqs}/></section><CTA/></>};

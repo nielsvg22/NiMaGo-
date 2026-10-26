@@ -1,0 +1,4 @@
+'use client';
+import {useActionState} from 'react';import {login} from '../actions';import {Mark} from '@/components/Art';
+export default function LoginPage(){const [state,action,pending]=useActionState(login,undefined);
+return <div className="adm login-wrap" style={{display:'grid',gridTemplateColumns:'1fr'}}><form className="login-card" action={action}><div style={{display:'flex',alignItems:'center',gap:6}}><Mark className="brand-mark"/><div><b style={{font:'800 26px/1 var(--display)',letterSpacing:'-.04em'}}>iMaGo</b></div></div><div><h1>Admin</h1><p className="adm-sub">Log in om facturen en berichten te beheren.</p></div><label>Wachtwoord<input type="password" name="password" autoComplete="current-password" required autoFocus/></label>{state?.error&&<p className="alert err" role="alert">{state.error}</p>}<button className="btn" type="submit" disabled={pending}>{pending?'Bezig…':'Inloggen'}</button></form></div>}

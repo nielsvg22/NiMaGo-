@@ -1,9 +1,8 @@
 /* NiMaGo design v3: herfst. Warme crème pagina, donkere espresso banden, koper/amber accenten, zalm als zachte tint. */
-@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&display=swap');
 :root{
   --bg:#F8EFE4; --surface:#FDF8F1; --tint:#F1E0CC; --ink:#2A1713; --ink-2:#3A2520; --text:#2A1713; --muted:#7A5F58; --line:#E6D5C0;
   --copper:#A8603E; --copper-hover:#8F4F31; --copper-text:#9A5434; --amber:#E2A06A; --salmon:#E2A06A; --peach:#F3D9BF;
-  --display:'Bricolage Grotesque','Inter',system-ui,sans-serif; --body:'Inter',system-ui,-apple-system,sans-serif;
+  --display:var(--font-display),'Inter',system-ui,sans-serif; --body:var(--font-body),system-ui,-apple-system,sans-serif;
   --r:26px; --shadow:0 24px 60px rgba(90,46,34,.14); --shadow-sm:0 10px 28px rgba(90,46,34,.10);
 }
 *{box-sizing:border-box}
@@ -101,7 +100,7 @@ em{font-style:normal;color:var(--copper-text)}
 .timeline h3{font-size:18px;margin-bottom:6px;color:#fff}.timeline p{margin:0;font-size:14.5px;color:#E3CBC1;line-height:1.6;max-width:26ch}
 
 /* projecten */
-.project-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.project-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}.project-grid.three{grid-template-columns:repeat(3,1fr)}
 .project-card{display:block;background:var(--surface);border-radius:var(--r);overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow-sm);transition:transform .35s,box-shadow .35s;min-width:0}
 .project-card:hover{transform:translateY(-6px);box-shadow:var(--shadow)}
 .project-visual{position:relative;display:grid;place-items:center;padding:44px 22px 22px;overflow:hidden}
@@ -204,7 +203,7 @@ em{font-style:normal;color:var(--copper-text)}
   .hero-content{grid-template-columns:1fr;padding-block:130px 110px}.hero-photo{margin:0 auto;max-width:520px}
   .section{padding-block:76px}
   .about-split,.detail-grid,.contact-layout{grid-template-columns:1fr;gap:44px}
-  .service-grid,.project-grid{grid-template-columns:1fr 1fr}
+  .service-grid,.project-grid.three{grid-template-columns:1fr 1fr}
   .trust{grid-template-columns:1fr 1fr;gap:14px}.trust li+li{border-left:0}
   .timeline{grid-template-columns:repeat(2,1fr);row-gap:30px}.timeline::before{display:none}
   .footer-top{grid-template-columns:1fr 1fr}
@@ -235,3 +234,26 @@ em{font-style:normal;color:var(--copper-text)}
 .svc-photo{filter:sepia(.3) saturate(1.08) contrast(1.03)}
 .svc-img:has(.svc-photo)::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(42,23,19,.05) 40%,rgba(42,23,19,.38));pointer-events:none}
 .service-icon{z-index:2}
+/* projectschermafbeeldingen */
+.project-visual.has-shot{padding:36px 0 0 22px;align-items:end;justify-items:end}
+.shot-frame{margin:0;border-radius:14px 0 0 0;overflow:hidden;background:#fff;box-shadow:0 20px 50px rgba(42,23,19,.35);width:100%;aspect-ratio:16/10}
+.shot-frame img{display:block;width:100%;height:100%;object-fit:cover;object-position:top left;transition:transform .5s}
+.project-card:hover .shot-frame img{transform:scale(1.03)}
+.shots{display:grid;gap:20px}.shot-frame.big{border-radius:20px;aspect-ratio:auto;box-shadow:var(--shadow)}.shot-frame.big img{height:auto;object-fit:initial}
+.shots .first{border:1px solid var(--line)}
+.step-split{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:16px 0 0}.step-split div{padding:14px 16px;border-radius:16px;background:var(--tint)}.step-split dt{font:700 11px var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--copper-text);margin-bottom:4px}.step-split dd{margin:0;font-size:14.5px;color:var(--text)}
+@media(max-width:740px){.step-split{grid-template-columns:1fr}}
+.values{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.value{padding:26px;border-radius:var(--r);background:var(--surface);border:1px solid var(--line)}.value h3{font-size:20px;margin-bottom:6px}.value p{margin:0;color:var(--muted);font-size:15px}
+.who{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.who>div{padding:26px;border-radius:var(--r);background:var(--surface);border:1px solid var(--line)}.who h3{font-size:20px;margin-bottom:8px}.who p{margin:0;color:var(--muted);font-size:15px}
+.portrait{margin:0;border-radius:32px;overflow:hidden;box-shadow:var(--shadow);aspect-ratio:4/5;max-width:460px;background:#2A1713}.portrait img{display:block;width:100%;height:100%;object-fit:cover}
+.next-steps{list-style:none;margin:26px 0 0;padding:0;display:grid;gap:14px;counter-reset:n}.next-steps li{counter-increment:n;display:grid;grid-template-columns:40px 1fr;gap:14px;align-items:start}.next-steps li::before{content:counter(n);display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:var(--tint);color:var(--copper);font:800 15px var(--display)}.next-steps b{display:block;font:700 16px var(--display)}.next-steps span{font-size:14.5px;color:var(--muted)}
+.contact-facts{margin:30px 0 0;padding:0;list-style:none;display:grid;gap:10px}.contact-facts li{display:flex;gap:12px;align-items:baseline}.contact-facts b{min-width:92px;font:700 12px var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--copper-text)}
+@media(max-width:1020px){.values,.who{grid-template-columns:1fr 1fr}.portrait{max-width:380px}}
+@media(max-width:740px){.values,.who{grid-template-columns:1fr}}
+.skip{position:absolute;left:-9999px;top:8px;z-index:100;background:#fff;color:#2A1713;padding:10px 16px;border-radius:10px;font:700 14px var(--display)}.skip:focus{left:12px}
+.timeline.dark-on-light{grid-template-columns:repeat(4,1fr)}.timeline.dark-on-light::before{background:repeating-linear-gradient(90deg,rgba(168,96,62,.55) 0 8px,transparent 8px 16px)}
+.timeline.dark-on-light .tl-dot{background:var(--surface);border-color:var(--copper);color:var(--copper);font:800 18px var(--display)}.timeline.dark-on-light h3{color:var(--text)}.timeline.dark-on-light p{color:var(--muted)}
+@media(max-width:1020px){.timeline.dark-on-light{grid-template-columns:repeat(2,1fr)}}@media(max-width:740px){.timeline.dark-on-light{grid-template-columns:1fr}}
+.footer-facts{list-style:none;margin:16px 0 0;padding:0;display:grid;gap:4px;font-size:14px;color:#D9BFB6}
+.legal-page ul{margin:0 0 16px;padding-left:22px;display:grid;gap:6px}.legal-page small{color:var(--muted)}.legal-page section{margin-bottom:6px}
+.faq-teaser{padding-top:0}

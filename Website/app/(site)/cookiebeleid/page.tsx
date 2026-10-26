@@ -1,0 +1,6 @@
+import type {Metadata} from 'next';import {company} from '@/lib/company';export const metadata:Metadata={title:'Cookiebeleid',description:'NiMaGo gebruikt geen tracking- of marketingcookies. Lees welke technische cookies er wel kunnen worden gebruikt.'};
+export default function Page(){const c=company();return <article className="container legal-page"><span className="eyebrow">Juridisch</span><h1>Cookiebeleid</h1><p><small>Laatst bijgewerkt: 26 oktober 2026</small></p>
+<section><h2>Geen tracking</h2><p>Deze website van {c.fullName} gebruikt geen analytische, advertentie- of trackingcookies. Je krijgt daarom ook geen cookiebanner te zien.</p></section>
+<section><h2>Technisch noodzakelijke cookies</h2><p>Alleen voor de beheeromgeving van onze website (niet voor bezoekers) gebruiken we één technische sessiecookie. Die is nodig om ingelogd te blijven en wordt na maximaal twaalf uur ongeldig.</p></section>
+<section><h2>Externe diensten</h2><p>Lettertypen worden vanaf onze eigen server geladen. We laden geen externe scripts, kaarten of video’s die cookies kunnen plaatsen.</p></section>
+<section><h2>Wijzigingen</h2><p>Gaan we in de toekomst analytics of andere diensten gebruiken die cookies plaatsen, dan passen we dit beleid aan en vragen we waar nodig vooraf toestemming.</p></section></article>}

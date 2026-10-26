@@ -1,1 +1,1 @@
-import type {MetadataRoute} from 'next';export default function robots():MetadataRoute.Robots{return{rules:{userAgent:'*',disallow:'/'}}}// Bewust niet indexeren tot juridische/zakelijke configuratie klaar is.
+import type {MetadataRoute} from 'next';export default function robots():MetadataRoute.Robots{return{rules:{userAgent:'*',disallow:'/'}}}// Bewust niet indexeren tot juridische/zakelijke configuratie klaar is. /admin blijft altijd uitgesloten.
