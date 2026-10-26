@@ -17,7 +17,7 @@ export default function Dashboard(){
     <div className="adm-card stat"><span>Concepten</span><b>{concepts}</b><small>nog niet verzonden</small></div>
   </div>
   <div className="adm-grid g2" style={{gridTemplateColumns:'1.5fr 1fr'}}>
-    <div className="adm-card"><h2>Recente facturen</h2>{recent.length?<div className="tw"><table className="adm-table"><tbody>{recent.map(i=>{const x=getInvoice(i.id)!;return <tr className="row" key={i.id}><td><Link href={`/admin/facturen/${i.id}`}><b>{i.number||'Concept'}</b></Link><br/><span className="hint">{i.cname}</span></td><td><StatusPill inv={i}/></td><td className="num">{eur(x.totals.total)}</td></tr>})}</tbody></table></div>:<p className="adm-empty">Nog geen facturen.</p>}</div>
+    <div className="adm-card"><h2>Recente facturen</h2>{recent.length?<div className="tw"><table className="adm-table"><tbody>{recent.map(i=>{const x=getInvoice(i.id)!;return <tr className="row" key={i.id}><td><Link href={`/admin/factuur?id=${i.id}`}><b>{i.number||'Concept'}</b></Link><br/><span className="hint">{i.cname}</span></td><td><StatusPill inv={i}/></td><td className="num">{eur(x.totals.total)}</td></tr>})}</tbody></table></div>:<p className="adm-empty">Nog geen facturen.</p>}</div>
     <div className="adm-card"><h2>Berichten via de website</h2>{msgs.length?msgs.map(m=><p key={m.id} style={{margin:'0 0 12px'}}><b>{m.name}</b>{!m.is_read&&<span className="adm-badge" style={{marginLeft:8}}>nieuw</span>}<br/><span className="hint">{m.message.slice(0,90)}{m.message.length>90?'…':''}</span></p>):<p className="adm-empty">Nog geen berichten.</p>}<Link className="btn ghost sm" href="/admin/berichten">Alle berichten</Link></div>
   </div></>
 }

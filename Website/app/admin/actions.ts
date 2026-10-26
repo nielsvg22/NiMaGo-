@@ -18,7 +18,7 @@ export async function logout(){await clearSession();redirect('/admin/login')}
 
 export async function saveCustomer(fd:FormData){
   await requireAdmin();
-  const id=Number(fd.get('id')||0);const name=str(fd.get('name'),160);if(!name)redirect(id?`/admin/klanten/${id}?fout=naam`:'/admin/klanten/nieuw?fout=naam');
+  const id=Number(fd.get('id')||0);const name=str(fd.get('name'),160);if(!name)redirect(id?`/admin/klant?id=${id}&fout=naam`:'/admin/klanten/nieuw?fout=naam');
   const v=[name,str(fd.get('contact'),120),str(fd.get('email'),160),str(fd.get('address'),200),str(fd.get('postcode'),20),str(fd.get('city'),100),str(fd.get('country'),80)||'Nederland',str(fd.get('kvk'),30),str(fd.get('vat_id'),30),str(fd.get('note'),1000)];
   if(id)db().prepare('UPDATE customers SET name=?,contact=?,email=?,address=?,postcode=?,city=?,country=?,kvk=?,vat_id=?,note=? WHERE id=?').run(...v,id);
   else db().prepare('INSERT INTO customers(name,contact,email,address,postcode,city,country,kvk,vat_id,note) VALUES(?,?,?,?,?,?,?,?,?,?)').run(...v);
@@ -28,7 +28,7 @@ export async function saveCustomer(fd:FormData){
 export async function deleteCustomer(fd:FormData){
   await requireAdmin();const id=Number(fd.get('id'));
   const n=(db().prepare('SELECT COUNT(*) c FROM invoices WHERE customer_id=?').get(id) as {c:number}).c;
-  if(n>0)redirect(`/admin/klanten/${id}?fout=heeftfacturen`);
+  if(n>0)redirect(`/admin/klant?id=${id}&fout=heeftfacturen`);
   db().prepare('DELETE FROM customers WHERE id=?').run(id);revalidatePath('/admin/klanten');redirect('/admin/klanten');
 }
 
@@ -44,7 +44,7 @@ export async function saveInvoice(fd:FormData){
   const lines=parseLines(String(fd.get('lines')||'[]'));
   const issue=str(fd.get('issue_date'),10)||today();const due=str(fd.get('due_date'),10)||addDays(issue,Number(getSetting('payment_days','14'))||14);
   const bad=!customer||!lines.length||!/^\d{4}-\d{2}-\d{2}$/.test(issue)||!/^\d{4}-\d{2}-\d{2}$/.test(due);
-  if(bad)redirect((id?`/admin/facturen/${id}/bewerken`:'/admin/facturen/nieuw')+'?fout=1');
+  if(bad)redirect(id?`/admin/factuur/bewerken?id=${id}&fout=1`:'/admin/facturen/nieuw?fout=1');
   const reference=str(fd.get('reference'),120),notes=str(fd.get('notes'),2000),rev=fd.get('vat_reverse')?1:0;
   const d=db();
   const tx=d.transaction(()=>{
@@ -57,7 +57,7 @@ export async function saveInvoice(fd:FormData){
     return invId;
   });
   let invId:number;try{invId=tx()}catch{redirect('/admin/facturen?fout=vergrendeld')}
-  revalidatePath('/admin/facturen');redirect(`/admin/facturen/${invId}`);
+  revalidatePath('/admin/facturen');redirect(`/admin/factuur?id=${invId}`);
 }
 export async function finalizeInvoice(fd:FormData){
   await requireAdmin();const id=Number(fd.get('id'));const d=db();
@@ -65,10 +65,10 @@ export async function finalizeInvoice(fd:FormData){
     const n=(d.prepare('SELECT COUNT(*) c FROM invoice_lines WHERE invoice_id=?').get(id) as {c:number}).c;if(!n)return;
     const year=Number(inv.issue_date.slice(0,4))||new Date().getFullYear();
     d.prepare("UPDATE invoices SET number=?,status='verzonden' WHERE id=?").run(nextNumber(year),id)})();
-  revalidatePath('/admin/facturen');redirect(`/admin/facturen/${id}`);
+  revalidatePath('/admin/facturen');redirect(`/admin/factuur?id=${id}`);
 }
-export async function markPaid(fd:FormData){await requireAdmin();const id=Number(fd.get('id'));db().prepare("UPDATE invoices SET status='betaald',paid_at=? WHERE id=? AND status='verzonden'").run(str(fd.get('paid_at'),10)||today(),id);revalidatePath('/admin');redirect(`/admin/facturen/${id}`)}
-export async function markUnpaid(fd:FormData){await requireAdmin();const id=Number(fd.get('id'));db().prepare("UPDATE invoices SET status='verzonden',paid_at=NULL WHERE id=? AND status='betaald'").run(id);revalidatePath('/admin');redirect(`/admin/facturen/${id}`)}
+export async function markPaid(fd:FormData){await requireAdmin();const id=Number(fd.get('id'));db().prepare("UPDATE invoices SET status='betaald',paid_at=? WHERE id=? AND status='verzonden'").run(str(fd.get('paid_at'),10)||today(),id);revalidatePath('/admin');redirect(`/admin/factuur?id=${id}`)}
+export async function markUnpaid(fd:FormData){await requireAdmin();const id=Number(fd.get('id'));db().prepare("UPDATE invoices SET status='verzonden',paid_at=NULL WHERE id=? AND status='betaald'").run(id);revalidatePath('/admin');redirect(`/admin/factuur?id=${id}`)}
 export async function deleteInvoice(fd:FormData){await requireAdmin();const id=Number(fd.get('id'));db().prepare("DELETE FROM invoices WHERE id=? AND status='concept'").run(id);revalidatePath('/admin/facturen');redirect('/admin/facturen')}
 export async function duplicateInvoice(fd:FormData){
   await requireAdmin();const id=Number(fd.get('id'));const d=db();
@@ -76,7 +76,7 @@ export async function duplicateInvoice(fd:FormData){
     const issue=today();const days=Number(getSetting('payment_days','14'))||14;
     const nid=Number(d.prepare('INSERT INTO invoices(customer_id,issue_date,due_date,reference,notes,vat_reverse) VALUES(?,?,?,?,?,?)').run(inv.customer_id,issue,addDays(issue,days),inv.reference,inv.notes,inv.vat_reverse).lastInsertRowid);
     d.prepare('INSERT INTO invoice_lines(invoice_id,position,description,quantity,unit_cents,vat_rate) SELECT ?,position,description,quantity,unit_cents,vat_rate FROM invoice_lines WHERE invoice_id=?').run(nid,id);return nid})();
-  revalidatePath('/admin/facturen');redirect(newId?`/admin/facturen/${newId}/bewerken`:'/admin/facturen');
+  revalidatePath('/admin/facturen');redirect(newId?`/admin/factuur/bewerken?id=${newId}`:'/admin/facturen');
 }
 
 export async function saveSettings(fd:FormData){
