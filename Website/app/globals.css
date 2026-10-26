@@ -1,14 +1,14 @@
 /* NiMaGo design v3: herfst. Warme crème pagina, donkere espresso banden, koper/amber accenten, zalm als zachte tint. */
 @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&display=swap');
 :root{
-  --bg:#FBF1EA; --surface:#FFF9F5; --tint:#F6E3D8; --ink:#2A1713; --ink-2:#3A2520; --text:#2A1713; --muted:#7A5F58; --line:#EAD6CA;
-  --copper:#A8603E; --copper-hover:#8F4F31; --copper-text:#9A5434; --amber:#E2A06A; --salmon:#F9A793; --peach:#FFD8CC;
+  --bg:#F8EFE4; --surface:#FDF8F1; --tint:#F1E0CC; --ink:#2A1713; --ink-2:#3A2520; --text:#2A1713; --muted:#7A5F58; --line:#E6D5C0;
+  --copper:#A8603E; --copper-hover:#8F4F31; --copper-text:#9A5434; --amber:#E2A06A; --salmon:#E2A06A; --peach:#F3D9BF;
   --display:'Bricolage Grotesque','Inter',system-ui,sans-serif; --body:'Inter',system-ui,-apple-system,sans-serif;
   --r:26px; --shadow:0 24px 60px rgba(90,46,34,.14); --shadow-sm:0 10px 28px rgba(90,46,34,.10);
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;background:#241310}
-body{margin:0;color:var(--text);background:radial-gradient(70% 40% at 100% 20%,rgba(249,167,147,.22),rgba(249,167,147,0) 70%),var(--bg);font:400 16px/1.7 var(--body);-webkit-font-smoothing:antialiased}
+body{margin:0;color:var(--text);background:radial-gradient(70% 40% at 100% 20%,rgba(226,160,106,.20),rgba(226,160,106,0) 70%),var(--bg);font:400 16px/1.7 var(--body);-webkit-font-smoothing:antialiased}
 h1,h2,h3,p{margin-top:0}
 h1,h2,h3{font-family:var(--display);line-height:1.08;letter-spacing:-.03em;text-wrap:balance;font-weight:700}
 img,svg{max-width:100%}
@@ -105,9 +105,9 @@ em{font-style:normal;color:var(--copper-text)}
 .project-card{display:block;background:var(--surface);border-radius:var(--r);overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow-sm);transition:transform .35s,box-shadow .35s;min-width:0}
 .project-card:hover{transform:translateY(-6px);box-shadow:var(--shadow)}
 .project-visual{position:relative;display:grid;place-items:center;padding:44px 22px 22px;overflow:hidden}
-.project-peach{background:radial-gradient(80% 90% at 80% 0%,#FFF3EE,rgba(255,243,238,0) 60%),linear-gradient(135deg,#FFC9B7,#F2A18A)}
+.project-peach{background:radial-gradient(80% 90% at 80% 0%,#FBF1E4,rgba(251,241,228,0) 60%),linear-gradient(135deg,#F3D3B0,#D99A68)}
 .project-dark{background:radial-gradient(70% 80% at 20% 0%,rgba(226,160,106,.5),rgba(226,160,106,0) 65%),linear-gradient(135deg,#4A2C25,#2A1713)}
-.project-blue{background:radial-gradient(80% 90% at 20% 0%,#FFF3EE,rgba(255,243,238,0) 60%),linear-gradient(135deg,#F6DCC8,#E2A988)}
+.project-blue{background:radial-gradient(80% 90% at 20% 0%,#FBF1E4,rgba(251,241,228,0) 60%),linear-gradient(135deg,#F1DCC4,#C98B5E)}
 .mockart{width:100%;height:auto;display:block;transition:transform .5s}
 .project-card:hover .mockart{transform:scale(1.04) translateY(-4px)}
 .project-label{position:absolute;top:16px;left:16px;z-index:2;font:700 11px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;background:#fff;color:var(--ink);padding:8px 13px;border-radius:99px}
