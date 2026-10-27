@@ -1,5 +1,3 @@
-import PhotoGallery from "@/components/PhotoGallery";
-import { projectPhotoIds, projectCover } from "@/data/photos";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Check } from "lucide-react";
@@ -61,12 +59,6 @@ export default function ProjectDetail({ slug }: { slug: string }) {
           {imgs.length ? p.note : "Illustratie. " + p.note}
         </p>
       </section>
-      <PhotoGallery
-        ids={projectPhotoIds[p.slug] || []}
-        title={`${p.title} in beeld`}
-        eyebrow="Het project op de werkplek"
-        intro="Een visuele indruk van het project op verschillende schermen. De schermen tonen demodata."
-      />
       <section className="section container detail-grid">
         <article className="detail-main">
           <span className="eyebrow">Het project</span>
@@ -117,7 +109,7 @@ export default function ProjectDetail({ slug }: { slug: string }) {
         </div>
         <div className="project-grid three">
           {others.map((o) => {
-            const img = projectCover(o.slug) || projectImages(o.slug)[0];
+            const img = projectImages(o.slug)[0];
             return (
               <Link
                 className="project-card"

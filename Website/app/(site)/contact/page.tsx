@@ -1,4 +1,3 @@
-import { businessPhotos } from "@/data/photos";
 import type { Metadata } from "next";
 import ContactForm from "@/components/ContactForm";
 import { company } from "@/lib/company";
@@ -70,10 +69,10 @@ export default function Page() {
         )}
         <figure className="contact-project-photo">
           <img
-            src={businessPhotos[12].src.replace(".webp", "-720.webp")}
+            src="/images/foto/contact.webp"
             width="720"
-            height="540"
-            alt={businessPhotos[12].alt}
+            height="480"
+            alt="Een rustige vergaderruimte met natuurlijk licht"
             loading="lazy"
             decoding="async"
           />

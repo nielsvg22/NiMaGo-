@@ -1,4 +1,3 @@
-import { projectCover } from "@/data/photos";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -66,7 +65,7 @@ export default function BranchDetail({ slug }: { slug: string }) {
           </div>
           <div className="project-grid">
             {ps.map((p) => {
-              const img = projectCover(p.slug) || projectImages(p.slug)[0];
+              const img = projectImages(p.slug)[0];
               return (
                 <Link
                   className="project-card"

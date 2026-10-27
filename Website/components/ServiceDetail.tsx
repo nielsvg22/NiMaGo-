@@ -1,4 +1,3 @@
-import PhotoGallery from "@/components/PhotoGallery";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowUpRight, Check } from "lucide-react";
@@ -7,14 +6,6 @@ import { services, projects } from "@/data/site";
 import { serviceExtra } from "@/data/content";
 import CTA from "@/components/CTA";
 import Faq from "@/components/Faq";
-const servicePhotoIds: Record<string, number[]> = {
-  websites: [3, 9],
-  webshops: [],
-  "maatwerk-software": [7, 15],
-  "koppelingen-automatisering": [16, 8],
-  "design-branding": [19, 14],
-  "onderhoud-doorontwikkeling": [17, 20],
-};
 export function serviceMetadata(slug: string): Metadata {
   const s = services.find((v) => v.slug === slug);
   return { title: s?.title || "Diensten", description: s?.lead };
@@ -40,11 +31,6 @@ export default function ServiceDetail({ slug }: { slug: string }) {
           Bespreek je idee <ArrowUpRight size={18} />
         </Link>
       </section>
-      <PhotoGallery
-        ids={servicePhotoIds[slug] || []}
-        title="Van ontwerp naar dagelijks gebruik."
-        eyebrow="Een blik op ons werk"
-      />
       <section className="container section detail-grid">
         <article className="detail-main">
           <span className="eyebrow">Wat je kunt verwachten</span>

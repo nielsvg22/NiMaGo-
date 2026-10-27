@@ -1,20 +1,8 @@
-import { businessPhotos } from "@/data/photos";
 import fs from "node:fs";
 import path from "node:path";
-/** Geeft het pad van een eigen foto terug als die in public/images/foto/ staat (jpg, jpeg, webp of png), anders null. */
-const selectedPhotos: Record<string, number> = {
-  websites: 3,
-  "maatwerk-software": 7,
-  "koppelingen-automatisering": 16,
-  "design-branding": 19,
-  "onderhoud-doorontwikkeling": 17,
-  "over-ons": 20,
-  cta: 13,
-};
+/** Lokale fotografie, met voorkeur voor de lichte WebP-versie. */
 export function photo(name: string): string | null {
-  const id = selectedPhotos[name];
-  if (id !== undefined) return businessPhotos[id].src;
-  for (const ext of ["jpg", "jpeg", "webp", "png"]) {
+  for (const ext of ["webp", "jpg", "jpeg", "png"]) {
     if (
       fs.existsSync(
         path.join(process.cwd(), "public/images/foto", `${name}.${ext}`),

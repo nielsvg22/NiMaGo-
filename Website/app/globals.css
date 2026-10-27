@@ -350,12 +350,6 @@ em{font-style:normal;color:var(--copper-text)}
 @media(max-width:1020px){.home-hero .hero-content{grid-template-columns:1fr;gap:36px;padding-block:130px 110px}.home-hero h1{max-width:20ch}.home-hero .hero-photo{max-width:620px;margin:0;aspect-ratio:4/3}.home-challenge-grid{grid-template-columns:1fr}.home-challenge .eyebrow{min-height:0}.home-challenge-number{margin-bottom:20px}.home-challenge h3{max-width:25ch}.home-challenge>p{max-width:65ch}}
 @media(max-width:740px){.home-hero .hero-content{padding-block:112px 100px;gap:28px}.home-hero h1{font-size:clamp(36px,9.5vw,54px)}.home-visual-caption{padding:48px 22px 22px}.home-challenge{padding:26px 24px}.home-final-cta .cta-actions{max-width:none;width:100%}.home-cta-note{max-width:none}.home-hero .hero-copy .home-hero-note{font-size:12px}}
 
-/* Geselecteerde bedrijfsbeelden: vaste beeldverhoudingen voorkomen verspringen. */
-.business-gallery{padding-block:64px}
-.business-gallery-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px}
-.business-photo{margin:0;min-width:0;overflow:hidden;border-radius:var(--r);background:var(--surface);border:1px solid var(--line)}
-.business-photo img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:contain;background:var(--tint)}
-.business-photo figcaption{padding:16px 22px;font:600 15px/1.5 var(--display)}
+/* Echte fotografie bij de contactpagina. */
 .contact-project-photo{margin:28px 0 0;overflow:hidden;border-radius:22px;border:1px solid var(--line)}
 .contact-project-photo img{display:block;width:100%;height:auto}
-@media(max-width:740px){.business-gallery{padding-block:40px}.business-gallery-grid{grid-template-columns:1fr;gap:20px}.business-photo figcaption{padding:14px 18px}}

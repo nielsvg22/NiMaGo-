@@ -1,4 +1,3 @@
-import { projectCover } from "@/data/photos";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { projects } from "@/data/site";
@@ -8,7 +7,7 @@ export default function ProjectGrid() {
   return (
     <div className="project-grid">
       {projects.map((p) => {
-        const img = projectCover(p.slug) || projectImages(p.slug)[0];
+        const img = projectImages(p.slug)[0];
         return (
           <Link
             className="project-card"
@@ -23,7 +22,7 @@ export default function ProjectGrid() {
                 <div className="shot-frame">
                   <img
                     src={img}
-                    alt={`${p.title} in beeld op de werkplek`}
+                    alt={`Schermafbeelding van ${p.title}`}
                     loading="lazy"
                   />
                 </div>

@@ -1,4 +1,3 @@
-import PhotoGallery from "@/components/PhotoGallery";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
@@ -63,12 +62,6 @@ export default function Page() {
           </div>
         </div>
       </section>
-      <PhotoGallery
-        ids={[11, 14, 15, 20]}
-        title="De techniek achter jouw volgende stap."
-        eyebrow="Ontwerpen, bouwen en doorontwikkelen"
-        intro="Van de eerste opzet tot het testen van een koppeling: we werken aan websites en software die passen bij jouw bedrijf."
-      />
       <section className="section container" style={{ paddingTop: 0 }}>
         <div className="section-head">
           <div>

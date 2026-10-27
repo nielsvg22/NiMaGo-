@@ -1,4 +1,3 @@
-import PhotoGallery from "@/components/PhotoGallery";
 import type { Metadata } from "next";
 import { steps } from "@/data/site";
 import { stepDetails } from "@/data/content";
@@ -51,11 +50,6 @@ export default function Page() {
           })}
         </div>
       </section>
-      <PhotoGallery
-        ids={[14, 17]}
-        title="Bouwen, meekijken en bijsturen."
-        eyebrow="Tijdens de ontwikkeling"
-      />
       <CTA />
     </>
   );
