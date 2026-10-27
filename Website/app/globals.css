@@ -280,7 +280,7 @@ em{font-style:normal;color:var(--copper-text)}
 .nav-contact,.nav-lang{display:inline}.nav-lang{opacity:.8;font-weight:500}
 .icon-link{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;color:#F3E1DA;margin-left:4px}.icon-link:hover{background:rgba(255,255,255,.1);color:#fff}
 .header-inner .header-cta{margin-left:4px}
-@media(max-width:1180px){.nav{gap:22px}.nav-lang{display:none}}
+@media(max-width:1280px){.nav{gap:22px}.nav-lang,.nav-contact{display:none}}
 @media(max-width:1020px){.nav-contact{display:none}}
 @media(max-width:740px){.nav-contact,.nav-lang{display:block}.icon-link{margin-left:auto}}
 /* formulieren en tools */
