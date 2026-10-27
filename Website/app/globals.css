@@ -351,7 +351,6 @@ em{font-style:normal;color:var(--copper-text)}
 @media(max-width:740px){.home-hero .hero-content{padding-block:112px 100px;gap:28px}.home-hero h1{font-size:clamp(36px,9.5vw,54px)}.home-visual-caption{padding:48px 22px 22px}.home-challenge{padding:26px 24px}.home-final-cta .cta-actions{max-width:none;width:100%}.home-cta-note{max-width:none}.home-hero .hero-copy .home-hero-note{font-size:12px}}
 
 /* Geselecteerde bedrijfsbeelden: vaste beeldverhoudingen voorkomen verspringen. */
-.home-hero .hero-photo{aspect-ratio:4/3;max-width:none}
 .business-gallery{padding-block:64px}
 .business-gallery-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px}
 .business-photo{margin:0;min-width:0;overflow:hidden;border-radius:var(--r);background:var(--surface);border:1px solid var(--line)}

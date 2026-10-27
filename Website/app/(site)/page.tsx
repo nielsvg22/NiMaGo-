@@ -115,11 +115,11 @@ export default function Home() {
           <div className="hero-visual">
             <figure className="hero-photo">
               <img
-                src="/images/bedrijfsbeelden/03-the-move-maker-op-laptop.webp"
-                width="1440"
-                height="1080"
+                src="/images/hero-herfst.jpg"
+                width="696"
+                height="714"
                 fetchPriority="high"
-                alt="Laptop met de recruitmentwebsite van The Move Maker, een project van NiMaGo"
+                alt="Laptop en telefoon met een NiMaGo-websiteontwerp op een houten bureau in warm herfstlicht"
               />
               <figcaption className="home-visual-caption">
                 <span>Van eerste indruk tot dagelijks gebruik</span>

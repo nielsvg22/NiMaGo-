@@ -62,10 +62,10 @@ export default function Page() {
           <div className="hero-visual">
             <figure className="hero-photo">
               <img
-                src="/images/bedrijfsbeelden/03-the-move-maker-op-laptop.webp"
-                width="1440"
-                height="1080"
-                alt="Laptop displaying The Move Maker recruitment website, a NiMaGo project"
+                src="/images/hero-herfst.jpg"
+                width="696"
+                height="714"
+                alt="Laptop and phone showing a NiMaGo website design on a wooden desk in warm autumn light"
               />
             </figure>
           </div>
