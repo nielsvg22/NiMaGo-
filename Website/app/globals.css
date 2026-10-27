@@ -319,3 +319,8 @@ em{font-style:normal;color:var(--copper-text)}
 @media(max-width:1100px){.pkg-grid{grid-template-columns:1fr 1fr}.rev-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:900px){.calc{grid-template-columns:1fr}}
 @media(max-width:740px){.pkg-grid,.rev-grid,.team-grid{grid-template-columns:1fr}}
+.nav a,.brand-text small,.header-cta{white-space:nowrap}
+@media(max-width:1700px){.nav-lang{display:none}}
+@media(max-width:1500px){.nav-contact{display:none}.nav{gap:28px}}
+@media(max-width:1020px){.nav{gap:20px}}
+@media(max-width:740px){.nav-contact,.nav-lang{display:block}.nav{gap:0}}
