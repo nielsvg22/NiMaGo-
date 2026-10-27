@@ -1,0 +1,3 @@
+import type {Metadata} from 'next';import QuoteWizard from '@/components/QuoteWizard';
+export const metadata:Metadata={title:'Offerte aanvragen',description:'Vraag in vier korte stappen een offerte aan bij NiMaGo. Vrijblijvend, met reactie binnen één werkdag.'};
+export default function Page(){return <section className="container contact-layout"><div><span className="eyebrow">Offerte aanvragen</span><h1>Vertel ons <em>wat je nodig hebt.</em></h1><p>In vier korte stappen weten we genoeg om een goed voorstel te maken. Je hoeft niets technisch te weten.</p><ul className="checks one" style={{marginTop:24}}><li>Vrijblijvend en zonder verplichtingen</li><li>Reactie binnen één werkdag</li><li>Een voorstel met duidelijke scope en prijs</li></ul></div><QuoteWizard/></section>}

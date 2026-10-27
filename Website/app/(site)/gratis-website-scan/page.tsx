@@ -1,0 +1,3 @@
+import type {Metadata} from 'next';import ScanTool from '@/components/ScanTool';import CTA from '@/components/CTA';
+export const metadata:Metadata={title:'Gratis website-check',description:'Controleer gratis de technische basis van je website: beveiliging, snelheid, mobiel, zoekmachinevriendelijkheid en meer.'};
+export default function Page(){return <><section className="page-hero container"><span className="eyebrow">Gratis website-check</span><h1>Hoe gezond is <em>jouw website?</em></h1><p>Een snelle technische controle in een paar seconden: beveiligde verbinding, snelheid, mobiel, vindbaarheid en meer.</p></section><section className="container section small-top"><ScanTool/></section><CTA/></>}

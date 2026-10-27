@@ -95,3 +95,9 @@ export async function resetData(fd:FormData){
   d.transaction(()=>{d.exec("DELETE FROM invoice_lines; DELETE FROM invoices; DELETE FROM customers; DELETE FROM messages; DELETE FROM sqlite_sequence WHERE name IN ('invoice_lines','invoices','customers','messages');")})();
   revalidatePath('/admin','layout');redirect('/admin/instellingen?gewist=1');
 }
+
+export async function setAppointmentStatus(fd:FormData){
+  await requireAdmin();const id=Number(fd.get('id'));const st=String(fd.get('status'));if(!['aangevraagd','bevestigd','geannuleerd','afgerond'].includes(st))return;
+  db().prepare('UPDATE appointments SET status=? WHERE id=?').run(st,id);revalidatePath('/admin','layout');
+}
+export async function deleteSubscriber(fd:FormData){await requireAdmin();db().prepare('DELETE FROM subscribers WHERE id=?').run(Number(fd.get('id')));revalidatePath('/admin/nieuwsbrief')}

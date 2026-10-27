@@ -13,12 +13,19 @@ export function db():Database.Database{
   CREATE TABLE IF NOT EXISTS invoices(id INTEGER PRIMARY KEY AUTOINCREMENT,number TEXT UNIQUE,customer_id INTEGER NOT NULL REFERENCES customers(id),status TEXT NOT NULL DEFAULT 'concept',issue_date TEXT NOT NULL,due_date TEXT NOT NULL,reference TEXT NOT NULL DEFAULT '',notes TEXT NOT NULL DEFAULT '',vat_reverse INTEGER NOT NULL DEFAULT 0,paid_at TEXT,created_at TEXT NOT NULL DEFAULT (datetime('now')));
   CREATE TABLE IF NOT EXISTS invoice_lines(id INTEGER PRIMARY KEY AUTOINCREMENT,invoice_id INTEGER NOT NULL REFERENCES invoices(id) ON DELETE CASCADE,position INTEGER NOT NULL DEFAULT 0,description TEXT NOT NULL,quantity REAL NOT NULL DEFAULT 1,unit_cents INTEGER NOT NULL DEFAULT 0,vat_rate INTEGER NOT NULL DEFAULT 21);
   CREATE TABLE IF NOT EXISTS messages(id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT NOT NULL,email TEXT NOT NULL,company TEXT NOT NULL DEFAULT '',service TEXT NOT NULL DEFAULT '',message TEXT NOT NULL,is_read INTEGER NOT NULL DEFAULT 0,created_at TEXT NOT NULL DEFAULT (datetime('now')));
+  CREATE TABLE IF NOT EXISTS appointments(id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT NOT NULL,email TEXT NOT NULL,phone TEXT NOT NULL DEFAULT '',topic TEXT NOT NULL DEFAULT '',slot TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'aangevraagd',created_at TEXT NOT NULL DEFAULT (datetime('now')));
+  CREATE UNIQUE INDEX IF NOT EXISTS ux_appointments_slot ON appointments(slot) WHERE status!='geannuleerd';
+  CREATE TABLE IF NOT EXISTS subscribers(id INTEGER PRIMARY KEY AUTOINCREMENT,email TEXT NOT NULL UNIQUE,source TEXT NOT NULL DEFAULT '',created_at TEXT NOT NULL DEFAULT (datetime('now')));
+  CREATE TABLE IF NOT EXISTS pageviews(day TEXT NOT NULL,path TEXT NOT NULL,referrer TEXT NOT NULL DEFAULT '',count INTEGER NOT NULL DEFAULT 0,PRIMARY KEY(day,path,referrer));
   `);
+  const cols=(d.prepare("PRAGMA table_info(messages)").all() as {name:string}[]).map(c=>c.name);
+  if(!cols.includes('kind'))d.exec("ALTER TABLE messages ADD COLUMN kind TEXT NOT NULL DEFAULT 'contact'");
+  if(!cols.includes('payload'))d.exec("ALTER TABLE messages ADD COLUMN payload TEXT NOT NULL DEFAULT ''");
   _db=d;return d;
 }
 export function getSetting(key:string,fallback=''):string{const r=db().prepare('SELECT value FROM settings WHERE key=?').get(key) as {value:string}|undefined;return r?r.value:fallback}
 export function setSetting(key:string,value:string){db().prepare('INSERT INTO settings(key,value) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value').run(key,value)}
-export const SETTING_KEYS=['company_name','legal_form','address','postcode','city','country','email','phone','website','kvk','vat_id','iban','bic','payment_days','invoice_prefix','footer_note'] as const;
+export const SETTING_KEYS=['company_name','legal_form','address','postcode','city','country','email','phone','website','kvk','vat_id','iban','bic','payment_days','invoice_prefix','footer_note','slot_start','slot_end','slot_minutes','booking_days','booking_weekdays'] as const;
 export type SettingKey=typeof SETTING_KEYS[number];
-export const SETTING_DEFAULTS:Record<SettingKey,string>={company_name:'NiMaGo',legal_form:'',address:'',postcode:'',city:'',country:'Nederland',email:'',phone:'',website:'',kvk:'',vat_id:'',iban:'',bic:'',payment_days:'14',invoice_prefix:'NM-',footer_note:'Wij verzoeken je het bedrag binnen de betaaltermijn over te maken onder vermelding van het factuurnummer.'};
+export const SETTING_DEFAULTS:Record<SettingKey,string>={company_name:'NiMaGo',legal_form:'',address:'',postcode:'',city:'',country:'Nederland',email:'',phone:'',website:'',kvk:'',vat_id:'',iban:'',bic:'',payment_days:'14',invoice_prefix:'NM-',footer_note:'Wij verzoeken je het bedrag binnen de betaaltermijn over te maken onder vermelding van het factuurnummer.',slot_start:'09:00',slot_end:'17:00',slot_minutes:'30',booking_days:'21',booking_weekdays:'1,2,3,4,5'};
 export function allSettings():Record<SettingKey,string>{const out={...SETTING_DEFAULTS};const rows=db().prepare('SELECT key,value FROM settings').all() as {key:string;value:string}[];for(const r of rows)if((SETTING_KEYS as readonly string[]).includes(r.key))out[r.key as SettingKey]=r.value;return out}

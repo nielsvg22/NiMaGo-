@@ -7,8 +7,8 @@ export default function Dashboard(){
   const concepts=(d.prepare("SELECT COUNT(*) c FROM invoices WHERE status='concept'").get() as {c:number}).c;
   const recent=d.prepare('SELECT i.*,c.name cname FROM invoices i JOIN customers c ON c.id=i.customer_id ORDER BY i.id DESC LIMIT 6').all() as (Invoice&{cname:string})[];
   const msgs=d.prepare('SELECT * FROM messages ORDER BY id DESC LIMIT 4').all() as {id:number;name:string;message:string;created_at:string;is_read:number}[];
-  const nCust=(d.prepare('SELECT COUNT(*) c FROM customers').get() as {c:number}).c;
-  return <><div className="adm-head"><div><h1>Overzicht</h1><p className="adm-sub">{fmtDate(today())}</p></div><div className="actions"><Link className="btn" href="/admin/facturen/nieuw">Nieuwe factuur</Link><Link className="btn ghost" href="/admin/klanten/nieuw">Nieuwe klant</Link></div></div>
+  const nAppt=(d.prepare("SELECT COUNT(*) c FROM appointments WHERE status='aangevraagd'").get() as {c:number}).c;const nCust=(d.prepare('SELECT COUNT(*) c FROM customers').get() as {c:number}).c;
+  return <><div className="adm-head"><div><h1>Overzicht</h1><p className="adm-sub">{fmtDate(today())}</p></div><div className="actions">{nAppt>0&&<Link className="btn dark" href="/admin/agenda">{nAppt} nieuwe {nAppt===1?'afspraak':'afspraken'}</Link>}<Link className="btn" href="/admin/facturen/nieuw">Nieuwe factuur</Link><Link className="btn ghost" href="/admin/klanten/nieuw">Nieuwe klant</Link></div></div>
   {nCust===0&&<p className="alert info" style={{marginBottom:16}}>Begin met <Link href="/admin/instellingen"><u>je bedrijfsgegevens</u></Link> en voeg daarna een <Link href="/admin/klanten/nieuw"><u>klant</u></Link> toe. Daarna maak je je eerste factuur.</p>}
   <div className="adm-grid g4" style={{marginBottom:16}}>
     <div className="adm-card stat"><span>Openstaand</span><b>{eur(open)}</b><small>{openN} {openN===1?'factuur':'facturen'} incl. btw</small></div>
