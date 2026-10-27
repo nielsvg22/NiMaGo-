@@ -1,0 +1,21 @@
+import {notFound} from 'next/navigation';import {requireCustomer} from '@/lib/account';import {getQuote,effectiveStatus,fmtDateTime} from '@/lib/portal';import {eur,fmtDate} from '@/lib/money';import {acceptQuote,declineQuote} from '../actions';
+export const metadata={title:'Offerte'};
+const ERR:Record<string,string>={akkoord:'Vul je naam in en vink aan dat je akkoord gaat.',status:'Deze offerte kan niet meer worden beantwoord.'};
+export default async function Offerte({searchParams}:{searchParams:Promise<{id?:string;ok?:string;fout?:string}>}){
+  const {id,ok,fout}=await searchParams;const {account,customer}=await requireCustomer();
+  const x=getQuote(Number(id));if(!x||x.q.customer_id!==customer.id||x.q.status==='concept')notFound(); // alleen eigen, definitieve offertes
+  const {q,lines,totals}=x;const st=effectiveStatus(q);
+  return <><p className="muted small"><a href="/account/offertes"><u>← Alle offertes</u></a></p><h1>{q.title||q.number}</h1><p className="lead">Offerte {q.number} &middot; datum {fmtDate(q.issue_date)} &middot; geldig tot {fmtDate(q.valid_until)}</p>
+  {ok==='geaccepteerd'&&<p className="pmsg" role="status">Bedankt! Je akkoord is vastgelegd. We nemen contact met je op over de start.</p>}{ok==='afgewezen'&&<p className="pmsg info" role="status">Je reactie is verstuurd. Bedankt voor het laten weten.</p>}{fout&&<p className="pmsg err" role="alert">{ERR[fout]||ERR.status}</p>}
+  {st==='geaccepteerd'&&<p className="pmsg">Geaccepteerd door <b>{q.accepted_name}</b>{q.accepted_at?` op ${fmtDateTime(q.accepted_at)}`:''}.</p>}{st==='afgewezen'&&<p className="pmsg err">Je hebt deze offerte afgewezen.</p>}{st==='verlopen'&&<p className="pmsg info">Deze offerte is verlopen. Neem contact met ons op voor een nieuw voorstel.</p>}
+  <div className="psplit"><div className="pcard"><div className="twrap"><table className="ptable"><thead><tr><th>Omschrijving</th><th className="num">Aantal</th><th className="num">Prijs</th><th className="num">Totaal</th></tr></thead><tbody>{lines.map((l,i)=><tr key={i}><td style={{whiteSpace:'pre-wrap'}}>{l.description}</td><td className="num">{String(l.quantity).replace('.',',')}</td><td className="num">{eur(l.unit_cents)}</td><td className="num"><b>{eur(Math.round(l.quantity*l.unit_cents))}</b></td></tr>)}</tbody></table></div>
+    <div className="ptotals"><div><span>Subtotaal excl. btw</span><b>{eur(totals.subtotal)}</b></div>{q.vat_reverse?<div><span>Btw</span><b>verlegd</b></div>:Object.keys(totals.vat).map(Number).sort((a,b)=>b-a).map(r=><div key={r}><span>Btw {r}%</span><b>{eur(totals.vat[r])}</b></div>)}<div className="grand"><span>Totaal</span><span>{eur(totals.total)}</span></div></div>
+    {q.notes&&<p className="muted" style={{whiteSpace:'pre-wrap',marginTop:14}}>{q.notes}</p>}
+    <p style={{margin:'10px 0 0'}}><a className="button button-outline-dark" href={`/account/pdf?type=offerte&id=${q.id}`} target="_blank" rel="noopener">Download PDF</a></p></div>
+  <div style={{display:'grid',gap:16}}>{st==='verzonden'&&<><form className="pform wide" action={acceptQuote}><h2 style={{margin:0}}>Akkoord geven</h2><input type="hidden" name="id" value={q.id}/>
+      <label>Je volledige naam<input name="name" required minLength={2} maxLength={100} defaultValue={account.name}/></label>
+      <label className="check"><input type="checkbox" name="agree" required/> <span>Ik ga akkoord met deze offerte van {eur(totals.total)} incl. btw en met de <a href="/algemene-voorwaarden" target="_blank"><u>algemene voorwaarden</u></a>.</span></label>
+      <button className="button button-primary" type="submit">Offerte accepteren</button></form>
+    <form className="pform wide" action={declineQuote}><h2 style={{margin:0}}>Niet akkoord?</h2><input type="hidden" name="id" value={q.id}/><label>Laat ons weten waarom (optioneel)<textarea name="reason" rows={3} maxLength={1000}/></label><button className="button button-outline-dark" type="submit">Offerte afwijzen</button></form></>}
+    <div className="pcard"><h2 style={{margin:0}}>Vragen?</h2><p className="muted small" style={{margin:0}}>Stuur ons gerust een <a href="/account/berichten"><u>bericht</u></a>, we reageren meestal binnen één werkdag.</p></div></div></div></>
+}

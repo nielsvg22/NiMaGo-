@@ -1,0 +1,8 @@
+import {STAGES,type Project} from '@/lib/portal';import {saveProject} from '../actions';
+export default function ProjectFields({customers,p,klant}:{customers:{id:number;name:string}[];p?:Project;klant?:number}){
+  return <form action={saveProject} className="adm-card fstack">{p&&<input type="hidden" name="id" value={p.id}/>}
+    <div className="f2"><label>Klant<select name="customer_id" required defaultValue={p?.customer_id||klant||''}><option value="" disabled>Kies een klant…</option>{customers.map(c=><option key={c.id} value={c.id}>{c.name}</option>)}</select></label><label>Titel<input name="title" required maxLength={160} defaultValue={p?.title} placeholder="Bijv. Nieuwe website"/></label></div>
+    <label>Omschrijving (zichtbaar voor de klant)<textarea name="description" maxLength={3000} defaultValue={p?.description} placeholder="Wat gaan we maken en wat is het doel?"/></label>
+    <div className="f3"><label>Fase<select name="stage" defaultValue={p?.stage??0}>{STAGES.map((s,i)=><option key={s} value={i}>{i+1}. {s}</option>)}</select></label><label>Voortgang (%)<input type="number" name="progress" min={0} max={100} defaultValue={p?.progress??0}/></label><label>Zichtbaar in portaal<select name="visible" defaultValue={p?.visible===0?'':'1'}><option value="1">Ja</option><option value="">Nee</option></select></label></div>
+    <div className="f2"><label>Startdatum<input type="date" name="start_date" defaultValue={p?.start_date}/></label><label>Deadline<input type="date" name="deadline" defaultValue={p?.deadline}/></label></div>
+    <div className="actions"><button className="btn" type="submit">{p?'Opslaan':'Project aanmaken'}</button></div></form>}

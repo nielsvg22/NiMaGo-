@@ -1,0 +1,22 @@
+import {db} from '@/lib/db';import {fmtDateTime} from '@/lib/portal';import {activateAccount,setAccountStatus,setAccountPassword,deleteAccount} from '../../actions';
+export const metadata={title:'Klantaccounts'};
+type A={id:number;email:string;name:string;customer_id:number|null;status:string;created_at:string;last_login:string|null;cname:string|null};
+export default async function Accounts({searchParams}:{searchParams:Promise<{ok?:string;fout?:string}>}){
+  const {ok,fout}=await searchParams;
+  const rows=db().prepare("SELECT a.*,c.name cname FROM accounts a LEFT JOIN customers c ON c.id=a.customer_id ORDER BY (a.status='wachtend') DESC,a.id DESC").all() as A[];
+  const customers=db().prepare('SELECT id,name FROM customers ORDER BY name').all() as {id:number;name:string}[];
+  return <><div className="adm-head"><div><h1>Klantaccounts</h1><p className="adm-sub">Klanten maken zelf een account aan. Pas nadat jij het account aan een klant koppelt, zien ze hun offertes, projecten en facturen. Zo komt er nooit data bij de verkeerde persoon.</p></div></div>
+  {ok==='actief'&&<p className="alert ok" style={{marginBottom:14}} role="status">Account geactiveerd en gekoppeld.</p>}{ok==='wachtwoord'&&<p className="alert ok" style={{marginBottom:14}} role="status">Nieuw wachtwoord ingesteld. Alle sessies van dit account zijn beëindigd; deel het wachtwoord veilig met de klant.</p>}{fout&&<p className="alert err" style={{marginBottom:14}} role="alert">{fout==='wachtwoord'?'Wachtwoord te zwak: minimaal 10 tekens met letters en een cijfer of leesteken.':'Kies een bestaande klant.'}</p>}
+  <div className="adm-grid">{rows.length?rows.map(a=><article className={`adm-card msg-card${a.status==='wachtend'?' unread':''}`} key={a.id}>
+    <div className="msg-meta"><b style={{color:'var(--a-ink)'}}>{a.name}</b><span>{a.email}</span><span className={`pill ${a.status==='actief'?'betaald':a.status==='wachtend'?'verzonden':'telaat'}`}>{a.status}</span>{a.cname&&<span>Klant: <b>{a.cname}</b></span>}<span>Aangemaakt {fmtDateTime(a.created_at)}</span>{a.last_login&&<span>Laatst ingelogd {fmtDateTime(a.last_login)}</span>}</div>
+    {a.status==='wachtend'&&<form action={activateAccount} className="fstack" style={{borderTop:'1px solid var(--a-line)',paddingTop:12}}><input type="hidden" name="id" value={a.id}/>
+      <div className="f2"><label>Koppel aan bestaande klant<select name="customer_id" defaultValue=""><option value="">Nieuwe klant aanmaken…</option>{customers.map(c=><option key={c.id} value={c.id}>{c.name}</option>)}</select></label><label>Naam nieuwe klant/bedrijf <span className="hint">alleen bij “nieuwe klant”</span><input name="new_name" maxLength={160} placeholder={a.name}/></label></div>
+      <p className="hint" style={{margin:0}}>Controleer of dit echt de klant is (bijvoorbeeld via een belletje of bekend e-mailadres) voordat je activeert.</p>
+      <div><button className="btn" type="submit">Activeren</button></div></form>}
+    <div className="actions">
+      {a.status==='actief'&&<form action={setAccountStatus}><input type="hidden" name="id" value={a.id}/><input type="hidden" name="status" value="wachtend"/><button className="btn ghost sm" type="submit">Ontkoppelen</button></form>}
+      {a.status==='geblokkeerd'?<form action={setAccountStatus}><input type="hidden" name="id" value={a.id}/><input type="hidden" name="status" value="actief"/><button className="btn ghost sm" type="submit">Deblokkeren</button></form>:<form action={setAccountStatus}><input type="hidden" name="id" value={a.id}/><input type="hidden" name="status" value="geblokkeerd"/><button className="btn ghost sm" type="submit">Blokkeren</button></form>}
+      <form action={deleteAccount}><input type="hidden" name="id" value={a.id}/><button className="btn danger sm" type="submit">Verwijderen</button></form></div>
+    <details><summary style={{cursor:'pointer',fontWeight:600}}>Nieuw wachtwoord instellen</summary><form action={setAccountPassword} className="actions" style={{marginTop:10}}><input type="hidden" name="id" value={a.id}/><input name="password" type="text" minLength={10} required autoComplete="off" placeholder="Minimaal 10 tekens" style={{maxWidth:280}}/><button className="btn sm dark" type="submit">Instellen</button></form></details>
+  </article>):<p className="adm-card adm-empty">Nog geen klantaccounts. Klanten registreren zich op <code>/account/registreren</code>.</p>}</div></>
+}

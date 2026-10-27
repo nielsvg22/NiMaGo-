@@ -42,4 +42,14 @@ Op `/admin` staat een beveiligde beheeromgeving.
 - **Berichten:** het contactformulier op de site slaat berichten op in de admin. Een e-mailmelding via Resend is optioneel.
 - **Opslag:** SQLite in `DATA_DIR` (op de server `/data`). Koppel hier een persistent volume aan en maak er back-ups van; zonder volume verdwijnen de gegevens bij elke nieuwe deploy.
 
+### Klantportaal (`/account`)
+Klanten maken zelf een account aan (`/account/registreren`). Pas als jij het account in **Admin → Klantaccounts** aan een klant koppelt, ziet de klant zijn eigen offertes, projecten, afspraken, facturen en berichten. Dat is bewust: e-mailadressen worden niet geverifieerd, dus koppelen gebeurt na jouw controle.
+
+- **Offertes:** Admin → Offertes (zelfde opzet als facturen, nummer OF-JJJJ-NNN). Met *Verstuur naar portaal* wordt de offerte zichtbaar; de klant kan accepteren (naam + vinkje) of afwijzen. Een geaccepteerde offerte maak je met één klik een conceptfactuur.
+- **Projecten:** fase (7 stappen), voortgang in %, updates (zichtbaar of intern) en berichten per project.
+- **Afspraken:** plan een afspraak voor een klant in Admin → Agenda; ook kennismakingen met het e-mailadres van de klant verschijnen in het portaal.
+- **Berichten:** klanten schrijven via het portaal; antwoord in Admin → Klantberichten. Acceptatie/afwijzing van een offerte komt daar ook binnen.
+- **Beveiliging:** wachtwoorden met scrypt, aparte sessiecookie `nm_acct` (14 dagen), nieuw wachtwoord beëindigt alle sessies, inlog- en registratielimiet, elke vraag is gefilterd op de gekoppelde klant (geen toegang tot andermans id's), PDF's alleen voor eigen definitieve documenten. Het portaal werkt alleen als `ADMIN_PASSWORD` (of `SESSION_SECRET`) is ingesteld.
+- Er worden geen e-mails verstuurd; meldingen verschijnen in de admin.
+
 Controleer facturen, btw-regime en voorwaarden met je boekhouder voordat je ze gebruikt.

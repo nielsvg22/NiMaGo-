@@ -4,6 +4,8 @@ import {db,setSetting,SETTING_KEYS,getSetting} from '@/lib/db';
 import {requireAdmin,checkPassword,setSession,clearSession,rateLimit,clientIp,adminEnabled} from '@/lib/auth';
 import {parseEuro,today,addDays} from '@/lib/money';
 import {nextNumber,type Invoice} from '@/lib/invoice';
+import {nextQuoteNumber,STAGES,type Quote} from '@/lib/portal';
+import {hashPassword,passwordProblem} from '@/lib/pass';
 
 const str=(v:FormDataEntryValue|null,max=500)=>String(v??'').trim().slice(0,max);
 
@@ -27,7 +29,7 @@ export async function saveCustomer(fd:FormData){
 }
 export async function deleteCustomer(fd:FormData){
   await requireAdmin();const id=Number(fd.get('id'));
-  const n=(db().prepare('SELECT COUNT(*) c FROM invoices WHERE customer_id=?').get(id) as {c:number}).c;
+  const n=['invoices','quotes','projects'].reduce((t,tb)=>t+(db().prepare(`SELECT COUNT(*) c FROM ${tb} WHERE customer_id=?`).get(id) as {c:number}).c,0);
   if(n>0)redirect(`/admin/klant?id=${id}&fout=heeftfacturen`);
   db().prepare('DELETE FROM customers WHERE id=?').run(id);revalidatePath('/admin/klanten');redirect('/admin/klanten');
 }
@@ -81,7 +83,7 @@ export async function duplicateInvoice(fd:FormData){
 
 export async function saveSettings(fd:FormData){
   await requireAdmin();
-  for(const k of SETTING_KEYS){let v=str(fd.get(k),k==='footer_note'?800:200);if(k==='payment_days')v=String(Math.max(1,Math.min(120,parseInt(v,10)||14)));if(k==='iban')v=v.replace(/\s+/g,' ').toUpperCase();setSetting(k,v)}
+  for(const k of SETTING_KEYS){let v=str(fd.get(k),k==='footer_note'?800:200);if(k==='quote_days')v=String(Math.max(1,Math.min(365,parseInt(v,10)||30)));if(k==='payment_days')v=String(Math.max(1,Math.min(120,parseInt(v,10)||14)));if(k==='iban')v=v.replace(/\s+/g,' ').toUpperCase();setSetting(k,v)}
   revalidatePath('/admin','layout');redirect('/admin/instellingen?opgeslagen=1');
 }
 export async function toggleMessage(fd:FormData){await requireAdmin();const id=Number(fd.get('id'));db().prepare('UPDATE messages SET is_read=1-is_read WHERE id=?').run(id);revalidatePath('/admin','layout')}
@@ -92,7 +94,7 @@ export async function resetData(fd:FormData){
   await requireAdmin();
   if(String(fd.get('confirm')||'').trim()!=='WISSEN')redirect('/admin/instellingen?wisfout=1');
   const d=db();
-  d.transaction(()=>{d.exec("DELETE FROM invoice_lines; DELETE FROM invoices; DELETE FROM customers; DELETE FROM messages; DELETE FROM sqlite_sequence WHERE name IN ('invoice_lines','invoices','customers','messages');")})();
+  d.transaction(()=>{d.exec("DELETE FROM invoice_lines; DELETE FROM invoices; DELETE FROM customers; DELETE FROM messages; DELETE FROM portal_messages; DELETE FROM project_updates; DELETE FROM projects; DELETE FROM quote_lines; DELETE FROM quotes; DELETE FROM appointments WHERE customer_id IS NOT NULL; UPDATE accounts SET customer_id=NULL,status='wachtend' WHERE status='actief'; DELETE FROM sqlite_sequence WHERE name IN ('invoice_lines','invoices','customers','messages','portal_messages','project_updates','projects','quote_lines','quotes');")})();
   revalidatePath('/admin','layout');redirect('/admin/instellingen?gewist=1');
 }
 
@@ -101,3 +103,106 @@ export async function setAppointmentStatus(fd:FormData){
   db().prepare('UPDATE appointments SET status=? WHERE id=?').run(st,id);revalidatePath('/admin','layout');
 }
 export async function deleteSubscriber(fd:FormData){await requireAdmin();db().prepare('DELETE FROM subscribers WHERE id=?').run(Number(fd.get('id')));revalidatePath('/admin/nieuwsbrief')}
+
+/* ───── Offertes ───── */
+export async function saveQuote(fd:FormData){
+  await requireAdmin();
+  const id=Number(fd.get('id')||0);const customer=Number(fd.get('customer_id')||0);const lines=parseLines(String(fd.get('lines')||'[]'));
+  const issue=str(fd.get('issue_date'),10)||today();const valid=str(fd.get('due_date'),10)||addDays(issue,Number(getSetting('quote_days','30'))||30);
+  const bad=!customer||!lines.length||!/^\d{4}-\d{2}-\d{2}$/.test(issue)||!/^\d{4}-\d{2}-\d{2}$/.test(valid);
+  if(bad)redirect(id?`/admin/offerte/bewerken?id=${id}&fout=1`:'/admin/offertes/nieuw?fout=1');
+  const title=str(fd.get('reference'),160),notes=str(fd.get('notes'),2000),rev=fd.get('vat_reverse')?1:0;const d=db();
+  const tx=d.transaction(()=>{let qid=id;
+    if(id){const cur=d.prepare('SELECT status FROM quotes WHERE id=?').get(id) as {status:string}|undefined;if(!cur||cur.status!=='concept')throw new Error('locked');
+      d.prepare('UPDATE quotes SET customer_id=?,issue_date=?,valid_until=?,title=?,notes=?,vat_reverse=? WHERE id=?').run(customer,issue,valid,title,notes,rev,id);d.prepare('DELETE FROM quote_lines WHERE quote_id=?').run(id)}
+    else qid=Number(d.prepare('INSERT INTO quotes(customer_id,issue_date,valid_until,title,notes,vat_reverse) VALUES(?,?,?,?,?,?)').run(customer,issue,valid,title,notes,rev).lastInsertRowid);
+    const ins=d.prepare('INSERT INTO quote_lines(quote_id,position,description,quantity,unit_cents,vat_rate) VALUES(?,?,?,?,?,?)');lines.forEach((l,i)=>ins.run(qid,i,l.description,l.quantity,l.unit_cents,l.vat_rate));return qid});
+  let qid:number;try{qid=tx()}catch{redirect('/admin/offertes?fout=vergrendeld')}
+  revalidatePath('/admin/offertes');redirect(`/admin/offerte?id=${qid}`);
+}
+export async function sendQuote(fd:FormData){
+  await requireAdmin();const id=Number(fd.get('id'));const d=db();
+  d.transaction(()=>{const q=d.prepare('SELECT * FROM quotes WHERE id=?').get(id) as Quote|undefined;if(!q||q.status!=='concept')return;
+    if(!(d.prepare('SELECT COUNT(*) c FROM quote_lines WHERE quote_id=?').get(id) as {c:number}).c)return;
+    d.prepare("UPDATE quotes SET number=?,status='verzonden' WHERE id=?").run(nextQuoteNumber(Number(q.issue_date.slice(0,4))||new Date().getFullYear()),id)})();
+  revalidatePath('/admin/offertes');redirect(`/admin/offerte?id=${id}`);
+}
+export async function setQuoteStatus(fd:FormData){
+  await requireAdmin();const id=Number(fd.get('id'));const st=String(fd.get('status'));if(!['geaccepteerd','afgewezen','verzonden'].includes(st))return;
+  if(st==='geaccepteerd')db().prepare("UPDATE quotes SET status='geaccepteerd',accepted_at=datetime('now'),accepted_name=CASE WHEN accepted_name='' THEN 'Buiten het portaal bevestigd' ELSE accepted_name END WHERE id=? AND status IN ('verzonden','afgewezen')").run(id);
+  else if(st==='afgewezen')db().prepare("UPDATE quotes SET status='afgewezen' WHERE id=? AND status='verzonden'").run(id);
+  else db().prepare("UPDATE quotes SET status='verzonden',accepted_at=NULL WHERE id=? AND status IN ('afgewezen','geaccepteerd')").run(id);
+  revalidatePath('/admin/offertes');redirect(`/admin/offerte?id=${id}`);
+}
+export async function deleteQuote(fd:FormData){await requireAdmin();db().prepare("DELETE FROM quotes WHERE id=? AND status='concept'").run(Number(fd.get('id')));revalidatePath('/admin/offertes');redirect('/admin/offertes')}
+export async function duplicateQuote(fd:FormData){
+  await requireAdmin();const id=Number(fd.get('id'));const d=db();
+  const nid=d.transaction(()=>{const q=d.prepare('SELECT * FROM quotes WHERE id=?').get(id) as Quote|undefined;if(!q)return 0;const t=today();
+    const n=Number(d.prepare('INSERT INTO quotes(customer_id,issue_date,valid_until,title,notes,vat_reverse) VALUES(?,?,?,?,?,?)').run(q.customer_id,t,addDays(t,Number(getSetting('quote_days','30'))||30),q.title,q.notes,q.vat_reverse).lastInsertRowid);
+    d.prepare('INSERT INTO quote_lines(quote_id,position,description,quantity,unit_cents,vat_rate) SELECT ?,position,description,quantity,unit_cents,vat_rate FROM quote_lines WHERE quote_id=?').run(n,id);return n})();
+  revalidatePath('/admin/offertes');redirect(nid?`/admin/offerte/bewerken?id=${nid}`:'/admin/offertes');
+}
+/** Maakt van een geaccepteerde offerte een conceptfactuur met dezelfde regels. */
+export async function quoteToInvoice(fd:FormData){
+  await requireAdmin();const id=Number(fd.get('id'));const d=db();
+  const nid=d.transaction(()=>{const q=d.prepare("SELECT * FROM quotes WHERE id=? AND status='geaccepteerd'").get(id) as Quote|undefined;if(!q)return 0;const t=today();
+    const n=Number(d.prepare('INSERT INTO invoices(customer_id,issue_date,due_date,reference,notes,vat_reverse) VALUES(?,?,?,?,?,?)').run(q.customer_id,t,addDays(t,Number(getSetting('payment_days','14'))||14),q.number?`Offerte ${q.number}${q.title?' - '+q.title:''}`.slice(0,120):q.title,'',q.vat_reverse).lastInsertRowid);
+    d.prepare('INSERT INTO invoice_lines(invoice_id,position,description,quantity,unit_cents,vat_rate) SELECT ?,position,description,quantity,unit_cents,vat_rate FROM quote_lines WHERE quote_id=?').run(n,id);return n})();
+  revalidatePath('/admin/facturen');redirect(nid?`/admin/factuur?id=${nid}`:`/admin/offerte?id=${id}`);
+}
+
+/* ───── Projecten ───── */
+const dateOrEmpty=(v:FormDataEntryValue|null)=>{const s=str(v,10);return /^\d{4}-\d{2}-\d{2}$/.test(s)?s:''};
+export async function saveProject(fd:FormData){
+  await requireAdmin();const id=Number(fd.get('id')||0);const customer=Number(fd.get('customer_id')||0);const title=str(fd.get('title'),160);
+  if(!customer||!title)redirect(id?`/admin/project?id=${id}&fout=1`:'/admin/projecten/nieuw?fout=1');
+  const stage=Math.max(0,Math.min(STAGES.length-1,parseInt(String(fd.get('stage')),10)||0)),progress=Math.max(0,Math.min(100,parseInt(String(fd.get('progress')),10)||0));
+  const v=[customer,title,str(fd.get('description'),3000),stage,progress,dateOrEmpty(fd.get('start_date')),dateOrEmpty(fd.get('deadline')),fd.get('visible')?1:0];
+  let pid=id;if(id)db().prepare('UPDATE projects SET customer_id=?,title=?,description=?,stage=?,progress=?,start_date=?,deadline=?,visible=? WHERE id=?').run(...v,id);
+  else pid=Number(db().prepare('INSERT INTO projects(customer_id,title,description,stage,progress,start_date,deadline,visible) VALUES(?,?,?,?,?,?,?,?)').run(...v).lastInsertRowid);
+  revalidatePath('/admin/projecten');redirect(`/admin/project?id=${pid}&ok=1`);
+}
+export async function deleteProject(fd:FormData){await requireAdmin();db().prepare('DELETE FROM projects WHERE id=?').run(Number(fd.get('id')));revalidatePath('/admin/projecten');redirect('/admin/projecten')}
+export async function addProjectUpdate(fd:FormData){
+  await requireAdmin();const pid=Number(fd.get('project_id'));const title=str(fd.get('title'),160);const body=str(fd.get('body'),3000);
+  if(!title||!db().prepare('SELECT 1 FROM projects WHERE id=?').get(pid))redirect(`/admin/project?id=${pid}&fout=update`);
+  db().prepare('INSERT INTO project_updates(project_id,title,body,visible) VALUES(?,?,?,?)').run(pid,title,body,fd.get('visible')?1:0);
+  const p=Math.max(0,Math.min(100,parseInt(String(fd.get('progress')),10)));if(Number.isFinite(p)&&String(fd.get('progress')??'')!=='')db().prepare('UPDATE projects SET progress=? WHERE id=?').run(p,pid);
+  redirect(`/admin/project?id=${pid}&ok=update`);
+}
+export async function deleteProjectUpdate(fd:FormData){await requireAdmin();const pid=Number(fd.get('project_id'));db().prepare('DELETE FROM project_updates WHERE id=? AND project_id=?').run(Number(fd.get('id')),pid);redirect(`/admin/project?id=${pid}`)}
+
+/* ───── Klantaccounts en berichten ───── */
+export async function activateAccount(fd:FormData){
+  await requireAdmin();const id=Number(fd.get('id'));const d=db();
+  const a=d.prepare('SELECT * FROM accounts WHERE id=?').get(id) as {id:number;name:string;email:string}|undefined;if(!a)redirect('/admin/accounts');
+  let cid=Number(fd.get('customer_id')||0);
+  if(!cid){const name=str(fd.get('new_name'),160)||a.name;cid=Number(d.prepare('INSERT INTO customers(name,contact,email) VALUES(?,?,?)').run(name,a.name,a.email).lastInsertRowid)}
+  else if(!d.prepare('SELECT 1 FROM customers WHERE id=?').get(cid))redirect('/admin/accounts?fout=klant');
+  d.prepare("UPDATE accounts SET customer_id=?,status='actief' WHERE id=?").run(cid,id);revalidatePath('/admin','layout');redirect('/admin/accounts?ok=actief');
+}
+export async function setAccountStatus(fd:FormData){
+  await requireAdmin();const id=Number(fd.get('id'));const st=String(fd.get('status'));
+  if(st==='geblokkeerd')db().prepare("UPDATE accounts SET status='geblokkeerd' WHERE id=?").run(id);
+  else if(st==='actief')db().prepare("UPDATE accounts SET status=CASE WHEN customer_id IS NULL THEN 'wachtend' ELSE 'actief' END WHERE id=?").run(id);
+  else if(st==='wachtend')db().prepare("UPDATE accounts SET status='wachtend',customer_id=NULL WHERE id=?").run(id); // ontkoppelen
+  revalidatePath('/admin','layout');redirect('/admin/accounts');
+}
+export async function setAccountPassword(fd:FormData){
+  await requireAdmin();const id=Number(fd.get('id'));const pw=String(fd.get('password')??'');const bad=passwordProblem(pw);if(bad)redirect('/admin/accounts?fout=wachtwoord');
+  const {salt,hash}=hashPassword(pw);db().prepare('UPDATE accounts SET pw_hash=?,salt=? WHERE id=?').run(hash,salt,id);redirect('/admin/accounts?ok=wachtwoord');
+}
+export async function deleteAccount(fd:FormData){await requireAdmin();db().prepare('DELETE FROM accounts WHERE id=?').run(Number(fd.get('id')));revalidatePath('/admin','layout');redirect('/admin/accounts')}
+export async function replyPortal(fd:FormData){
+  await requireAdmin();const cid=Number(fd.get('customer_id'));const body=str(fd.get('body'),3000);const pid=Number(fd.get('project_id')||0)||null;
+  if(body&&db().prepare('SELECT 1 FROM customers WHERE id=?').get(cid))db().prepare("INSERT INTO portal_messages(customer_id,project_id,direction,body,author,is_read) VALUES(?,?,'nimago',?,?,0)").run(cid,pid,body,'NiMaGo');
+  revalidatePath('/admin','layout');redirect(`/admin/klantberichten#k${cid}`);
+}
+export async function markPortalRead(fd:FormData){await requireAdmin();db().prepare("UPDATE portal_messages SET is_read=1 WHERE customer_id=? AND direction='klant'").run(Number(fd.get('customer_id')));revalidatePath('/admin','layout')}
+export async function planAppointment(fd:FormData){
+  await requireAdmin();const cid=Number(fd.get('customer_id'));const date=str(fd.get('date'),10),time=str(fd.get('time'),5);const topic=str(fd.get('topic'),300);
+  const c=db().prepare('SELECT name,email FROM customers WHERE id=?').get(cid) as {name:string;email:string}|undefined;
+  if(!c||!/^\d{4}-\d{2}-\d{2}$/.test(date)||!/^\d{2}:\d{2}$/.test(time))redirect('/admin/agenda?fout=gegevens');
+  try{db().prepare("INSERT INTO appointments(name,email,topic,slot,status,customer_id) VALUES(?,?,?,?,'bevestigd',?)").run(c.name,c.email||'-',topic,`${date} ${time}`,cid)}catch{redirect('/admin/agenda?fout=bezet')}
+  revalidatePath('/admin/agenda');redirect('/admin/agenda?ok=gepland');
+}

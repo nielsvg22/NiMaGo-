@@ -1,17 +1,29 @@
 import {PDFDocument,PDFFont,PDFPage,StandardFonts,rgb,LineCapStyle} from 'pdf-lib';
 import {allSettings} from './db';
 import {eur,fmtDate} from './money';
-import {getInvoice,lineTotal} from './invoice';
+import {getInvoice,lineTotal,type Line,type Customer,type Totals} from './invoice';
+import {getQuote} from './portal';
 
 /* Factuur in de NiMaGo-huisstijl: logo rechtsboven, grote titel, zandkleurige tabelkop, donker totaalblok, voetregel met bedrijfsgegevens. */
 const INK=rgb(0.165,0.09,0.075),COPPER=rgb(0.659,0.376,0.243),AMBER=rgb(0.886,0.627,0.416),SAND=rgb(0.945,0.878,0.8),CREAM=rgb(0.984,0.945,0.918),MUTED=rgb(0.478,0.373,0.345),LINE=rgb(0.9,0.835,0.753),WHITE=rgb(1,1,1);
 const W=595.28,H=841.89,M=52;
 
+type Doc={kind:'Factuur'|'Offerte';number:string|null;lines:Line[];customer:Customer;totals:Totals;vatReverse:boolean;notes:string;meta:[string,string][];subtitle?:string;pay?:{reference:string;due:string}};
 export async function invoicePdf(id:number):Promise<Uint8Array|null>{
-  const data=getInvoice(id);if(!data)return null;
-  const {inv,lines,customer,totals}=data;const s=allSettings();
+  const data=getInvoice(id);if(!data)return null;const {inv,lines,customer,totals}=data;
+  const meta:[string,string][]=[['Factuurnummer',inv.number||'Concept'],['Factuurdatum',fmtDate(inv.issue_date)],['Vervaldatum',fmtDate(inv.due_date)]];if(inv.reference)meta.push(['Referentie',inv.reference]);
+  return renderPdf({kind:'Factuur',number:inv.number,lines,customer,totals,vatReverse:!!inv.vat_reverse,notes:inv.notes,meta,pay:{reference:inv.number||'-',due:inv.due_date}});
+}
+export async function quotePdf(id:number):Promise<Uint8Array|null>{
+  const data=getQuote(id);if(!data)return null;const {q,lines,customer,totals}=data;
+  const meta:[string,string][]=[['Offertenummer',q.number||'Concept'],['Offertedatum',fmtDate(q.issue_date)],['Geldig tot',fmtDate(q.valid_until)]];
+  return renderPdf({kind:'Offerte',number:q.number,lines,customer,totals,vatReverse:!!q.vat_reverse,notes:q.notes,meta,subtitle:q.title});
+}
+async function renderPdf(doc:Doc):Promise<Uint8Array>{
+  const {lines,customer,totals}=doc;const s=allSettings();const word=doc.kind;
+  const inv={number:doc.number,vat_reverse:doc.vatReverse?1:0,notes:doc.notes,due_date:doc.pay?.due||''};
   const pdf=await PDFDocument.create();
-  pdf.setTitle(`Factuur ${inv.number||'concept'}`);pdf.setAuthor(s.company_name||'NiMaGo');pdf.setCreator('NiMaGo admin');
+  pdf.setTitle(`${word} ${doc.number||'concept'}`);pdf.setAuthor(s.company_name||'NiMaGo');pdf.setCreator('NiMaGo admin');
   const reg=await pdf.embedFont(StandardFonts.Helvetica),bold=await pdf.embedFont(StandardFonts.HelveticaBold);
   const okChars=new Set(reg.getCharacterSet());
   const safe=(t:string)=>Array.from(String(t??'').replace(/[‘’]/g,"'").replace(/[“”]/g,'"').replace(/–|—/g,'-').replace(/ /g,' ')).map(c=>okChars.has(c.codePointAt(0)!)?c:'?').join('');
@@ -37,8 +49,8 @@ export async function invoicePdf(id:number):Promise<Uint8Array|null>{
 
   // ── kop
   drawLogo();
-  text('Factuur',M,H-M-22,{font:bold,size:30});
-  text(inv.number?`Nummer ${inv.number}`:'CONCEPT - nog geen factuurnummer',M,H-M-42,{size:10.5,color:inv.number?MUTED:COPPER,font:inv.number?reg:bold});
+  text(word,M,H-M-22,{font:bold,size:30});
+  text(inv.number?`Nummer ${inv.number}${doc.subtitle?'  -  '+doc.subtitle:''}`:`CONCEPT - nog geen ${word.toLowerCase()}nummer`,M,H-M-42,{size:10.5,color:inv.number?MUTED:COPPER,font:inv.number?reg:bold});
   page.drawRectangle({x:M,y:H-M-52,width:34,height:2.2,color:AMBER});
 
   // afzender (onder logo, rechts)
@@ -48,12 +60,12 @@ export async function invoicePdf(id:number):Promise<Uint8Array|null>{
 
   // aan + metagegevens
   let top=H-210;
-  text('FACTUUR AAN',M,top,{size:7.5,font:bold,color:COPPER,spacing:1.4});
+  text(word==='Offerte'?'OFFERTE VOOR':'FACTUUR AAN',M,top,{size:7.5,font:bold,color:COPPER,spacing:1.4});
   let ly=top-16;
   const cl=[customer.name,customer.contact&&`t.a.v. ${customer.contact}`,customer.address,[customer.postcode,customer.city].filter(Boolean).join(' '),customer.country&&customer.country!=='Nederland'?customer.country:'',customer.kvk&&`KvK ${customer.kvk}`,customer.vat_id&&`Btw-id ${customer.vat_id}`].filter(Boolean) as string[];
   cl.forEach((l,i)=>{text(l,M,ly,{size:i===0?11:9.5,font:i===0?bold:reg});ly-=i===0?15:12.5});
-  const mx=W-M-190;const meta:[string,string][]=[['Factuurnummer',inv.number||'Concept'],['Factuurdatum',fmtDate(inv.issue_date)],['Vervaldatum',fmtDate(inv.due_date)]];if(inv.reference)meta.push(['Referentie',inv.reference]);
-  let my=top;for(const [k,v] of meta){text(k.toUpperCase(),mx,my,{size:7,font:bold,color:COPPER,spacing:1.2});text(v,W-M,my,{size:9.5,align:'right',font:bold});my-=19}
+  const mx=W-M-190;
+  let my=top;for(const [k,v] of doc.meta){text(k.toUpperCase(),mx,my,{size:7,font:bold,color:COPPER,spacing:1.2});text(v,W-M,my,{size:9.5,align:'right',font:bold});my-=19}
 
   // ── tabel
   const cx={desc:M+10,qty:W-M-215,price:W-M-140,vat:W-M-92,tot:W-M-10};
@@ -79,17 +91,18 @@ export async function invoicePdf(id:number):Promise<Uint8Array|null>{
   row('Subtotaal excl. btw',eur(totals.subtotal));
   if(inv.vat_reverse)row('Btw','verlegd (0%)');else for(const r of Object.keys(totals.vat).map(Number).sort((a,b)=>b-a))row(`Btw ${r}%`,eur(totals.vat[r]));
   ty-=14;rrect(tx-12,ty-14,227,34,9,INK);
-  text('Totaal te betalen',tx,ty-2,{size:10,font:bold,color:WHITE});text(eur(totals.total),W-M-10,ty-3,{size:13,font:bold,color:rgb(0.965,0.82,0.706),align:'right'});
+  text(word==='Offerte'?'Totaal offerte':'Totaal te betalen',tx,ty-2,{size:10,font:bold,color:WHITE});text(eur(totals.total),W-M-10,ty-3,{size:13,font:bold,color:rgb(0.965,0.82,0.706),align:'right'});
   ty-=52;
   if(inv.vat_reverse){const n=wrap('Btw verlegd. Het btw-nummer van de afnemer is vermeld; de afnemer is verantwoordelijk voor de afdracht van btw.',reg,8.5,W-2*M);n.forEach(t=>{text(t,M,ty,{size:8.5,color:MUTED});ty-=11});ty-=4}
 
-  // ── betaling
+  // ── betaling (alleen bij facturen)
+  if(doc.pay){
   if(ty<150){footer();page=pdf.addPage([W,H]);pageNo++;ty=H-M-10}
   text('BETALING',M,ty,{size:7.5,font:bold,color:COPPER,spacing:1.4});ty-=16;
-  const pay:[string,string][]=[['IBAN',s.iban||'-'],['Ten name van',s.company_name||'-'],['Betalingskenmerk',inv.number||'-'],['Uiterlijk',fmtDate(inv.due_date)]];if(s.bic)pay.splice(1,0,['BIC',s.bic]);
+  const pay:[string,string][]=[['IBAN',s.iban||'-'],['Ten name van',s.company_name||'-'],['Betalingskenmerk',doc.pay.reference],['Uiterlijk',fmtDate(doc.pay.due)]];if(s.bic)pay.splice(1,0,['BIC',s.bic]);
   for(const [k,v] of pay){text(k,M,ty,{size:9,color:MUTED});text(v,M+96,ty,{size:9.5,font:bold});ty-=14}
-  ty-=6;
-  const note=[inv.notes,s.footer_note].filter(Boolean).join('\n\n');
+  ty-=6;}
+  const note=[inv.notes,doc.pay?s.footer_note:'Deze offerte is vrijblijvend tot de genoemde datum. Akkoord geven kan via je klantaccount of door deze offerte ondertekend te retourneren.'].filter(Boolean).join('\n\n');
   for(const t of wrap(note,reg,8.8,W-2*M)){if(ty<80)break;text(t,M,ty,{size:8.8,color:MUTED});ty-=11.5}
   footer();
   return pdf.save();

@@ -1,4 +1,4 @@
-import Link from 'next/link';import {db} from '@/lib/db';import {eur,fmtDate,today} from '@/lib/money';import {getInvoice,type Invoice,isOverdue} from '@/lib/invoice';import StatusPill from './StatusPill';
+import Link from 'next/link';import {db} from '@/lib/db';import {eur,fmtDate,today} from '@/lib/money';import {getInvoice,type Invoice,isOverdue} from '@/lib/invoice';import StatusPill from './StatusPill';import {unreadFromCustomers,pendingAccounts} from '@/lib/portal';
 export const metadata={title:'Overzicht'};
 export default function Dashboard(){
   const d=db();const all=d.prepare("SELECT id FROM invoices WHERE status!='concept'").all() as {id:number}[];
@@ -9,6 +9,7 @@ export default function Dashboard(){
   const msgs=d.prepare('SELECT * FROM messages ORDER BY id DESC LIMIT 4').all() as {id:number;name:string;message:string;created_at:string;is_read:number}[];
   const nAppt=(d.prepare("SELECT COUNT(*) c FROM appointments WHERE status='aangevraagd'").get() as {c:number}).c;const nCust=(d.prepare('SELECT COUNT(*) c FROM customers').get() as {c:number}).c;
   return <><div className="adm-head"><div><h1>Overzicht</h1><p className="adm-sub">{fmtDate(today())}</p></div><div className="actions">{nAppt>0&&<Link className="btn dark" href="/admin/agenda">{nAppt} nieuwe {nAppt===1?'afspraak':'afspraken'}</Link>}<Link className="btn" href="/admin/facturen/nieuw">Nieuwe factuur</Link><Link className="btn ghost" href="/admin/klanten/nieuw">Nieuwe klant</Link></div></div>
+  {(()=>{const pa=pendingAccounts(),pm=unreadFromCustomers(),qa=(d.prepare("SELECT COUNT(*) c FROM quotes WHERE status='geaccepteerd' AND accepted_at>datetime('now','-14 days')").get() as {c:number}).c;return (pa>0||pm>0||qa>0)?<p className="alert info" style={{marginBottom:16}}>Klantportaal: {pa>0&&<><Link href="/admin/accounts"><u>{pa} {pa===1?'account wacht':'accounts wachten'} op activatie</u></Link>. </>}{pm>0&&<><Link href="/admin/klantberichten"><u>{pm} ongelezen {pm===1?'bericht':'berichten'} van klanten</u></Link>. </>}{qa>0&&<><Link href="/admin/offertes?status=geaccepteerd"><u>{qa} {qa===1?'offerte':'offertes'} geaccepteerd</u></Link> (laatste 14 dagen).</>}</p>:null})()}
   {nCust===0&&<p className="alert info" style={{marginBottom:16}}>Begin met <Link href="/admin/instellingen"><u>je bedrijfsgegevens</u></Link> en voeg daarna een <Link href="/admin/klanten/nieuw"><u>klant</u></Link> toe. Daarna maak je je eerste factuur.</p>}
   <div className="adm-grid g4" style={{marginBottom:16}}>
     <div className="adm-card stat"><span>Openstaand</span><b>{eur(open)}</b><small>{openN} {openN===1?'factuur':'facturen'} incl. btw</small></div>
