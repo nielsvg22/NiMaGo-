@@ -1,0 +1,30 @@
+{
+  "measured_at_utc": "2026-10-28T18:10:03Z",
+  "deployment_commit": "cfbc71f",
+  "pages": 63,
+  "statuses": {
+    "200": 63
+  },
+  "single_h1": 63,
+  "unique_og_titles": 63,
+  "broken_fragments": [],
+  "lighthouse_mobile_single_lab_run": {
+    "version": "13.6.0",
+    "scores": {
+      "performance": 0.98,
+      "accessibility": 1,
+      "seo": 1
+    },
+    "lcp_ms": 1496.38,
+    "cls": 0,
+    "tbt_ms": 49,
+    "server_response_ms": 1432,
+    "inp": null
+  },
+  "warm_http_requests_ms_including_proxy_and_connection": [
+    853,
+    803,
+    387
+  ],
+  "note": "Eenmalige labsimulatie, geen rankingmeting of velddata. Warme verzoeken zijn geen gecontroleerde TTFB-benchmark."
+}
