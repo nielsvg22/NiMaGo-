@@ -1,6 +1,7 @@
 import type { NextConfig } from 'next';
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  experimental: { serverActions: { bodySizeLimit: '12mb' } },
   output: 'standalone',
   serverExternalPackages: ['better-sqlite3'],
   async redirects(){return [{source:'/maatwerk-software-apeldoorn',destination:'/softwarebedrijf-apeldoorn',permanent:true},{source:'/:path*',has:[{type:'host',value:'www.nimagodigital.nl'}],destination:'https://nimagodigital.nl/:path*',permanent:true},{source:'/:path*',has:[{type:'host',value:'nimago.85.190.105.138.nip.io'}],destination:'https://nimagodigital.nl/:path*',permanent:true}]},

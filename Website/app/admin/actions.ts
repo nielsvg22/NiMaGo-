@@ -4,6 +4,7 @@ import {db,setSetting,SETTING_KEYS,getSetting} from '@/lib/db';
 import {requireAdmin,checkPassword,setSession,clearSession,rateLimit,clientIp,adminEnabled} from '@/lib/auth';
 import {parseEuro,today,addDays} from '@/lib/money';
 import {nextNumber,type Invoice} from '@/lib/invoice';
+import {audit} from '@/lib/bookkeeping';
 import {nextQuoteNumber,STAGES,type Quote} from '@/lib/portal';
 import {hashPassword,passwordProblem} from '@/lib/pass';import {sendMail,siteUrl} from '@/lib/mail';
 
@@ -29,7 +30,7 @@ export async function saveCustomer(fd:FormData){
 }
 export async function deleteCustomer(fd:FormData){
   await requireAdmin();const id=Number(fd.get('id'));
-  const n=['invoices','quotes','projects'].reduce((t,tb)=>t+(db().prepare(`SELECT COUNT(*) c FROM ${tb} WHERE customer_id=?`).get(id) as {c:number}).c,0);
+  const n=['invoices','quotes','projects','bookkeeping_rules'].reduce((t,tb)=>t+(db().prepare(`SELECT COUNT(*) c FROM ${tb} WHERE customer_id=?`).get(id) as {c:number}).c,0);
   if(n>0)redirect(`/admin/klant?id=${id}&fout=heeftfacturen`);
   db().prepare('DELETE FROM customers WHERE id=?').run(id);revalidatePath('/admin/klanten');redirect('/admin/klanten');
 }
@@ -66,11 +67,11 @@ export async function finalizeInvoice(fd:FormData){
   d.transaction(()=>{const inv=d.prepare('SELECT * FROM invoices WHERE id=?').get(id) as Invoice|undefined;if(!inv||inv.status!=='concept')return;
     const n=(d.prepare('SELECT COUNT(*) c FROM invoice_lines WHERE invoice_id=?').get(id) as {c:number}).c;if(!n)return;
     const year=Number(inv.issue_date.slice(0,4))||new Date().getFullYear();
-    d.prepare("UPDATE invoices SET number=?,status='verzonden' WHERE id=?").run(nextNumber(year),id)})();
+    d.prepare("UPDATE invoices SET number=?,status='verzonden' WHERE id=?").run(nextNumber(year),id);audit('factuur_definitief','factuur',id,{})})();
   revalidatePath('/admin/facturen');redirect(`/admin/factuur?id=${id}`);
 }
-export async function markPaid(fd:FormData){await requireAdmin();const id=Number(fd.get('id'));db().prepare("UPDATE invoices SET status='betaald',paid_at=? WHERE id=? AND status='verzonden'").run(str(fd.get('paid_at'),10)||today(),id);revalidatePath('/admin');redirect(`/admin/factuur?id=${id}`)}
-export async function markUnpaid(fd:FormData){await requireAdmin();const id=Number(fd.get('id'));db().prepare("UPDATE invoices SET status='verzonden',paid_at=NULL WHERE id=? AND status='betaald'").run(id);revalidatePath('/admin');redirect(`/admin/factuur?id=${id}`)}
+export async function markPaid(fd:FormData){await requireAdmin();const id=Number(fd.get('id')),paidAt=str(fd.get('paid_at'),10)||today();db().transaction(()=>{const result=db().prepare("UPDATE invoices SET status='betaald',paid_at=? WHERE id=? AND status='verzonden'").run(paidAt,id);if(result.changes)audit('betaling_handmatig','factuur',id,{paid_at:paidAt})}).immediate();revalidatePath('/admin','layout');redirect(`/admin/factuur?id=${id}`)}
+export async function markUnpaid(fd:FormData){await requireAdmin();const id=Number(fd.get('id'));db().transaction(()=>{db().prepare('UPDATE bookkeeping_bank SET invoice_id=NULL WHERE invoice_id=?').run(id);const result=db().prepare("UPDATE invoices SET status='verzonden',paid_at=NULL WHERE id=? AND status='betaald'").run(id);if(result.changes)audit('betaling_handmatig_teruggezet','factuur',id,{})}).immediate();revalidatePath('/admin','layout');redirect(`/admin/factuur?id=${id}`)}
 export async function deleteInvoice(fd:FormData){await requireAdmin();const id=Number(fd.get('id'));db().prepare("DELETE FROM invoices WHERE id=? AND status='concept'").run(id);revalidatePath('/admin/facturen');redirect('/admin/facturen')}
 export async function duplicateInvoice(fd:FormData){
   await requireAdmin();const id=Number(fd.get('id'));const d=db();
@@ -94,6 +95,8 @@ export async function resetData(fd:FormData){
   await requireAdmin();
   if(String(fd.get('confirm')||'').trim()!=='WISSEN')redirect('/admin/instellingen?wisfout=1');
   const d=db();
+  const locked=d.prepare("SELECT (SELECT COUNT(*) FROM bookkeeping_audit)+(SELECT COUNT(*) FROM invoices WHERE status!='concept') n").get() as {n:number};
+  if(locked.n)redirect('/admin/instellingen?boekhouding=1');
   d.transaction(()=>{d.exec("DELETE FROM invoice_lines; DELETE FROM invoices; DELETE FROM customers; DELETE FROM messages; DELETE FROM portal_messages; DELETE FROM project_updates; DELETE FROM projects; DELETE FROM quote_lines; DELETE FROM quotes; DELETE FROM appointments WHERE customer_id IS NOT NULL; UPDATE accounts SET customer_id=NULL,status='wachtend' WHERE status='actief'; DELETE FROM sqlite_sequence WHERE name IN ('invoice_lines','invoices','customers','messages','portal_messages','project_updates','projects','quote_lines','quotes');")})();
   revalidatePath('/admin','layout');redirect('/admin/instellingen?gewist=1');
 }
