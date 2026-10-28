@@ -7,9 +7,9 @@ const DESC='NiMaGo uit Apeldoorn bouwt websites, webshops, maatwerk software en 
 const PAIRS:Record<string,string>={'/':'/en','/diensten':'/en/services','/over-ons':'/en/about','/contact':'/en/contact'};
 export async function generateMetadata():Promise<Metadata>{
   const path=await currentPath();const nl=Object.keys(PAIRS).find(k=>PAIRS[k]===path)||path;const en=PAIRS[nl];
-  const alternates:Metadata['alternates']={canonical:abs(path),...(en?{languages:{'nl-NL':abs(nl),'en':abs(en),'x-default':abs(nl)}}:{})};
+  const alternates:Metadata['alternates']={canonical:abs(path),types:{'application/rss+xml':abs('/feed.xml')},...(en?{languages:{'nl-NL':abs(nl),'en':abs(en),'x-default':abs(nl)}}:{})};
   return{metadataBase:new URL(site.url),title:{default:TITLE,template:'%s | NiMaGo'},description:DESC,alternates,applicationName:'NiMaGo',authors:[{name:'Niels Maarten Gortel'}],creator:'NiMaGo',
-    openGraph:{type:'website',locale:path.startsWith('/en')?'en_US':'nl_NL',siteName:'NiMaGo',title:TITLE,description:DESC,url:abs(path)},twitter:{card:'summary_large_image',title:TITLE,description:DESC},
+    openGraph:{type:'website',locale:path.startsWith('/en')?'en_US':'nl_NL',siteName:'NiMaGo',title:TITLE,description:DESC,url:abs(path),images:[{url:abs('/og?p='+path),width:1200,height:630,alt:'NiMaGo'}]},twitter:{card:'summary_large_image',title:TITLE,description:DESC,images:[abs('/og?p='+path)]},
     robots:indexingAllowed()?{index:true,follow:true,googleBot:{index:true,follow:true,'max-image-preview':'large','max-snippet':-1,'max-video-preview':-1}}:{index:false,follow:false},
     icons:{icon:'/favicon.svg',apple:'/apple-touch-icon.png'},
     verification:{google:process.env.GOOGLE_SITE_VERIFICATION||undefined,other:process.env.BING_SITE_VERIFICATION?{'msvalidate.01':process.env.BING_SITE_VERIFICATION}:undefined}}}

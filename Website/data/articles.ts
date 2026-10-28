@@ -132,3 +132,33 @@ const todayAms=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Amsterdam'}
 const published=()=>allArticles.filter(a=>a.date<=todayAms());
 export const articles:Article[]=new Proxy([] as Article[],{get:(_,p)=>Reflect.get(published(),p),has:(_,p)=>Reflect.has(published(),p),ownKeys:()=>Reflect.ownKeys(published()),getOwnPropertyDescriptor:(_,p)=>Reflect.getOwnPropertyDescriptor(published(),p)});
 export const scheduledArticles=()=>allArticles.filter(a=>a.date>todayAms()).map(a=>({slug:a.slug,title:a.title,date:a.date}));
+
+/** Kort antwoord bovenaan elk artikel: handig voor lezers, uitgelichte fragmenten in Google en AI-assistenten. */
+export const answers:Record<string,string>={
+ 'wat-kost-een-website':'De prijs van een website hangt af van vijf dingen: omvang, ontwerp, functionaliteit, teksten en beeld, en wat er na oplevering bij hoort (hosting en onderhoud). Vergelijk offertes op inhoud, niet alleen op het totaalbedrag.',
+ 'shopify-of-maatwerk-webshop':'Kies voor Shopify of een vergelijkbaar platform als je snel wilt starten met een standaard winkelproces. Kies voor maatwerk als je processen echt afwijken of koppelingen nodig zijn die een platform niet biedt.',
+ 'wanneer-loont-automatiseren':'Automatiseren loont als een taak vaak terugkomt, vaste regels volgt en handwerk of fouten kost. Begin klein met één proces dat veel tijd kost en meet wat het oplevert.',
+ 'website-onderhoud':'Website-onderhoud is het regelmatig bijwerken, bewaken en back-uppen van je site, zodat hij veilig, snel en bereikbaar blijft. Zonder onderhoud neemt het risico op storingen en beveiligingsproblemen toe.',
+ 'klantportaal-laten-bouwen':'Een klantportaal is een beveiligde omgeving waar klanten zelf offertes, projecten, afspraken en facturen bekijken. Het loont als je veel dezelfde vragen krijgt of veel documenten heen en weer stuurt.',
+ 'api-koppelingen-uitgelegd':'Een API-koppeling laat twee systemen automatisch gegevens uitwisselen, zodat je niets hoeft over te typen. Kijk vooraf wat de systemen aanbieden, welke gegevens je deelt en wie de koppeling beheert.',
+ 'website-laten-maken-apeldoorn-bureau-kiezen':'Kies een bureau op basis van wat het voor je doel kan doen, niet alleen op prijs. Vraag wie de site bouwt, wat er in de prijs zit, van wie de site is en wat er na oplevering gebeurt.',
+ 'lokaal-gevonden-worden-google-bedrijfsprofiel':'Voor lokale vindbaarheid werken je Google Bedrijfsprofiel en je website samen. Vul het profiel volledig in, houd naam, adres en telefoonnummer overal gelijk en vraag eerlijke reviews van klanten.',
+ 'wat-is-geo-gevonden-worden-in-ai':'GEO is het zorgen dat AI-assistenten je bedrijf begrijpen en noemen. Het draait om duidelijke feiten, antwoorden op echte vragen, gestructureerde gegevens en vermeldingen op betrouwbare plekken. Een vermelding is niet te garanderen.',
+ 'checklist-wat-heb-je-nodig-voor-een-website':'Voor een website heb je minimaal een doel, teksten, beeld, een domeinnaam, bedrijfsgegevens en iemand die beslist. Hoe meer je vooraf aanlevert, hoe sneller en soepeler het project loopt.',
+ 'zoekmachineoptimalisatie-voor-ondernemers':'Begin met SEO door te weten waarnaar je klanten zoeken, één onderwerp per pagina te schrijven, de techniek (snelheid, mobiel, sitemap) op orde te brengen en regelmatig nuttige inhoud toe te voegen. Resultaat duurt weken tot maanden.',
+ 'webshop-starten-checklist':'Voor een webshop regel je producten, betaalmethoden, verzending, btw en de regels voor consumentenverkoop, en test je alles met een proefbestelling voor je live gaat.',
+ 'hosting-kiezen-voor-je-website':'Let bij hosting op betrouwbaarheid, snelheid, back-ups, beveiliging, de locatie van je data en support. Zorg dat je domeinnaam en hostingaccount op jouw naam staan.',
+ 'nextjs-of-wordpress-welke-past-bij-jou':'WordPress past bij standaardwebsites die je zelf wilt beheren. Next.js of maatwerk past bij een onderscheidend ontwerp, bijzondere functies en hoge snelheid. Kies op basis van wat je nodig hebt.',
+ 'avg-en-je-website-basis-voor-ondernemers':'Voor de AVG heeft je site een privacyverklaring, een reden per verwerking, beperkte dataverzameling en duidelijke bewaartermijnen nodig, plus zorgvuldige omgang met cookies en externe partijen. Laat je situatie juridisch toetsen.',
+ 'website-teksten-die-klanten-overtuigen':'Schrijf je website-teksten vanuit de vraag van je klant, in korte zinnen en gewone woorden, concreet, en sluit elke pagina af met een duidelijke volgende stap.'
+};
+export const relatedLinks:Record<string,[string,string][]>={
+ 'Websites':[['Website laten maken in Apeldoorn','/website-laten-maken-apeldoorn'],['Onze dienst: websites','/diensten/websites']],
+ 'Webshops':[['Webshop laten maken','/webshop-laten-maken'],['Onze dienst: webshops','/diensten/webshops']],
+ 'Automatisering':[['Processen automatiseren','/processen-automatiseren'],['Koppelingen en automatisering','/diensten/koppelingen-automatisering']],
+ 'Koppelingen':[['API-koppelingen laten maken','/api-koppelingen-laten-maken'],['Koppelingen en automatisering','/diensten/koppelingen-automatisering']],
+ 'Maatwerk':[['Klantportaal laten bouwen','/klantportaal-laten-bouwen'],['Maatwerk software in Apeldoorn','/maatwerk-software-apeldoorn']],
+ 'Onderhoud':[['Website-onderhoud afspreken','/website-onderhoud-afspreken'],['Onze dienst: onderhoud','/diensten/onderhoud-doorontwikkeling']],
+ 'Vindbaarheid':[['Website laten maken in Apeldoorn','/website-laten-maken-apeldoorn'],['Werkgebied Apeldoorn','/werkgebied/apeldoorn']],
+ 'Juridisch':[['Onze dienst: websites','/diensten/websites'],['Privacyverklaring van NiMaGo','/privacyverklaring']]
+};

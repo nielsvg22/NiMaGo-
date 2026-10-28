@@ -357,3 +357,9 @@ em{font-style:normal;color:var(--copper-text)}
 @media(max-width:740px){.header-inner{gap:2px}.header-inner .brand{margin-right:auto}.icon-link{margin-left:0;width:38px;height:38px}.menu-toggle{padding:6px}}
 .header-inner .icon-link+.icon-link{margin-left:-22px}
 @media(max-width:740px){.header-inner .icon-link+.icon-link{margin-left:0}}
+/* Artikelen: kort antwoord, inhoudsopgave, auteur en gerelateerde links */
+.art-answer{margin:26px 0 8px;padding:20px 24px;border-radius:22px;background:var(--tint);border-left:5px solid var(--copper)}.art-answer b{font:700 12px var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--copper-text)}.art-answer p{margin:8px 0 0;font-size:18px;line-height:1.6;color:var(--ink)}
+.art-toc{margin:22px 0 4px;padding:18px 24px;border-radius:22px;background:var(--surface);border:1px solid var(--line)}.art-toc b{font:700 12px var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}.art-toc ol{margin:10px 0 0;padding-left:22px;display:grid;gap:6px;font-size:16px}.art-toc a{color:var(--ink)}.art-toc a:hover{color:var(--copper-text);text-decoration:underline}
+.prose h2{scroll-margin-top:96px}
+.art-author{display:flex;gap:16px;align-items:center;margin:34px 0 0;padding:20px 24px;border-radius:22px;background:var(--surface);border:1px solid var(--line)}.art-author p{margin:4px 0 0;font-size:15px;color:var(--muted)}.art-author a{text-decoration:underline}.art-author .member-av{flex:none;width:54px;height:54px;font-size:18px}
+.art-related{margin:18px 0 0;padding:20px 24px;border-radius:22px;background:var(--ink);color:#fff}.art-related b{font:700 12px var(--body);letter-spacing:.14em;text-transform:uppercase;color:#E2A06A}.art-related ul{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:8px}.art-related a{color:#fff;text-decoration:underline;text-decoration-color:#E2A06A}

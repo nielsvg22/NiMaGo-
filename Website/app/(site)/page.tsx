@@ -357,7 +357,7 @@ export default function Home() {
           </Link>
         </div>
         <div className="art-grid">
-          {articles.slice(0, 3).map((a) => (
+          {[...articles].sort((x, y) => y.date.localeCompare(x.date)).slice(0, 3).map((a) => (
             <ArticleCard key={a.slug} a={a} />
           ))}
         </div>
@@ -378,6 +378,20 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="section container" aria-labelledby="lokaal">
+        <div className="section-head">
+          <div>
+            <span className="eyebrow"><i className="eyebrow-line" />Dichtbij</span>
+            <h2 id="lokaal">Een digitale studio <em>in Apeldoorn.</em></h2>
+          </div>
+          <p>NiMaGo werkt voor ondernemers in Apeldoorn, op de Veluwe en door heel Nederland. Een kennismaking kan bij jou op locatie of online, en je werkt rechtstreeks met de maker.</p>
+        </div>
+        <div className="values">
+          <Link className="value" href="/website-laten-maken-apeldoorn"><h3>Website laten maken in Apeldoorn</h3><p>Snel, goed vindbaar en met een vast aanspreekpunt.</p></Link>
+          <Link className="value" href="/webshop-laten-maken-apeldoorn"><h3>Webshop laten maken in Apeldoorn</h3><p>Shopify of maatwerk, gekoppeld aan je administratie.</p></Link>
+          <Link className="value" href="/maatwerk-software-apeldoorn"><h3>Maatwerk software in Apeldoorn</h3><p>Klantportalen, dashboards en koppelingen op maat.</p></Link>
+        </div>
+      </section>
       <section className="section container faq-teaser">
         <div className="section-head">
           <div>

@@ -17,7 +17,7 @@ export function organization(){
   const c=company();const same=[site.instagram,site.linkedin].filter(Boolean);
   return{'@type':['ProfessionalService','LocalBusiness'],'@id':abs('/#organization'),name:'NiMaGo',alternateName:['Nimago Digital','NiMaGo Digital Solutions'],legalName:c.name,url:abs('/'),slogan:site.tagline,
     description:'NiMaGo bouwt websites, webshops, maatwerk software en slimme koppelingen voor ondernemers en organisaties. Persoonlijk, creatief en technisch sterk, gevestigd in Apeldoorn.',
-    logo:{'@type':'ImageObject',url:abs('/logos/08_beeldmerk.png'),width:360,height:360},image:abs('/opengraph-image.png'),
+    logo:{'@type':'ImageObject',url:abs('/logos/08_beeldmerk.png'),width:360,height:360},image:abs('/og-default.png'),
     ...(c.email?{email:c.email}:{}),...(c.phone?{telephone:c.phone}:{}),
     address:{'@type':'PostalAddress',...(c.address?{streetAddress:c.address}:{}),...(c.postcode?{postalCode:c.postcode}:{}),addressLocality:c.city||'Apeldoorn',addressRegion:'Gelderland',addressCountry:'NL'},
     areaServed:[{'@type':'City',name:'Apeldoorn'},{'@type':'AdministrativeArea',name:'Gelderland'},{'@type':'Country',name:'Nederland'}],
@@ -32,4 +32,8 @@ export function schemaGraph(path:string){
   const [,a,b]=path.split('/');const faq=(items:[string,string][])=>({'@type':'FAQPage',mainEntity:items.map(([q,ans])=>({'@type':'Question',name:q,acceptedAnswer:{'@type':'Answer',text:ans}}))});
   if(a==='diensten'&&b){const s=services.find(x=>x.slug===b);if(s){g.push({'@type':'Service',name:s.title,description:s.lead+' '+s.approach,url:abs(path),serviceType:s.title,provider:{'@id':abs('/#organization')},areaServed:{'@type':'Country',name:'Nederland'}});const f=serviceExtra[b]?.faqs;if(f?.length)g.push(faq(f))}}
   if(path==='/faq')g.push(faq(faqs));
+  const person={'@type':'Person','@id':abs('/#founder'),name:'Niels Maarten Gortel',jobTitle:'Oprichter',url:abs('/team'),worksFor:{'@id':abs('/#organization')},knowsAbout:['Webdevelopment','Next.js','Webshops','Maatwerk software','Automatisering']};
+  if(path==='/team')g.push({'@type':'ProfilePage',url:abs(path),name:'Team',mainEntity:person,isPartOf:{'@id':abs('/#website')}});
+  if(path==='/over-ons')g.push({'@type':'AboutPage',url:abs(path),name:'Over NiMaGo',about:{'@id':abs('/#organization')},isPartOf:{'@id':abs('/#website')}});
+  if(path==='/contact')g.push({'@type':'ContactPage',url:abs(path),name:'Contact',about:{'@id':abs('/#organization')},isPartOf:{'@id':abs('/#website')}});
   return{'@context':'https://schema.org','@graph':g}}
