@@ -3,7 +3,7 @@ websites.jpg                      Pexels foto 441963
 webshops.jpg                      Pexels foto 35765453
 maatwerk-software.jpg             Pexels foto 34803985
 koppelingen-automatisering.jpg    Pexels foto 2312369
-design-branding.jpg               Pexels foto 30149856
+design-branding.jpg               Door opdrachtgever gekozen, gegenereerd herfstbeeld (vervangt de eerdere Pexels-foto 30149856)
 onderhoud-doorontwikkeling.jpg    Pexels foto 1229861
 Controleer de licentie en eventuele personen op de foto's zelf voordat je ze definitief gebruikt; vervang ze gerust door eigen foto's (zelfde bestandsnaam).
 over-ons.jpg                      Pexels foto 3183150
@@ -19,5 +19,5 @@ https://images.unsplash.com/photo-1460925895917-afdab827c52f
 De overige WebP-versies zijn geoptimaliseerde exemplaren van bovengenoemde Pexels-foto's. Stockfoto's zijn sfeerbeelden en tonen geen NiMaGo-medewerkers of het eigen bedrijfspand. De expliciet goedgekeurde banner en het bewerkte portret zijn afzonderlijke bestaande merkbeelden.
 
 Actieve dienstbeelden — 28 oktober 2026:
-De zes WebP-dienstbeelden (websites, webshops, maatwerk-software, koppelingen-automatisering, design-branding en onderhoud-doorontwikkeling) zijn gegenereerde sfeerbeelden op basis van de door de opdrachtgever aangeleverde en gekozen herfstcompositie. Zij vervangen de bovenstaande stockafbeeldingen op de dienstenkaarten. Geen gefotografeerde medewerkers, gerealiseerde projecten of echte meetresultaten. Titels en diensticonen worden door de website toegevoegd. Overige stockbeelden, de bestaande banner en het goedgekeurde portret blijven behouden.
+De zes dienstbeelden (websites, webshops, maatwerk-software, koppelingen-automatisering, design-branding en onderhoud-doorontwikkeling) zijn gegenereerde sfeerbeelden op basis van de door de opdrachtgever aangeleverde en gekozen herfstcompositie. Design & branding gebruikt JPEG voor brede browserondersteuning; de overige vijf beelden gebruiken WebP. Zij vervangen de bovenstaande stockafbeeldingen op de dienstenkaarten. Geen gefotografeerde medewerkers, gerealiseerde projecten of echte meetresultaten. Titels en diensticonen worden door de website toegevoegd. Overige stockbeelden, de bestaande banner en het goedgekeurde portret blijven behouden.
 bedrijf-begrijpen.webp — door de opdrachtgever aangeleverd beeld, geplaatst op 28 oktober 2026 bij 'Jouw bedrijf begrijpen. Dán pas bouwen.' op de homepage.
