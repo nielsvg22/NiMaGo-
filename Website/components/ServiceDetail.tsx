@@ -8,7 +8,9 @@ import CTA from "@/components/CTA";
 import Faq from "@/components/Faq";
 export function serviceMetadata(slug: string): Metadata {
   const s = services.find((v) => v.slug === slug);
-  return { title: s?.title || "Diensten", description: s?.lead };
+  const T:Record<string,string>={websites:"Website laten maken: snel, onderscheidend en vindbaar","webshops":"Webshop laten maken: Shopify of maatwerk","maatwerk-software":"Maatwerk software: tools die bij je werkwijze passen","koppelingen-automatisering":"API-koppelingen en automatisering laten maken","design-branding":"Webdesign en branding op maat","onderhoud-doorontwikkeling":"Website-onderhoud en doorontwikkeling"};
+  const d=s?`${s.lead} ${s.approach}`:"";
+  return { title: T[slug] || s?.title || "Diensten", description: d.length>158?d.slice(0,d.lastIndexOf(" ",155))+"…":d };
 }
 export default function ServiceDetail({ slug }: { slug: string }) {
   const s = services.find((v) => v.slug === slug);

@@ -1,5 +1,5 @@
 import type {Metadata} from 'next';import {articles} from '@/data/articles';import ArticleCard from '@/components/ArticleCard';import CTA from '@/components/CTA';import NewsletterForm from '@/components/NewsletterForm';
-export const metadata:Metadata={title:'Inzichten',description:'Praktische artikelen over websites, webshops, automatisering, koppelingen en onderhoud, geschreven in gewone taal.'};
+export const metadata:Metadata={title:'Inzichten over websites, webshops en automatisering',description:'Praktische artikelen over websites, webshops, automatisering, koppelingen en onderhoud, geschreven in gewone taal.'};
 export default function Page(){const cats=[...new Set(articles.map(a=>a.category))];return <><section className="page-hero container"><span className="eyebrow">Inzichten</span><h1>Helder over <em>digitaal werk.</em></h1><p>Praktische artikelen in gewone taal, over wat een website of webshop kost, wanneer automatiseren loont en meer.</p><p className="chips">{cats.map(c=><span key={c}>{c}</span>)}</p></section>
 <section className="container section small-top"><div className="art-grid">{articles.map(a=><ArticleCard key={a.slug} a={a}/>)}</div></section>
 <section className="container" style={{paddingBottom:70}}><NewsletterForm/></section><CTA/></>};

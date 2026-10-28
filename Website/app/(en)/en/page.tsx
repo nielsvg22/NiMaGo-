@@ -2,10 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 export const metadata: Metadata = {
-  title: "NiMaGo | Digital ideas. Strongly executed.",
+  title: {absolute: "Websites, web shops & custom software | NiMaGo"},
   description:
     "NiMaGo builds websites, web shops, custom software and smart integrations for businesses in the Netherlands and beyond. Personal, creative and technically strong.",
-  alternates: { languages: { nl: "/", en: "/en" } },
 };
 const services: [string, string][] = [
   ["Websites", "A site that tells your story and works well on every screen."],

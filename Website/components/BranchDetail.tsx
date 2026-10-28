@@ -9,7 +9,7 @@ import { projectImages } from "@/lib/photo";
 import { ProjectArt } from "@/components/Art";
 export function branchMetadata(slug: string): Metadata {
   const b = branches.find((x) => x.slug === slug);
-  return { title: b?.title, description: b?.description };
+  const t=b?.title||"";return { title: t.length<30?`${t}: website en software`:t, description: b?.description };
 }
 export default function BranchDetail({ slug }: { slug: string }) {
   const b = branches.find((x) => x.slug === slug);

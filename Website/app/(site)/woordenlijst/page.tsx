@@ -1,5 +1,5 @@
 import type {Metadata} from 'next';import {glossary} from '@/data/pages';import CTA from '@/components/CTA';
-export const metadata:Metadata={title:'Woordenlijst',description:'Uitleg in gewone taal van termen als API, CMS, ATS, headless en SEO.'};
+export const metadata:Metadata={title:'Woordenlijst',description:'Uitleg in gewone taal van termen als API, CMS, ATS, headless, SEO en responsive. Handig als je een website of software laat maken.'};
 export default function Page(){const g=[...glossary].sort((a,b)=>a[0].localeCompare(b[0],'nl'));const letters=[...new Set(g.map(([t])=>t[0].toUpperCase()))];
 const ld={'@context':'https://schema.org','@type':'DefinedTermSet',name:'Woordenlijst NiMaGo',hasDefinedTerm:g.map(([t,d])=>({'@type':'DefinedTerm',name:t,description:d}))};
 return <><section className="page-hero container"><span className="eyebrow">Woordenlijst</span><h1>Digitaal, <em>in gewone taal.</em></h1><p>Zakelijke software zit vol afkortingen. Dit betekenen ze.</p><p className="chips">{letters.map(l=><a key={l} href={'#'+l}>{l}</a>)}</p></section>

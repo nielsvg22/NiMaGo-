@@ -9,7 +9,8 @@ import { ProjectArt } from "@/components/Art";
 import { projectImages } from "@/lib/photo";
 export function projectMetadata(slug: string): Metadata {
   const p = projects.find((x) => x.slug === slug);
-  return { title: p?.title, description: p?.description };
+  const d=p?.description||"";const t=p?`${p.title}: ${p.subtitle.replace(/\.$/,"")}`:undefined;
+  return { title: t&&t.length>58?`${p?.title}: ${p?.sector}-project door NiMaGo`:t, description: d.length>158?d.slice(0,d.lastIndexOf(" ",155))+"…":d };
 }
 export default function ProjectDetail({ slug }: { slug: string }) {
   const p = projects.find((x) => x.slug === slug);

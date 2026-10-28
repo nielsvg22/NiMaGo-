@@ -2,11 +2,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import CTA from "@/components/CTA";
+import { company } from "@/lib/company";
 import { values } from "@/data/content";
 export const metadata: Metadata = {
-  title: "Over ons",
+  title: "Over NiMaGo: persoonlijke digitale studio in Apeldoorn",
   description:
-    "Het verhaal achter NiMaGo: een persoonlijk digitaal bureau dat creativiteit en techniek combineert. Ontdek wie we zijn en hoe we werken.",
+    "Het verhaal achter NiMaGo, een persoonlijke digitale studio in Apeldoorn die creativiteit en techniek combineert. Ontdek wie we zijn en hoe we werken.",
 };
 export default function Page() {
   return (
@@ -95,6 +96,19 @@ export default function Page() {
             Onze afspraken
           </Link>
         </div>
+      </section>
+      <section className="container section small-top" aria-labelledby="feiten">
+        <h2 id="feiten" style={{ fontSize: 28, margin: "0 0 14px" }}>NiMaGo in het kort</h2>
+        <p style={{ maxWidth: "68ch", color: "var(--muted)" }}>
+          NiMaGo (handelsnaam {company().name}) is een digitale studio in {company().city || "Apeldoorn"}, opgericht door Niels Maarten Gortel. We bouwen websites, webshops, maatwerk software en koppelingen voor ondernemers en organisaties in heel Nederland, grotendeels online en op afspraak op locatie.
+        </p>
+        <ul className="contact-facts">
+          <li><b>Oprichter</b> Niels Maarten Gortel</li>
+          <li><b>Vestiging</b> {[company().city || "Apeldoorn", "Gelderland"].join(", ")}</li>
+          <li><b>Diensten</b> websites, webshops, maatwerk software, koppelingen en automatisering, design en onderhoud</li>
+          {company().kvk && <li><b>KvK</b> {company().kvk}</li>}
+          <li><b>Contact</b> <Link className="text-link" href="/contact">formulier en gegevens</Link></li>
+        </ul>
       </section>
       <CTA />
     </>

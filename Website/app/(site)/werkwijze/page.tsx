@@ -3,7 +3,7 @@ import { steps } from "@/data/site";
 import { stepDetails } from "@/data/content";
 import CTA from "@/components/CTA";
 export const metadata: Metadata = {
-  title: "Werkwijze",
+  title: "Werkwijze: van kennismaking tot oplevering",
   description:
     "Zo werkt NiMaGo: van kennismaking en voorstel tot ontwerp, bouw en oplevering. Duidelijk, in overleg en zonder verrassingen.",
 };

@@ -25,9 +25,9 @@ import { articles } from "@/data/articles";
 import { techGroups } from "@/data/pages";
 import { faqs } from "@/data/content";
 export const metadata: Metadata = {
-  title: "Websites en software voor jouw volgende stap",
+  title: {absolute: "Website laten maken in Apeldoorn | NiMaGo"},
   description:
-    "Je bedrijf gaat vooruit. NiMaGo bouwt websites, webshops en maatwerksoftware voor ondernemers en groeiende teams. Bespreek vrijblijvend jouw volgende stap.",
+    "NiMaGo uit Apeldoorn bouwt websites, webshops en maatwerk software voor ondernemers en groeiende teams, door heel Nederland. Plan een vrijblijvende kennismaking.",
 };
 const trust = [
   [Users, "Direct met de makers", "Jouw vraag komt bij de mensen die bouwen"],
@@ -423,22 +423,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "ProfessionalService",
-            name: site.name,
-            description:
-              "NiMaGo bouwt websites, webshops, maatwerk software en slimme koppelingen.",
-            url: site.url,
-            slogan: site.tagline,
-            areaServed: "NL",
-            knowsLanguage: "nl",
-          }),
-        }}
-      />
     </>
   );
 }

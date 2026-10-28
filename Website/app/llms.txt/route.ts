@@ -1,0 +1,12 @@
+import {site,services,projects} from '@/data/site';import {articles} from '@/data/articles';import {landings} from '@/data/pages';import {company} from '@/lib/company';import {abs,indexingAllowed} from '@/lib/seo';
+export const dynamic='force-dynamic';
+/** llms.txt: een korte, feitelijke samenvatting voor AI-assistenten (ChatGPT, Claude, Perplexity, Gemini). */
+export function GET(){
+  const c=company();const L:string[]=[];
+  L.push('# NiMaGo (Nimago Digital)','',`> ${site.tagline} NiMaGo is een kleine digitale studio in Apeldoorn die websites, webshops, maatwerk software en slimme koppelingen bouwt voor ondernemers en organisaties in heel Nederland.`,'');
+  L.push('## Feiten','',`- Naam: NiMaGo (handelsnaam: ${c.name}), rechtsvorm: ${c.legal_form||'eenmanszaak'}`,`- Oprichter: Niels Maarten Gortel`,`- Vestigingsplaats: ${c.city||'Apeldoorn'}, Gelderland, Nederland`,...[c.kvk?`- KvK-nummer: ${c.kvk}`:'',c.email?`- E-mail: ${c.email}`:'',c.phone?`- Telefoon: ${c.phone}`:''].filter(Boolean),`- Website: ${abs('/')}`,'- Taal: Nederlands (ook Engels)','- Werkgebied: heel Nederland, grotendeels online; op afspraak op locatie (o.a. Apeldoorn en de Veluwe)','- Werkwijze: kennismaken, voorstel, ontwerpen, bouwen, live en doorontwikkelen; vaste aanspreekpunt, heldere scope en prijs vooraf','');
+  L.push('## Diensten','',...services.map(s=>`- [${s.title}](${abs('/diensten/'+s.slug)}): ${s.lead}`),'');
+  L.push('## Belangrijke pagina\'s','',`- [Over ons](${abs('/over-ons')}): wie er achter NiMaGo zit`,`- [Werkwijze](${abs('/werkwijze')}): hoe een project verloopt`,`- [Prijzen](${abs('/prijzen')}): wat bepaalt de kosten`,`- [Projecten](${abs('/projecten')}): ${projects.map(p=>p.title).join(', ')}`,`- [Veelgestelde vragen](${abs('/faq')})`,`- [Woordenlijst](${abs('/woordenlijst')}): uitleg van vaktermen`,`- [Contact](${abs('/contact')}) en [kennismaking plannen](${abs('/kennismaking')})`,'');
+  L.push('## Artikelen','',...articles.map(a=>`- [${a.title}](${abs('/inzichten/'+a.slug)}): ${a.description}`),'');
+  L.push('## Onderwerpen','',...(landings as any[]).map(l=>`- [${l.title||l.h1||l.slug}](${abs('/'+l.slug)})`),'');
+  return new Response(L.filter((x,i)=>x!==''||L[i-1]!=='').join('\n')+'\n',{headers:{'Content-Type':'text/plain; charset=utf-8','Cache-Control':'public, max-age=3600',...(indexingAllowed()?{}:{'X-Robots-Tag':'noindex'})}})}

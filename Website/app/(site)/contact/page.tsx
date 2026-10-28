@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import ContactForm from "@/components/ContactForm";
 import { company } from "@/lib/company";
 export const metadata: Metadata = {
-  title: "Contact",
+  title: "Contact: neem contact op met NiMaGo in Apeldoorn",
   description:
     "Neem vrijblijvend contact op met NiMaGo. Vertel over je idee of vraag en we reageren zo snel mogelijk, meestal binnen één werkdag.",
 };

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 export const metadata: Metadata = {
-  title: "About",
+  title: "About NiMaGo: a personal digital studio",
   description:
     "The story behind NiMaGo: a personal digital agency that combines creativity and technology.",
 };
