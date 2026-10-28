@@ -37,7 +37,7 @@ Dit is een operationele administratie met controle en exports. Het is geen groot
 
 ## Opslag en verificatie
 
-Productie gebruikt het bestaande persistente volume `/data` via `DATA_DIR`. Neem zowel de database (met een SQLite-consistente back-up) als de map `bookkeeping-receipts` mee in back-ups; een persistent volume op zichzelf is geen back-up. Er zijn geen productiegegevens nodig voor tests.
+Productie gebruikt het bestaande persistente volume `/data` via `DATA_DIR`. De bestaande dagelijkse back-up neemt ook de bonbestanden mee (14 dagen retentie). Via Instellingen kan een verse, volledige `.tar.gz`-back-up met consistente SQLite-kopie en alle bonnen worden gedownload. Bewaar die ook buiten de server; een persistent volume op zichzelf is geen back-up. Er zijn geen productiegegevens nodig voor tests.
 
 - `node --test scripts/bookkeeping.test.cjs`: geldbedragen, CSV, herimport/conflicten, factuurmatches, kalenderlogica, idempotente concepten, btw en database-integriteit in een tijdelijke database.
 - Productiebouw: `npm run build`.
