@@ -282,7 +282,7 @@ export default function Home() {
       </section>
       <section className="section container about-split">
         <div className="about-visual">
-          <Hills src={photo("over-ons")} mark />
+          <Hills src={photo("bedrijf-begrijpen")} mark />
         </div>
         <div className="about-copy">
           <span className="eyebrow">
