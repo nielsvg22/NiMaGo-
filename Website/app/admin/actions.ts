@@ -5,7 +5,7 @@ import {requireAdmin,checkPassword,setSession,clearSession,rateLimit,clientIp,ad
 import {parseEuro,today,addDays} from '@/lib/money';
 import {nextNumber,type Invoice} from '@/lib/invoice';
 import {nextQuoteNumber,STAGES,type Quote} from '@/lib/portal';
-import {hashPassword,passwordProblem} from '@/lib/pass';
+import {hashPassword,passwordProblem} from '@/lib/pass';import {sendMail,siteUrl} from '@/lib/mail';
 
 const str=(v:FormDataEntryValue|null,max=500)=>String(v??'').trim().slice(0,max);
 
@@ -123,6 +123,7 @@ export async function saveQuote(fd:FormData){
 export async function sendQuote(fd:FormData){
   await requireAdmin();const id=Number(fd.get('id'));const d=db();
   d.transaction(()=>{const q=d.prepare('SELECT * FROM quotes WHERE id=?').get(id) as Quote|undefined;if(!q||q.status!=='concept')return;
+    const em=(d.prepare('SELECT email FROM customers WHERE id=?').get(q.customer_id) as {email:string}|undefined)?.email;if(em)setTimeout(()=>void sendMail({to:em,subject:'Je offerte staat klaar',text:`Er staat een nieuwe offerte voor je klaar${q.title?': '+q.title:''}. Bekijk en accepteer hem in je klantportaal: ${siteUrl()}/account/offertes`}),0);
     if(!(d.prepare('SELECT COUNT(*) c FROM quote_lines WHERE quote_id=?').get(id) as {c:number}).c)return;
     d.prepare("UPDATE quotes SET number=?,status='verzonden' WHERE id=?").run(nextQuoteNumber(Number(q.issue_date.slice(0,4))||new Date().getFullYear()),id)})();
   revalidatePath('/admin/offertes');redirect(`/admin/offerte?id=${id}`);
@@ -168,6 +169,7 @@ export async function addProjectUpdate(fd:FormData){
   if(!title||!db().prepare('SELECT 1 FROM projects WHERE id=?').get(pid))redirect(`/admin/project?id=${pid}&fout=update`);
   db().prepare('INSERT INTO project_updates(project_id,title,body,visible) VALUES(?,?,?,?)').run(pid,title,body,fd.get('visible')?1:0);
   const p=Math.max(0,Math.min(100,parseInt(String(fd.get('progress')),10)));if(Number.isFinite(p)&&String(fd.get('progress')??'')!=='')db().prepare('UPDATE projects SET progress=? WHERE id=?').run(p,pid);
+  if(fd.get('visible')){const em=(db().prepare('SELECT c.email FROM projects p JOIN customers c ON c.id=p.customer_id WHERE p.id=? AND p.visible=1').get(pid) as {email:string}|undefined)?.email;if(em)void sendMail({to:em,subject:`Update: ${title}`,text:`Er is een nieuwe update over je project: ${title}\n\nLees het in je klantportaal: ${siteUrl()}/account/projecten`})}
   redirect(`/admin/project?id=${pid}&ok=update`);
 }
 export async function deleteProjectUpdate(fd:FormData){await requireAdmin();const pid=Number(fd.get('project_id'));db().prepare('DELETE FROM project_updates WHERE id=? AND project_id=?').run(Number(fd.get('id')),pid);redirect(`/admin/project?id=${pid}`)}
@@ -179,7 +181,8 @@ export async function activateAccount(fd:FormData){
   let cid=Number(fd.get('customer_id')||0);
   if(!cid){const name=str(fd.get('new_name'),160)||a.name;cid=Number(d.prepare('INSERT INTO customers(name,contact,email) VALUES(?,?,?)').run(name,a.name,a.email).lastInsertRowid)}
   else if(!d.prepare('SELECT 1 FROM customers WHERE id=?').get(cid))redirect('/admin/accounts?fout=klant');
-  d.prepare("UPDATE accounts SET customer_id=?,status='actief' WHERE id=?").run(cid,id);revalidatePath('/admin','layout');redirect('/admin/accounts?ok=actief');
+  d.prepare("UPDATE accounts SET customer_id=?,status='actief' WHERE id=?").run(cid,id);
+  void sendMail({to:a.email,subject:'Je klantaccount is geactiveerd',text:`Hoi ${a.name.split(' ')[0]},\n\nJe account is gekoppeld. Je kunt nu inloggen op ${siteUrl()}/account/inloggen om je offertes, projecten, afspraken en facturen te bekijken.`});revalidatePath('/admin','layout');redirect('/admin/accounts?ok=actief');
 }
 export async function setAccountStatus(fd:FormData){
   await requireAdmin();const id=Number(fd.get('id'));const st=String(fd.get('status'));
@@ -196,6 +199,7 @@ export async function deleteAccount(fd:FormData){await requireAdmin();db().prepa
 export async function replyPortal(fd:FormData){
   await requireAdmin();const cid=Number(fd.get('customer_id'));const body=str(fd.get('body'),3000);const pid=Number(fd.get('project_id')||0)||null;
   if(body&&db().prepare('SELECT 1 FROM customers WHERE id=?').get(cid))db().prepare("INSERT INTO portal_messages(customer_id,project_id,direction,body,author,is_read) VALUES(?,?,'nimago',?,?,0)").run(cid,pid,body,'NiMaGo');
+  const em=(db().prepare('SELECT email FROM customers WHERE id=?').get(cid) as {email:string}|undefined)?.email;if(body&&em)void sendMail({to:em,subject:'Nieuw bericht van NiMaGo',text:`Je hebt een nieuw bericht in je klantportaal: ${siteUrl()}/account/berichten`});
   revalidatePath('/admin','layout');redirect(`/admin/klantberichten#k${cid}`);
 }
 export async function markPortalRead(fd:FormData){await requireAdmin();db().prepare("UPDATE portal_messages SET is_read=1 WHERE customer_id=? AND direction='klant'").run(Number(fd.get('customer_id')));revalidatePath('/admin','layout')}

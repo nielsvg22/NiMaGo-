@@ -42,6 +42,10 @@ Op `/admin` staat een beveiligde beheeromgeving.
 - **Berichten:** het contactformulier op de site slaat berichten op in de admin. Een e-mailmelding via Resend is optioneel.
 - **Opslag:** SQLite in `DATA_DIR` (op de server `/data`). Koppel hier een persistent volume aan en maak er back-ups van; zonder volume verdwijnen de gegevens bij elke nieuwe deploy.
 
+### E-mail (SMTP)
+Meldingen en klantmails gaan via de mailbox bij je hosting. Zet in Coolify: `SMTP_HOST` (bijv. `web209.your-webhost.nl`), `SMTP_PORT` (465), `SMTP_USER` (`info@nimagodigital.nl`), `SMTP_PASS`, optioneel `MAIL_FROM` en `NOTIFY_TO` (standaard het e-mailadres uit Instellingen). Zonder deze variabelen worden er geen mails verstuurd en blijft alles werken.
+Naar jou: contactbericht, offerte-aanvraag, website-check, nieuwe afspraak, nieuw klantaccount, klantbericht, offerte geaccepteerd/afgewezen. Naar klanten: bevestiging van een afspraakaanvraag, account geactiveerd, offerte klaar, nieuw bericht, project-update.
+
 ### Klantportaal (`/account`)
 Klanten maken zelf een account aan (`/account/registreren`). Pas als jij het account in **Admin → Klantaccounts** aan een klant koppelt, ziet de klant zijn eigen offertes, projecten, afspraken, facturen en berichten. Dat is bewust: e-mailadressen worden niet geverifieerd, dus koppelen gebeurt na jouw controle.
 

@@ -1,4 +1,4 @@
-import {NextRequest,NextResponse} from 'next/server';import {db} from '@/lib/db';import {rateLimit} from '@/lib/auth';
+import {NextRequest,NextResponse} from 'next/server';import {db} from '@/lib/db';import {rateLimit} from '@/lib/auth';import {notifyOwner} from '@/lib/mail';
 export const dynamic='force-dynamic';
 const json=(body:object,status=200)=>NextResponse.json(body,{status,headers:{'Cache-Control':'no-store'}});
 /** Berichten worden altijd opgeslagen in de admin (Berichten). Een mailmelding via Resend is optioneel en mislukt zonder het formulier te breken. */
@@ -12,6 +12,7 @@ export async function POST(req:NextRequest){
   const{name,email,message,company='',service=''}=body;
   if(typeof name!=='string'||name.trim().length<2||name.length>100||typeof email!=='string'||!/^\S+@\S+\.\S+$/.test(email)||email.length>150||typeof message!=='string'||message.trim().length<10||message.length>5000||typeof company!=='string'||company.length>150||typeof service!=='string'||service.length>120)return json({error:'Controleer de ingevulde velden.'},400);
   db().prepare('INSERT INTO messages(name,email,company,service,message) VALUES(?,?,?,?,?)').run(name.trim(),email.trim(),company.trim(),service.trim(),message.trim());
+  notifyOwner(`Nieuw bericht van ${name.trim()}`,`Naam: ${name.trim()}\nE-mail: ${email.trim()}\nBedrijf: ${company.trim()}\nDienst: ${service.trim()}\n\n${message.trim()}`,email.trim());
   const key=process.env.RESEND_API_KEY,to=process.env.CONTACT_TO_EMAIL,from=process.env.CONTACT_FROM_EMAIL;
   if(key&&to&&from){try{
     const sanitize=(v:string)=>v.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');

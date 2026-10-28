@@ -3,7 +3,7 @@ import {redirect} from 'next/navigation';import {revalidatePath} from 'next/cach
 import {db} from '@/lib/db';import {rateLimit,clientIp} from '@/lib/auth';
 import {hashPassword,verifyPassword,dummyVerify,passwordProblem} from '@/lib/pass';
 import {requireCustomer,requireAccount,setAcctSession,clearAcctSession,portalEnabled,type Account} from '@/lib/account';
-import {getQuote,effectiveStatus} from '@/lib/portal';
+import {getQuote,effectiveStatus} from '@/lib/portal';import {notifyOwner} from '@/lib/mail';
 
 const str=(v:FormDataEntryValue|null,max=500)=>String(v??'').trim().slice(0,max);
 const EMAIL=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -21,6 +21,7 @@ export async function registerAccount(fd:FormData){
   const d=db();if(d.prepare('SELECT 1 FROM accounts WHERE email=?').get(email))redirect('/account/registreren?fout=bestaat'+keep);
   const {salt,hash}=hashPassword(pw);
   const id=Number(d.prepare("INSERT INTO accounts(email,name,pw_hash,salt) VALUES(?,?,?,?)").run(email,name,hash,salt).lastInsertRowid);
+  notifyOwner(`Nieuw klantaccount: ${name}`,`${name} <${email}> heeft een account aangemaakt. Koppel het aan een klant in Admin > Klantaccounts.`);
   await setAcctSession({id,pw_hash:hash});revalidatePath('/admin','layout');redirect('/account');
 }
 export async function loginAccount(fd:FormData){
@@ -53,6 +54,7 @@ export async function changePassword(fd:FormData){
 /** Een bericht van de klant aan NiMaGo; verschijnt in de admin onder Klantberichten. */
 function notifyAdmin(customerId:number,body:string,author:string,projectId:number|null=null){
   db().prepare("INSERT INTO portal_messages(customer_id,project_id,direction,body,author) VALUES(?,?,'klant',?,?)").run(customerId,projectId,body,author);
+  notifyOwner(`Klantbericht van ${author}`,`${body}\n\nAntwoord in Admin > Klantberichten.`);
 }
 export async function sendPortalMessage(fd:FormData){
   const {account,customer}=await requireCustomer();
