@@ -4,10 +4,11 @@ Alles hieronder is **verzonnen voorbeeldinhoud** om de site compleet te laten og
 
 | Onderdeel | Waar | Bestand |
 |---|---|---|
-| Teamleden (rollen en bio's) | /team | `data/samples.ts` (`team`) |
 | Pakketten en onderhoudsprijzen | /prijzen | `data/samples.ts` (`packages`, `care`) |
 | Rekenhulp (bedragen en toeslagen) | /prijzen | `components/PriceCalculator.tsx` |
 | Werkgebied en stadspagina's | /werkgebied | `data/samples.ts` (`cities`) |
+
+De teamvermelding is gecorrigeerd naar Niels Maarten Gortel, oprichter van NiMaGo, op basis van informatie van de opdrachtgever. NiMaGo staat voor Niels Maarten Gortel.
 
 Klantreviews zijn verwijderd. Voeg uitsluitend echte ervaringen toe met toestemming van de klant.
 

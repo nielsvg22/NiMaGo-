@@ -1,7 +1,6 @@
-/* VOORBEELDINHOUD: alles in dit bestand is verzonnen en bedoeld om later te vervangen door echte gegevens. */
+/* Team: naam en oprichterschap bevestigd door de opdrachtgever. Overige inhoud is voorbeeldinhoud. */
 export const team:{name:string;role:string;bio:string;initials:string}[]=[
- {name:'Niels van Gortel',role:'Oprichter, development en techniek',initials:'N',bio:'Bouwt websites, portalen en koppelingen. Houdt van heldere code en software die je jaren kunt blijven gebruiken.'},
- {name:'Matthijs van Gortel',role:'Oprichter, ontwerp en strategie',initials:'M',bio:'Vertaalt wensen naar een duidelijk ontwerp en een plan. Zorgt dat techniek en uitstraling bij elkaar passen.'}];
+ {name:'Niels Maarten Gortel',role:'Oprichter, development en techniek',initials:'N',bio:'Bouwt websites, portalen en koppelingen. Houdt van heldere code en software die je jaren kunt blijven gebruiken.'}];
 export const packages:{name:string;forWho:string;price:string;items:string[];highlight?:boolean}[]=[
  {name:'Start',forWho:'Zelfstandigen en kleine ondernemers',price:'€ 1.800 – € 3.500',items:['Website tot ca. 5 pagina’s','Responsive ontwerp','Basis zoekmachineoptimalisatie','Contactformulier','1 feedbackronde']},
  {name:'Groei',forWho:'Ambitieuze mkb-bedrijven',price:'€ 4.500 – € 9.000',items:['8 tot 15 pagina’s of kleine webshop','Ontwerp op maat','Beheeromgeving voor teksten','Statistieken en koppelingen','2 feedbackrondes'],highlight:true},

@@ -39,19 +39,19 @@ export default function Page() {
             src="/images/team/portret-professioneel.webp"
             width="900"
             height="1125"
-            alt="Portrait of one of the people behind NiMaGo"
+            alt="Portrait of Niels Maarten Gortel, founder of NiMaGo"
             loading="eager"
           />
         </figure>
         <div className="about-copy">
-          <span className="eyebrow">Two perspectives, one story</span>
+          <span className="eyebrow">The name behind NiMaGo</span>
           <h2>
-            NiMaGo was born from <em>connection.</em>
+            NiMaGo starts with <em>Niels Maarten Gortel.</em>
           </h2>
           <p>
-            The name is inspired by Niels, Matthijs and the family name Van
-            Gortel. The N logo, one continuous line, refers to that origin:
-            different sides that together form one whole.
+            NiMaGo stands for Niels Maarten Gortel: Ni from Niels, Ma from
+            Maarten and Go from Gortel. As the founder, Niels is your direct
+            contact from the first conversation through to delivery.
           </p>
           <p style={{ marginTop: 14 }}>
             What drives us is turning complex digital questions into clear, well
