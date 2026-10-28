@@ -259,3 +259,7 @@ Volgende sessie: lees eerst deze roadmap en de actuele bronbestanden; vergelijk 
 - Cookiebeleid/privacyverklaring aangepast. Geen nieuwe externe kosten of Google-koppeling.
 - Verificatie: 19 tests (marketing + boekhouding), productiebuild; lokale mobiele browsertest controleert geen tracking vóór toestemming, weigeren en onthouden, accepteren zonder reload, stabiele cookie bij navigatie, intrekken, DNT en afwijzen van externe origins. Testdata uitsluitend in aparte lokale database.
 - Live afgerond: applicatiecommit `c7f002a`, Coolify-deployment `f7hlcyu3zi8l587iipecqnck` geslaagd. Cookievenster en weigering live gecontroleerd: Secure voorkeurcookie, geen statistiekverzoeken vóór/na weigering. Afgeschermd `/admin/marketing` HTTP 200 met unieke-browserkaart, 28-dagenperiode, startdatum en meetbeperkingen. Geen productieformulieren verstuurd en geen kunstmatige toestemmende bezoekers toegevoegd.
+
+### Aanvulling — cookievenster na keuze verbergen
+
+- Op verzoek verdwijnt na accepteren/weigeren alle zwevende cookiebediening. Cookie-instellingen staan voortaan in de Nederlandse en Engelse footer om de keuze opnieuw te openen. Cookiekeuze, metingen en intrekken blijven werken. Cookiebeleid bijgewerkt.
