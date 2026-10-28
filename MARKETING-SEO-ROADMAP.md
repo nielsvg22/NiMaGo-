@@ -263,3 +263,4 @@ Volgende sessie: lees eerst deze roadmap en de actuele bronbestanden; vergelijk 
 ### Aanvulling — cookievenster na keuze verbergen
 
 - Op verzoek verdwijnt na accepteren/weigeren alle zwevende cookiebediening. Cookie-instellingen staan voortaan in de Nederlandse en Engelse footer om de keuze opnieuw te openen. Cookiekeuze, metingen en intrekken blijven werken. Cookiebeleid bijgewerkt.
+- Productiebouw en lokale Nederlandse/Engelse browsertests geslaagd. Live gecontroleerd op commit `75e2dbb`: na accepteren geen cookievenster of zwevende knop, na vernieuwen blijft de melding weg, footerknop opent de instellingen. Deployment `8kaqsl71ihpaon5861bbxt7v` afgerond.
