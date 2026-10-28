@@ -353,3 +353,7 @@ em{font-style:normal;color:var(--copper-text)}
 /* Echte fotografie bij de contactpagina. */
 .contact-project-photo{margin:28px 0 0;overflow:hidden;border-radius:22px;border:1px solid var(--line)}
 .contact-project-photo img{display:block;width:100%;height:auto}
+/* Mobiel: zoek-, account- en menu-icoon dicht bij elkaar rechts in de header */
+@media(max-width:740px){.header-inner{gap:2px}.header-inner .brand{margin-right:auto}.icon-link{margin-left:0;width:38px;height:38px}.menu-toggle{padding:6px}}
+.header-inner .icon-link+.icon-link{margin-left:-22px}
+@media(max-width:740px){.header-inner .icon-link+.icon-link{margin-left:0}}
