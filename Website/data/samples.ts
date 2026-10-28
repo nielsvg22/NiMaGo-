@@ -1,11 +1,4 @@
 /* VOORBEELDINHOUD: alles in dit bestand is verzonnen en bedoeld om later te vervangen door echte gegevens. */
-export const reviews:{name:string;role:string;company:string;text:string}[]=[
- {name:'Sanne de Boer',role:'Eigenaar',company:'Studio Bloei',text:'NiMaGo dacht echt met ons mee. Geen vakjargon, maar duidelijke keuzes. De website voelt precies zoals ons merk.'},
- {name:'Mark Jansen',role:'Directeur',company:'Jansen Installatie',text:'Onze offertes en afspraken lopen nu via één systeem. Dat scheelt ons elke week uren, en de communicatie was altijd helder.'},
- {name:'Lisa van Dam',role:'Marketingmanager',company:'Van Dam Outdoor',text:'De webshop laadt snel, is makkelijk te beheren en de koppeling met onze voorraad werkt zonder gedoe.'},
- {name:'Tim Hoekstra',role:'Oprichter',company:'Hoekstra Recruitment',text:'Van eerste schets tot oplevering werd er goed afgestemd. We wisten steeds waar we aan toe waren.'},
- {name:'Aisha Bakir',role:'Operationeel manager',company:'Bakir Logistiek',text:'Het klantportaal bespaart ons veel telefoontjes. Klanten volgen hun zendingen nu zelf.'},
- {name:'Joris Verhoeven',role:'Eigenaar',company:'Verhoeven Bouw',text:'Eerlijk advies, ook toen dat een eenvoudigere oplossing was dan we zelf bedacht hadden. Dat waardeer ik.'}];
 export const team:{name:string;role:string;bio:string;initials:string}[]=[
  {name:'Niels van Gortel',role:'Oprichter, development en techniek',initials:'N',bio:'Bouwt websites, portalen en koppelingen. Houdt van heldere code en software die je jaren kunt blijven gebruiken.'},
  {name:'Matthijs van Gortel',role:'Oprichter, ontwerp en strategie',initials:'M',bio:'Vertaalt wensen naar een duidelijk ontwerp en een plan. Zorgt dat techniek en uitstraling bij elkaar passen.'}];

@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import CTA from "@/components/CTA";
-import Reviews from "@/components/Reviews";
 import { values } from "@/data/content";
 export const metadata: Metadata = {
   title: "Over ons",
@@ -97,7 +96,6 @@ export default function Page() {
           </Link>
         </div>
       </section>
-      <Reviews limit={6} />
       <CTA />
     </>
   );

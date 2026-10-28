@@ -4,11 +4,12 @@ Alles hieronder is **verzonnen voorbeeldinhoud** om de site compleet te laten og
 
 | Onderdeel | Waar | Bestand |
 |---|---|---|
-| Klantreviews (namen, bedrijven, teksten) | Home, Over ons | `data/samples.ts` (`reviews`) |
 | Teamleden (rollen en bio's) | /team | `data/samples.ts` (`team`) |
 | Pakketten en onderhoudsprijzen | /prijzen | `data/samples.ts` (`packages`, `care`) |
 | Rekenhulp (bedragen en toeslagen) | /prijzen | `components/PriceCalculator.tsx` |
 | Werkgebied en stadspagina's | /werkgebied | `data/samples.ts` (`cities`) |
+
+Klantreviews zijn verwijderd. Voeg uitsluitend echte ervaringen toe met toestemming van de klant.
 
 Let op:
 - Echte klantreviews mag je alleen tonen met toestemming van de klant. Verzonnen reviews presenteren als echt is misleidend en in Nederland niet toegestaan.
