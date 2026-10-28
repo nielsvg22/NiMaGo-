@@ -1,7 +1,91 @@
-import type {Metadata} from 'next';import ContactForm from '@/components/ContactForm';import {company} from '@/lib/company';
-export const metadata:Metadata={title:'Contact',description:'Neem vrijblijvend contact op met NiMaGo. Vertel over je idee of vraag en we reageren zo snel mogelijk, meestal binnen één werkdag.'};
-export default function Page(){const c=company();const facts:[string,string][]=([['E-mail',c.email],['Telefoon',c.phone],['Adres',c.addr],['KvK',c.kvk],['Btw-id',c.vat_id]] as [string,string][]).filter(([,v])=>v);
-return <section className="container contact-layout"><div><span className="eyebrow">Vertel ons je idee</span><h1>Mooi werk begint<br/><em>met een gesprek.</em></h1><p>Een vraag, een idee of een uitdaging? Vertel er iets over. We denken graag met je mee.</p>
-<ol className="next-steps"><li><div><b>Je stuurt een bericht</b><span>Vertel kort wat je wilt bereiken. Een paar zinnen is genoeg.</span></div></li><li><div><b>We reageren binnen één werkdag</b><span>Meestal met een paar vragen of een voorstel voor een kennismaking.</span></div></li><li><div><b>We maken het concreet</b><span>Je krijgt een duidelijk plan met scope en prijs. Vrijblijvend.</span></div></li></ol>
-{facts.length>0&&<ul className="contact-facts">{facts.map(([k,v])=><li key={k}><b>{k}</b><span>{v}</span></li>)}</ul>}
-<div className="contact-note"><strong>Geen verkooppraatje, wel een goed gesprek.</strong><span>Je bericht komt direct bij ons binnen. We gebruiken je gegevens alleen om te reageren.</span></div></div><ContactForm/></section>};
+import type { Metadata } from "next";
+import ContactForm from "@/components/ContactForm";
+import { company } from "@/lib/company";
+export const metadata: Metadata = {
+  title: "Contact",
+  description:
+    "Neem vrijblijvend contact op met NiMaGo. Vertel over je idee of vraag en we reageren zo snel mogelijk, meestal binnen één werkdag.",
+};
+export default function Page() {
+  const c = company();
+  const facts: [string, string][] = (
+    [
+      ["E-mail", c.email],
+      ["Telefoon", c.phone],
+      ["Adres", c.addr],
+      ["KvK", c.kvk],
+      ["Btw-id", c.vat_id],
+    ] as [string, string][]
+  ).filter(([, v]) => v);
+  return (
+    <section className="container contact-layout">
+      <div>
+        <span className="eyebrow">Vertel ons je idee</span>
+        <h1>
+          Mooi werk begint
+          <br />
+          <em>met een gesprek.</em>
+        </h1>
+        <p>
+          Een vraag, een idee of een uitdaging? Vertel er iets over. We denken
+          graag met je mee.
+        </p>
+        <ol className="next-steps">
+          <li>
+            <div>
+              <b>Je stuurt een bericht</b>
+              <span>
+                Vertel kort wat je wilt bereiken. Een paar zinnen is genoeg.
+              </span>
+            </div>
+          </li>
+          <li>
+            <div>
+              <b>We reageren binnen één werkdag</b>
+              <span>
+                Meestal met een paar vragen of een voorstel voor een
+                kennismaking.
+              </span>
+            </div>
+          </li>
+          <li>
+            <div>
+              <b>We maken het concreet</b>
+              <span>
+                Je krijgt een duidelijk plan met scope en prijs. Vrijblijvend.
+              </span>
+            </div>
+          </li>
+        </ol>
+        {facts.length > 0 && (
+          <ul className="contact-facts">
+            {facts.map(([k, v]) => (
+              <li key={k}>
+                <b>{k}</b>
+                <span>{v}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+        <figure className="contact-project-photo">
+          <img
+            src="/images/foto/contact.webp"
+            width="720"
+            height="480"
+            alt="Een rustige vergaderruimte met natuurlijk licht"
+            loading="lazy"
+            decoding="async"
+          />
+        </figure>
+        <div className="contact-note">
+          <strong>Geen verkooppraatje, wel een goed gesprek.</strong>
+          <span>
+            Je bericht komt direct bij ons binnen. We gebruiken je gegevens
+            alleen om te reageren.
+          </span>
+        </div>
+      </div>
+      <ContactForm />
+    </section>
+  );
+}

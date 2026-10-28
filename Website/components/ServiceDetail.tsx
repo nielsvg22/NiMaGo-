@@ -1,9 +1,108 @@
-import Link from 'next/link';import {notFound} from 'next/navigation';import {ArrowUpRight,Check} from 'lucide-react';import type {Metadata} from 'next';import {services,projects} from '@/data/site';import {serviceExtra} from '@/data/content';import CTA from '@/components/CTA';import Faq from '@/components/Faq';
-export function serviceMetadata(slug:string):Metadata{const s=services.find(v=>v.slug===slug);return{title:s?.title||'Diensten',description:s?.lead}}
-export default function ServiceDetail({slug}:{slug:string}){const s=services.find(v=>v.slug===slug);if(!s)notFound();const x=serviceExtra[s.slug];const rel=x?.related?projects.find(p=>p.slug===x.related):undefined;
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { ArrowUpRight, Check } from "lucide-react";
+import type { Metadata } from "next";
+import { services, projects } from "@/data/site";
+import { serviceExtra } from "@/data/content";
+import CTA from "@/components/CTA";
+import Faq from "@/components/Faq";
+export function serviceMetadata(slug: string): Metadata {
+  const s = services.find((v) => v.slug === slug);
+  return { title: s?.title || "Diensten", description: s?.lead };
+}
+export default function ServiceDetail({ slug }: { slug: string }) {
+  const s = services.find((v) => v.slug === slug);
+  if (!s) notFound();
+  const x = serviceExtra[s.slug];
+  const rel = x?.related
+    ? projects.find((p) => p.slug === x.related)
+    : undefined;
 
-return <><section className="page-hero container"><span className="eyebrow">{s.eyebrow}</span><h1>{s.title}<span className="accent-dot">.</span></h1><p>{s.lead}</p><Link className="button button-primary" href="/contact">Bespreek je idee <ArrowUpRight size={18}/></Link></section>
-<section className="container section detail-grid"><article className="detail-main"><span className="eyebrow">Wat je kunt verwachten</span><h2>Doordacht, helder<br/><em>en op maat.</em></h2><p>{s.approach}</p>{rel&&<p style={{marginTop:18}}>Voorbeeld uit onze praktijk: <Link className="text-link" href={'/projecten/'+rel.slug}>{rel.title} <ArrowUpRight size={16}/></Link></p>}</article><aside className="detail-aside"><h3>Hier helpen we je mee</h3>{(x?.deliverables||s.bullets).map(b=><p key={b}><Check size={18}/>{b}</p>)}<div className="tags">{s.tags.map(t=><span key={t}>{t}</span>)}</div></aside></section>
-{x&&<section className="container" style={{paddingBottom:80}}><div className="section-head"><div><span className="eyebrow"><i className="eyebrow-line"/>Zo pakken we het aan</span><h2>In <em>vier stappen.</em></h2></div></div><ol className="timeline dark-on-light">{x.process.map(([t,d],i)=><li key={t}><span className="tl-dot">{i+1}</span><h3>{t}</h3><p>{d}</p></li>)}</ol></section>}
-{x&&<section className="container" style={{paddingBottom:60}}><div className="section-head"><div><span className="eyebrow"><i className="eyebrow-line"/>Veelgestelde vragen</span><h2>Over {s.title.toLowerCase()}</h2></div></div><Faq items={x.faqs}/></section>}
-<CTA/></>};
+  return (
+    <>
+      <section className="page-hero container">
+        <span className="eyebrow">{s.eyebrow}</span>
+        <h1>
+          {s.title}
+          <span className="accent-dot">.</span>
+        </h1>
+        <p>{s.lead}</p>
+        <Link className="button button-primary" href="/contact">
+          Bespreek je idee <ArrowUpRight size={18} />
+        </Link>
+      </section>
+      <section className="container section detail-grid">
+        <article className="detail-main">
+          <span className="eyebrow">Wat je kunt verwachten</span>
+          <h2>
+            Doordacht, helder
+            <br />
+            <em>en op maat.</em>
+          </h2>
+          <p>{s.approach}</p>
+          {rel && (
+            <p style={{ marginTop: 18 }}>
+              Voorbeeld uit onze praktijk:{" "}
+              <Link className="text-link" href={"/projecten/" + rel.slug}>
+                {rel.title} <ArrowUpRight size={16} />
+              </Link>
+            </p>
+          )}
+        </article>
+        <aside className="detail-aside">
+          <h3>Hier helpen we je mee</h3>
+          {(x?.deliverables || s.bullets).map((b) => (
+            <p key={b}>
+              <Check size={18} />
+              {b}
+            </p>
+          ))}
+          <div className="tags">
+            {s.tags.map((t) => (
+              <span key={t}>{t}</span>
+            ))}
+          </div>
+        </aside>
+      </section>
+      {x && (
+        <section className="container" style={{ paddingBottom: 80 }}>
+          <div className="section-head">
+            <div>
+              <span className="eyebrow">
+                <i className="eyebrow-line" />
+                Zo pakken we het aan
+              </span>
+              <h2>
+                In <em>vier stappen.</em>
+              </h2>
+            </div>
+          </div>
+          <ol className="timeline dark-on-light">
+            {x.process.map(([t, d], i) => (
+              <li key={t}>
+                <span className="tl-dot">{i + 1}</span>
+                <h3>{t}</h3>
+                <p>{d}</p>
+              </li>
+            ))}
+          </ol>
+        </section>
+      )}
+      {x && (
+        <section className="container" style={{ paddingBottom: 60 }}>
+          <div className="section-head">
+            <div>
+              <span className="eyebrow">
+                <i className="eyebrow-line" />
+                Veelgestelde vragen
+              </span>
+              <h2>Over {s.title.toLowerCase()}</h2>
+            </div>
+          </div>
+          <Faq items={x.faqs} />
+        </section>
+      )}
+      <CTA />
+    </>
+  );
+}
