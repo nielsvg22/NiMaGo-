@@ -1,3 +1,4 @@
+import {recordSubmission} from '@/lib/marketing';
 import {NextRequest,NextResponse} from 'next/server';import {db} from '@/lib/db';import {rateLimit} from '@/lib/auth';import {notifyOwner,sendMail} from '@/lib/mail';
 export const dynamic='force-dynamic';
 const json=(body:object,status=200)=>NextResponse.json(body,{status,headers:{'Cache-Control':'no-store'}});
@@ -12,6 +13,7 @@ export async function POST(req:NextRequest){
   const{name,email,message,company='',service=''}=body;
   if(typeof name!=='string'||name.trim().length<2||name.length>100||typeof email!=='string'||!/^\S+@\S+\.\S+$/.test(email)||email.length>150||typeof message!=='string'||message.trim().length<10||message.length>5000||typeof company!=='string'||company.length>150||typeof service!=='string'||service.length>120)return json({error:'Controleer de ingevulde velden.'},400);
   db().prepare('INSERT INTO messages(name,email,company,service,message) VALUES(?,?,?,?,?)').run(name.trim(),email.trim(),company.trim(),service.trim(),message.trim());
+  recordSubmission(req,'contact_submit',body.marketing);
   notifyOwner(`Nieuw bericht van ${name.trim()}`,`Naam: ${name.trim()}\nE-mail: ${email.trim()}\nBedrijf: ${company.trim()}\nDienst: ${service.trim()}\n\n${message.trim()}`,email.trim());
   void sendMail({to:email.trim(),subject:'Bedankt voor je bericht',text:`Hoi ${name.trim().split(' ')[0]},\n\nBedankt voor je bericht. We hebben het ontvangen en reageren meestal binnen één werkdag.\n\nJe bericht:\n${message.trim().slice(0,1500)}`});
   const key=process.env.RESEND_API_KEY,to=process.env.CONTACT_TO_EMAIL,from=process.env.CONTACT_FROM_EMAIL;

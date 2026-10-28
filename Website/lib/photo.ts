@@ -18,7 +18,7 @@ export function projectImages(slug: string): string[] {
   if (!fs.existsSync(dir)) return [];
   return fs
     .readdirSync(dir)
-    .filter((f) => f.startsWith(slug + "-") && /\.(jpe?g|png|webp)$/i.test(f))
+    .filter((f) => f.startsWith(slug + "-") && /\.(jpe?g|png|webp)$/i.test(f) && !/-(480|800|1200)\.(jpe?g|png|webp)$/i.test(f))
     .sort()
     .map((f) => `/images/projecten/${f}`);
 }

@@ -1,0 +1,302 @@
+{
+  "/images/foto/websites.webp": {
+    "width": 1448,
+    "height": 1086,
+    "variants": [
+      {
+        "src": "/images/foto/websites-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/foto/websites-800.webp",
+        "width": 800
+      },
+      {
+        "src": "/images/foto/websites-1200.webp",
+        "width": 1200
+      },
+      {
+        "src": "/images/foto/websites.webp",
+        "width": 1448
+      }
+    ]
+  },
+  "/images/foto/webshops.webp": {
+    "width": 1448,
+    "height": 1086,
+    "variants": [
+      {
+        "src": "/images/foto/webshops-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/foto/webshops-800.webp",
+        "width": 800
+      },
+      {
+        "src": "/images/foto/webshops-1200.webp",
+        "width": 1200
+      },
+      {
+        "src": "/images/foto/webshops.webp",
+        "width": 1448
+      }
+    ]
+  },
+  "/images/foto/maatwerk-software.webp": {
+    "width": 1448,
+    "height": 1086,
+    "variants": [
+      {
+        "src": "/images/foto/maatwerk-software-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/foto/maatwerk-software-800.webp",
+        "width": 800
+      },
+      {
+        "src": "/images/foto/maatwerk-software-1200.webp",
+        "width": 1200
+      },
+      {
+        "src": "/images/foto/maatwerk-software.webp",
+        "width": 1448
+      }
+    ]
+  },
+  "/images/foto/koppelingen-automatisering.webp": {
+    "width": 1448,
+    "height": 1086,
+    "variants": [
+      {
+        "src": "/images/foto/koppelingen-automatisering-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/foto/koppelingen-automatisering-800.webp",
+        "width": 800
+      },
+      {
+        "src": "/images/foto/koppelingen-automatisering-1200.webp",
+        "width": 1200
+      },
+      {
+        "src": "/images/foto/koppelingen-automatisering.webp",
+        "width": 1448
+      }
+    ]
+  },
+  "/images/foto/design-branding.jpg": {
+    "width": 1448,
+    "height": 1086,
+    "variants": [
+      {
+        "src": "/images/foto/design-branding-480.jpg",
+        "width": 480
+      },
+      {
+        "src": "/images/foto/design-branding-800.jpg",
+        "width": 800
+      },
+      {
+        "src": "/images/foto/design-branding-1200.jpg",
+        "width": 1200
+      },
+      {
+        "src": "/images/foto/design-branding.jpg",
+        "width": 1448
+      }
+    ]
+  },
+  "/images/foto/onderhoud-doorontwikkeling.webp": {
+    "width": 1448,
+    "height": 1086,
+    "variants": [
+      {
+        "src": "/images/foto/onderhoud-doorontwikkeling-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/foto/onderhoud-doorontwikkeling-800.webp",
+        "width": 800
+      },
+      {
+        "src": "/images/foto/onderhoud-doorontwikkeling-1200.webp",
+        "width": 1200
+      },
+      {
+        "src": "/images/foto/onderhoud-doorontwikkeling.webp",
+        "width": 1448
+      }
+    ]
+  },
+  "/images/foto/over-ons.webp": {
+    "width": 1400,
+    "height": 934,
+    "variants": [
+      {
+        "src": "/images/foto/over-ons-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/foto/over-ons-800.webp",
+        "width": 800
+      },
+      {
+        "src": "/images/foto/over-ons-1200.webp",
+        "width": 1200
+      },
+      {
+        "src": "/images/foto/over-ons.webp",
+        "width": 1400
+      }
+    ]
+  },
+  "/images/foto/bedrijf-begrijpen.webp": {
+    "width": 1280,
+    "height": 720,
+    "variants": [
+      {
+        "src": "/images/foto/bedrijf-begrijpen-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/foto/bedrijf-begrijpen-800.webp",
+        "width": 800
+      },
+      {
+        "src": "/images/foto/bedrijf-begrijpen-1200.webp",
+        "width": 1200
+      },
+      {
+        "src": "/images/foto/bedrijf-begrijpen.webp",
+        "width": 1280
+      }
+    ]
+  },
+  "/images/foto/cta-herfst.jpg": {
+    "width": 1536,
+    "height": 1024,
+    "variants": [
+      {
+        "src": "/images/foto/cta-herfst-480.jpg",
+        "width": 480
+      },
+      {
+        "src": "/images/foto/cta-herfst-800.jpg",
+        "width": 800
+      },
+      {
+        "src": "/images/foto/cta-herfst-1200.jpg",
+        "width": 1200
+      },
+      {
+        "src": "/images/foto/cta-herfst.jpg",
+        "width": 1536
+      }
+    ]
+  },
+  "/images/foto/contact.webp": {
+    "width": 1400,
+    "height": 935,
+    "variants": [
+      {
+        "src": "/images/foto/contact-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/foto/contact-800.webp",
+        "width": 800
+      },
+      {
+        "src": "/images/foto/contact-1200.webp",
+        "width": 1200
+      },
+      {
+        "src": "/images/foto/contact.webp",
+        "width": 1400
+      }
+    ]
+  },
+  "/images/hero-herfst.jpg": {
+    "width": 696,
+    "height": 714,
+    "variants": [
+      {
+        "src": "/images/hero-herfst-480.jpg",
+        "width": 480
+      },
+      {
+        "src": "/images/hero-herfst.jpg",
+        "width": 696
+      }
+    ]
+  },
+  "/images/projecten/aigwise-1.jpg": {
+    "width": 1600,
+    "height": 651,
+    "variants": [
+      {
+        "src": "/images/projecten/aigwise-1-480.jpg",
+        "width": 480
+      },
+      {
+        "src": "/images/projecten/aigwise-1-800.jpg",
+        "width": 800
+      },
+      {
+        "src": "/images/projecten/aigwise-1-1200.jpg",
+        "width": 1200
+      },
+      {
+        "src": "/images/projecten/aigwise-1.jpg",
+        "width": 1600
+      }
+    ]
+  },
+  "/images/projecten/ome-partnerportaal-1.jpg": {
+    "width": 1600,
+    "height": 1000,
+    "variants": [
+      {
+        "src": "/images/projecten/ome-partnerportaal-1-480.jpg",
+        "width": 480
+      },
+      {
+        "src": "/images/projecten/ome-partnerportaal-1-800.jpg",
+        "width": 800
+      },
+      {
+        "src": "/images/projecten/ome-partnerportaal-1-1200.jpg",
+        "width": 1200
+      },
+      {
+        "src": "/images/projecten/ome-partnerportaal-1.jpg",
+        "width": 1600
+      }
+    ]
+  },
+  "/images/projecten/the-move-maker-1.jpg": {
+    "width": 1600,
+    "height": 1000,
+    "variants": [
+      {
+        "src": "/images/projecten/the-move-maker-1-480.jpg",
+        "width": 480
+      },
+      {
+        "src": "/images/projecten/the-move-maker-1-800.jpg",
+        "width": 800
+      },
+      {
+        "src": "/images/projecten/the-move-maker-1-1200.jpg",
+        "width": 1200
+      },
+      {
+        "src": "/images/projecten/the-move-maker-1.jpg",
+        "width": 1600
+      }
+    ]
+  }
+}

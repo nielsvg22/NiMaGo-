@@ -1,3 +1,4 @@
+import {imageProps} from '@/lib/image';
 /* Visuals als schaalbare SVG/CSS: geen externe afbeeldingen nodig, scherp op elk scherm. Alles is decoratief/illustratief. */
 export function Mark({className = '', white = false}: {className?: string; white?: boolean}) {
   const id = white ? 'mk-w' : 'mk-c';
@@ -96,7 +97,7 @@ const bgs=['#6B3A2E','#2A1713'];
 function Backdrop({id}:{id:string}){return <><defs><linearGradient id={`${id}-bg`} x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor={bgs[0]}/><stop offset="1" stopColor={bgs[1]}/></linearGradient><radialGradient id={`${id}-gl`} cx=".75" cy=".2" r=".7"><stop offset="0" stopColor="#E2A06A" stopOpacity=".7"/><stop offset="1" stopColor="#E2A06A" stopOpacity="0"/></radialGradient></defs><rect width="400" height="240" fill={`url(#${id}-bg)`}/><rect width="400" height="240" fill={`url(#${id}-gl)`}/><circle cx="60" cy="210" r="90" fill="#A8603E" opacity=".25"/></>}
 
 export function ServiceArt({slug,src}:{slug:string;src:string|null}){
-  if(src) return <img className="svc-photo" src={src} alt="" loading="lazy"/>;
+  if(src) return <img className="svc-photo" {...imageProps(src)} alt="" loading="lazy"/>;
   const id='sv-'+slug;
   let body:React.ReactNode=null;
   if(slug==='websites') body=<><rect x="60" y="40" width="250" height="160" rx="12" fill="#FFF8F3"/><rect x="60" y="40" width="250" height="20" rx="12" fill="#F3DED4"/><circle cx="74" cy="50" r="3" fill="#E2A06A"/><circle cx="86" cy="50" r="3" fill="#E2A06A"/><rect x="74" y="74" width="120" height="104" rx="8" fill="#A8603E"/><rect x="204" y="76" width="90" height="9" rx="4" fill="#2A1713"/><rect x="204" y="94" width="64" height="6" rx="3" fill="#2A1713" opacity=".35"/><rect x="204" y="110" width="52" height="14" rx="7" fill="#2A1713"/><rect x="204" y="138" width="90" height="40" rx="8" fill="#F3DFC9"/><rect x="290" y="78" width="70" height="130" rx="12" fill="#FFF8F3" stroke="#2A1713" strokeWidth="3"/><rect x="298" y="90" width="54" height="40" rx="6" fill="#E2A06A"/><rect x="298" y="138" width="40" height="6" rx="3" fill="#2A1713"/><rect x="298" y="150" width="30" height="6" rx="3" fill="#2A1713" opacity=".35"/></>;
@@ -108,7 +109,7 @@ export function ServiceArt({slug,src}:{slug:string;src:string|null}){
   return <svg className="svc-art" viewBox="0 0 400 240" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustratieve weergave van de dienst"><Backdrop id={id}/>{body}</svg>;
 }
 
-export function Hills({src,mark=false}:{src:string|null;mark?:boolean}){
-  if(src) return <img className="hills-photo" src={src} alt="" loading="lazy"/>;
+export function Hills({src,mark=false,sizes='(max-width: 740px) 100vw, 50vw'}:{src:string|null;mark?:boolean;sizes?:string}){
+  if(src) return <img className="hills-photo" {...imageProps(src,sizes)} alt="" loading="lazy"/>;
   return <svg className="hills" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Abstract herfstlandschap in warme tinten"><defs><linearGradient id="hs" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#F6C99B"/><stop offset=".55" stopColor="#D98A55"/><stop offset="1" stopColor="#8F4F31"/></linearGradient><radialGradient id="hg" cx=".7" cy=".3" r=".5"><stop offset="0" stopColor="#FFF1D8"/><stop offset="1" stopColor="#FFF1D8" stopOpacity="0"/></radialGradient></defs><rect width="800" height="400" fill="url(#hs)"/><rect width="800" height="400" fill="url(#hg)"/><circle cx="560" cy="120" r="46" fill="#FFF1D8" opacity=".9"/><path d="M0 250C120 190 230 230 340 250S560 210 800 240V400H0Z" fill="#B96A3E"/><path d="M0 290C140 240 260 285 380 295S620 250 800 285V400H0Z" fill="#8F4F31"/><path d="M0 340C160 300 300 335 430 345S660 315 800 335V400H0Z" fill="#5A2E22"/><path d="M0 380C200 350 420 385 800 365V400H0Z" fill="#2A1713"/>{mark&&<g transform="translate(300 90) scale(1.6)"><path d="M22 96V25M22 25 98 96M98 96V25" fill="none" stroke="#FFF1D8" strokeWidth="20" strokeLinecap="round" strokeLinejoin="round" opacity=".95"/></g>}</svg>;
 }

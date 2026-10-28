@@ -1,4 +1,4 @@
-import {headers} from 'next/headers';import {site,services,projects} from '@/data/site';import {articles} from '@/data/articles';import {landings,branches} from '@/data/pages';import {cities} from '@/data/samples';import {faqs,serviceExtra} from '@/data/content';import {company} from './company';
+import {headers} from 'next/headers';import {pageSeo} from './page-seo';import {site,services,projects} from '@/data/site';import {articles} from '@/data/articles';import {landings,branches} from '@/data/pages';import {cities} from '@/data/samples';import {faqs,serviceExtra} from '@/data/content';import {company} from './company';
 /** Zoekmachines mogen alleen indexeren als ALLOW_INDEXING=1 in de omgeving staat (zet dat pas bij de echte lancering). */
 export const indexingAllowed=()=>process.env.ALLOW_INDEXING==='1';
 export const abs=(p:string)=>new URL(p,site.url).toString();
@@ -11,24 +11,26 @@ export function labelFor(path:string):string|undefined{
   const l=(landings as any[]).find(s=>'/'+s.slug===path);return l?.title||l?.h1;}
 export function breadcrumbs(path:string){
   if(path==='/'||path==='/en')return null;const parts=path.split('/').filter(Boolean);const isEn=parts[0]==='en';const items:{name:string;url:string}[]=[{name:isEn?'Home':'Home',url:abs(isEn?'/en':'/')}];let acc='';
-  parts.forEach((seg,i)=>{acc+='/'+seg;if(isEn&&i===0)return;const parent=acc==='/branches'?null:acc;const name=labelFor(acc)||(acc==='/branches'?'Branches':undefined);if(!name&&i<parts.length-1)return;items.push({name:name||seg,url:abs(parent||acc)})});
+  parts.forEach((seg,i)=>{acc+='/'+seg;if((isEn&&i===0)||acc==='/branches')return;const parent=acc==='/branches'?null:acc;const name=labelFor(acc)||(acc==='/branches'?'Branches':undefined);if(!name&&i<parts.length-1)return;items.push({name:name||seg,url:abs(parent||acc)})});
   return items.length>1?{'@type':'BreadcrumbList',itemListElement:items.map((it,i)=>({'@type':'ListItem',position:i+1,name:it.name,item:it.url}))}:null}
 const e164=(p:string)=>{const d=p.replace(/[^\d+]/g,'');return d.startsWith('+')?d:d.startsWith('00')?'+'+d.slice(2):d.startsWith('0')?'+31'+d.slice(1):d};
 export function organization(){
   const c=company();const same=[site.instagram,site.linkedin].filter(Boolean);
-  return{'@type':['ProfessionalService','LocalBusiness'],'@id':abs('/#organization'),name:'NiMaGo',alternateName:['Nimago Digital','NiMaGo Digital Solutions'],legalName:c.name,url:abs('/'),slogan:site.tagline,
+  return{'@type':c.address&&c.postcode&&c.city?['Organization','ProfessionalService']:['Organization'],'@id':abs('/#organization'),name:'NiMaGo Digital',alternateName:['NiMaGo','NiMaGo Digital Solutions'],legalName:c.name,url:abs('/'),slogan:site.tagline,
     description:'NiMaGo is een softwarebedrijf en digitale studio in Apeldoorn. We bouwen maatwerk software, klantportalen, websites, webshops en slimme koppelingen voor ondernemers en organisaties. Persoonlijk, creatief en technisch sterk.',
     logo:{'@type':'ImageObject',url:abs('/logos/08_beeldmerk.png'),width:360,height:360},image:abs('/og-default.png'),
     ...(c.email?{email:c.email}:{}),...(c.phone?{telephone:e164(c.phone)}:{}),
     address:{'@type':'PostalAddress',...(c.address?{streetAddress:c.address}:{}),...(c.postcode?{postalCode:c.postcode}:{}),addressLocality:c.city||'Apeldoorn',addressRegion:'Gelderland',addressCountry:'NL'},
     areaServed:[{'@type':'City',name:'Apeldoorn'},{'@type':'AdministrativeArea',name:'Gelderland'},{'@type':'Country',name:'Nederland'}],
-    knowsLanguage:['nl','en'],foundingDate:'2026-10-28',founder:{'@type':'Person','@id':abs('/#founder'),name:'Niels Maarten Gortel',jobTitle:'Oprichter',worksFor:{'@id':abs('/#organization')}},
+    knowsLanguage:['nl','en'],founder:{'@type':'Person','@id':abs('/#founder'),name:'Niels Maarten Gortel',jobTitle:'Oprichter',worksFor:{'@id':abs('/#organization')}},
     ...(c.kvk?{identifier:{'@type':'PropertyValue',propertyID:'KvK-nummer',value:c.kvk}}:{}),...(c.vat_id?{vatID:c.vat_id}:{}),
-    knowsAbout:['Maatwerk software','Softwareontwikkeling','Website laten maken','Webshop laten maken','Maatwerk software','Automatisering en koppelingen','Webdesign','Zoekmachine-optimalisatie'],
+    knowsAbout:['Maatwerk software','Softwareontwikkeling','Website laten maken','Webshop laten maken','Automatisering en koppelingen','Webdesign','Zoekmachine-optimalisatie'],
     hasOfferCatalog:{'@type':'OfferCatalog',name:'Diensten',itemListElement:services.map(s=>({'@type':'Offer',itemOffered:{'@type':'Service',name:s.title,description:s.lead,url:abs('/diensten/'+s.slug)}}))},
     ...(same.length?{sameAs:same}:{})}}
 export function schemaGraph(path:string){
   const g:any[]=[organization(),{'@type':'WebSite','@id':abs('/#website'),url:abs('/'),name:'NiMaGo',inLanguage:'nl-NL',publisher:{'@id':abs('/#organization')},potentialAction:{'@type':'SearchAction',target:{'@type':'EntryPoint',urlTemplate:abs('/zoeken')+'?q={search_term_string}'},'query-input':'required name=search_term_string'}}];
+  const info=pageSeo(path);g.push({'@type':'WebPage','@id':abs(path+'#webpage'),url:abs(path),name:info.title,description:info.description,inLanguage:path==='/en'||path.startsWith('/en/')?'en':'nl-NL',isPartOf:{'@id':abs('/#website')},about:{'@id':abs('/#organization')}});
+  const landing=landings.find(l=>'/'+l.slug===path);if(landing){g.push({'@type':'Service','@id':abs(path+'#service'),name:landing.title,description:landing.description,url:abs(path),provider:{'@id':abs('/#organization')},areaServed:{'@type':'Country',name:'Nederland'}})}
   const bc=breadcrumbs(path);if(bc)g.push(bc);
   const [,a,b]=path.split('/');const faq=(items:[string,string][])=>({'@type':'FAQPage',mainEntity:items.map(([q,ans])=>({'@type':'Question',name:q,acceptedAnswer:{'@type':'Answer',text:ans}}))});
   if(a==='diensten'&&b){const s=services.find(x=>x.slug===b);if(s){g.push({'@type':'Service',name:s.title,description:s.lead+' '+s.approach,url:abs(path),serviceType:s.title,provider:{'@id':abs('/#organization')},areaServed:{'@type':'Country',name:'Nederland'}});const f=serviceExtra[b]?.faqs;if(f?.length)g.push(faq(f))}}

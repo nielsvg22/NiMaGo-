@@ -1,3 +1,4 @@
+import {imageProps} from '@/lib/image';
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Check } from "lucide-react";
@@ -44,7 +45,7 @@ export default function ProjectDetail({ slug }: { slug: string }) {
                 key={src}
               >
                 <img
-                  src={src}
+                  {...imageProps(src,"(max-width: 740px) 100vw, 1200px")}
                   alt={`Schermafbeelding ${i + 1} van ${p.title}`}
                   loading={i === 0 ? "eager" : "lazy"}
                 />

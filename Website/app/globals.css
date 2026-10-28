@@ -363,3 +363,8 @@ em{font-style:normal;color:var(--copper-text)}
 .prose h2{scroll-margin-top:96px}
 .art-author{display:flex;gap:16px;align-items:center;margin:34px 0 0;padding:20px 24px;border-radius:22px;background:var(--surface);border:1px solid var(--line)}.art-author p{margin:4px 0 0;font-size:15px;color:var(--muted)}.art-author a{text-decoration:underline}.art-author .member-av{flex:none;width:54px;height:54px;font-size:18px}
 .art-related{margin:18px 0 0;padding:20px 24px;border-radius:22px;background:var(--ink);color:#fff}.art-related b{font:700 12px var(--body);letter-spacing:.14em;text-transform:uppercase;color:#E2A06A}.art-related ul{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:8px}.art-related a{color:#fff;text-decoration:underline;text-decoration-color:#E2A06A}
+
+/* Leesbaar in de bestaande warme huisstijl. */
+.art-cat{color:#84472e}
+
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}

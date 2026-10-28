@@ -1,0 +1,46 @@
+{
+  "measured_at_utc": "2026-10-28T17:43:39Z",
+  "pages": 63,
+  "http_statuses": {
+    "200": 63
+  },
+  "single_h1": 63,
+  "unique_titles": 63,
+  "unique_descriptions": 63,
+  "noindex_routes": [
+    "/werkgebied/amsterdam",
+    "/werkgebied/rotterdam",
+    "/werkgebied/utrecht",
+    "/werkgebied/zwolle",
+    "/zoeken"
+  ],
+  "measurement": {
+    "configuration": {
+      "GOOGLE_SITE_VERIFICATION": false,
+      "BING_SITE_VERIFICATION": false,
+      "GA4_MEASUREMENT_ID": false,
+      "NEXT_PUBLIC_GA_ID": false,
+      "NEXT_PUBLIC_GA_MEASUREMENT_ID": false,
+      "indexing_allowed": true
+    },
+    "pageviews": {
+      "Vandaag": "151",
+      "Laatste 7 dagen": "219",
+      "Laatste 30 dagen": "219"
+    },
+    "measured_at_utc": "2026-10-28T17:43:39Z",
+    "note": "Pageviews zijn geen unieke bezoekers, organische bezoeken of Google-rankings."
+  },
+  "lighthouse_mobile_single_lab_run": {
+    "version": "13.6.0",
+    "scores": {
+      "performance": 0.97,
+      "accessibility": 0.96,
+      "seo": 0.92
+    },
+    "lcp_ms": 1421.912,
+    "cls": 0,
+    "tbt_ms": 120,
+    "inp": null
+  }
+}

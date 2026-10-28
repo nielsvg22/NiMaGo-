@@ -1,4 +1,5 @@
 "use client";
+import {marketingContext} from '@/lib/marketing-client';
 import {FormEvent,useEffect,useState} from 'react';import {ArrowUpRight,CalendarCheck} from 'lucide-react';
 const dayLabel=(iso:string)=>new Date(iso+'T12:00:00Z').toLocaleDateString('nl-NL',{weekday:'short',day:'numeric',month:'short',timeZone:'UTC'});
 const longDay=(iso:string)=>new Date(iso+'T12:00:00Z').toLocaleDateString('nl-NL',{weekday:'long',day:'numeric',month:'long',year:'numeric',timeZone:'UTC'});
@@ -7,7 +8,7 @@ export default function BookingForm(){
   useEffect(()=>{fetch('/api/slots').then(r=>r.json()).then(d=>setDates(d.dates||[])).catch(()=>setDates([]))},[]);
   async function pick(d:string){setDate(d);setTime('');setSlots([]);setErr('');try{const r=await fetch('/api/slots?date='+d);const j=await r.json();setSlots(j.slots||[])}catch{setErr('Tijden laden lukt niet.')}}
   async function submit(e:FormEvent<HTMLFormElement>){e.preventDefault();if(!date||!time){setErr('Kies eerst een dag en een tijd.');return}setBusy(true);setErr('');const fd=new FormData(e.currentTarget);
-    try{const r=await fetch('/api/book',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:fd.get('name'),email:fd.get('email'),phone:fd.get('phone'),topic:fd.get('topic'),website:fd.get('website'),date,time})});const j=await r.json();if(!r.ok){setErr(j.error||'Boeken lukt niet.');if(r.status===409)pick(date);return}setDone({date,time})}catch{setErr('Boeken lukt niet. Probeer het later opnieuw.')}finally{setBusy(false)}}
+    try{const r=await fetch('/api/book',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({marketing:marketingContext(),name:fd.get('name'),email:fd.get('email'),phone:fd.get('phone'),topic:fd.get('topic'),website:fd.get('website'),date,time})});const j=await r.json();if(!r.ok){setErr(j.error||'Boeken lukt niet.');if(r.status===409)pick(date);return}setDone({date,time})}catch{setErr('Boeken lukt niet. Probeer het later opnieuw.')}finally{setBusy(false)}}
   if(done)return <div className="contact-form done"><CalendarCheck size={34} color="#A8603E"/><h2>Aangevraagd!</h2><p><b>{longDay(done.date)} om {done.time} uur</b></p><p>We bevestigen je kennismaking per e-mail. Past het moment toch niet? Stuur ons dan een bericht via de <a href="/contact"><u>contactpagina</u></a>.</p></div>;
   return <form className="contact-form" onSubmit={submit}><h2>Kies een moment</h2><p>Een kennismaking duurt ongeveer 30 minuten, online of telefonisch. Vrijblijvend.</p>
     <fieldset className="pick"><legend>1. Dag</legend>{dates===null?<p className="hint">Laden…</p>:dates.length===0?<p className="hint">Er zijn op dit moment geen momenten beschikbaar. Stuur ons een <a href="/contact"><u>bericht</u></a>.</p>:<div className="chips-row">{dates.slice(0,14).map(d=><button type="button" key={d} className={`chip${d===date?' on':''}`} onClick={()=>pick(d)} aria-pressed={d===date}>{dayLabel(d)}</button>)}</div>}</fieldset>

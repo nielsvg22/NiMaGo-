@@ -23,3 +23,5 @@ De zes dienstbeelden (websites, webshops, maatwerk-software, koppelingen-automat
 bedrijf-begrijpen.webp — door de opdrachtgever aangeleverd beeld, geplaatst op 28 oktober 2026 bij 'Jouw bedrijf begrijpen. Dán pas bouwen.' op de homepage.
 
 cta-herfst.jpg — gegenereerd herfstbeeld, expliciet gekozen door opdrachtgever voor het kennismakingsblok op 28 oktober 2026. Sfeerbeeld van werktafel met laptop, schetsen en koffie; geen eigen bedrijfspand of medewerkers. Vervangt het stockbeeld in de CTA-component.
+
+Responsive varianten -480, -800 en -1200 zijn uitsluitend verkleinde versies van de bestaande goedgekeurde beelden. Herkomst en gebruiksrechten volgen het bronbestand; geen nieuwe beeldinhoud toegevoegd.

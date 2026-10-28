@@ -63,3 +63,13 @@ Klanten maken zelf een account aan (`/account/registreren`). Pas als jij het acc
 - Er worden geen e-mails verstuurd; meldingen verschijnen in de admin.
 
 Controleer facturen, btw-regime en voorwaarden met je boekhouder voordat je ze gebruikt.
+
+## Marketing en SEO
+
+Lees bij marketingwerk eerst [`../MARKETING-SEO-ROADMAP.md`](../MARKETING-SEO-ROADMAP.md). De nulmeting en pagina-audit staan in `../docs/marketing/`.
+
+- `/admin/marketing`: echte aanvragen, acties en eigen geaggregeerde LCP/INP/CLS-metingen. GSC/GA4-gegevens blijven afwezig totdat echte toegang en passende configuratie beschikbaar zijn.
+- Marketingmetingen plaatsen geen cookies of bezoekers-ID’s, bevatten geen formulierinhoud/queryparameters en respecteren DNT/GPC. Admin/account/ongekende routes zijn uitgesloten.
+- `node --test scripts/marketing.test.cjs scripts/bookkeeping.test.cjs` test in tijdelijke databases; geen productiegegevens of externe mail nodig.
+- `python scripts/seo-audit.py https://nimagodigital.nl /tmp/nimago-audit` crawlt alleen sitemap en openbare interne GET-links. Geen formulieren of privé-routes.
+- `data/image-sizes.json` beschrijft responsive beeldvarianten. Bij vervanging van een bronafbeelding ook de bijbehorende varianten/manifest bijwerken. Varianten `-480`, `-800` en `-1200` zijn geen afzonderlijke projectschermen.

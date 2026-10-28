@@ -1,6 +1,8 @@
 import type { NextConfig } from 'next';
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  // Metadata direct in de head voor previews, eenvoudige crawlers en toegankelijkheidstools.
+  htmlLimitedBots: /.*/,
   experimental: { serverActions: { bodySizeLimit: '12mb' } },
   output: 'standalone',
   serverExternalPackages: ['better-sqlite3'],

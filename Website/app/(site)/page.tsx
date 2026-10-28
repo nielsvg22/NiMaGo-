@@ -18,6 +18,7 @@ import {
 import ServiceGrid from "@/components/ServiceGrid";
 import ProjectGrid from "@/components/ProjectGrid";
 import { Hills } from "@/components/Art";
+import {imageProps} from "@/lib/image";
 import { photo } from "@/lib/photo";
 import { steps, site } from "@/data/site";
 import Faq from "@/components/Faq";
@@ -26,7 +27,7 @@ import { articles } from "@/data/articles";
 import { techGroups } from "@/data/pages";
 import { faqs } from "@/data/content";
 export const metadata: Metadata = {
-  title: {absolute: "Website laten maken in Apeldoorn | NiMaGo"},
+  title: {absolute: "NiMaGo Digital | Websites, webshops & software uit Apeldoorn"},
   description:
     "NiMaGo uit Apeldoorn bouwt websites, webshops en maatwerk software voor ondernemers en groeiende teams, door heel Nederland. Plan een vrijblijvende kennismaking.",
 };
@@ -116,9 +117,7 @@ export default function Home() {
           <div className="hero-visual">
             <figure className="hero-photo">
               <img
-                src="/images/hero-herfst.jpg"
-                width="696"
-                height="714"
+                {...imageProps("/images/hero-herfst.jpg","(max-width: 740px) calc(100vw - 32px), (max-width: 1020px) 620px, 540px")}
                 fetchPriority="high"
                 alt="Laptop en telefoon met een NiMaGo-websiteontwerp op een houten bureau in warm herfstlicht"
               />

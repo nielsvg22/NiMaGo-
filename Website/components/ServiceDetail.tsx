@@ -8,13 +8,14 @@ import CTA from "@/components/CTA";
 import Faq from "@/components/Faq";
 export function serviceMetadata(slug: string): Metadata {
   const s = services.find((v) => v.slug === slug);
-  const T:Record<string,string>={websites:"Website laten maken: snel, onderscheidend en vindbaar","webshops":"Webshop laten maken: Shopify of maatwerk","maatwerk-software":"Maatwerk software: tools die bij je werkwijze passen","koppelingen-automatisering":"API-koppelingen en automatisering laten maken","design-branding":"Webdesign en branding op maat","onderhoud-doorontwikkeling":"Website-onderhoud en doorontwikkeling"};
+  const T:Record<string,string>={websites:"Websites op maat: ontwerp, ontwikkeling en beheer","webshops":"Webshops: platform, inrichting en doorontwikkeling","maatwerk-software":"Maatwerk software: tools die bij je werkwijze passen","koppelingen-automatisering":"API-koppelingen en automatisering laten maken","design-branding":"Webdesign en branding op maat","onderhoud-doorontwikkeling":"Website-onderhoud en doorontwikkeling"};
   const d=s?`${s.lead} ${s.approach}`:"";
   return { title: T[slug] || s?.title || "Diensten", description: d.length>158?d.slice(0,d.lastIndexOf(" ",155))+"…":d };
 }
 export default function ServiceDetail({ slug }: { slug: string }) {
   const s = services.find((v) => v.slug === slug);
   if (!s) notFound();
+  const primary:Record<string,[string,string]>={websites:["Website laten maken","/website-laten-maken"],webshops:["Webshop laten maken","/webshop-laten-maken"],"maatwerk-software":["Maatwerk software laten ontwikkelen","/maatwerk-software-laten-ontwikkelen"],"koppelingen-automatisering":["Een API-koppeling laten maken","/api-koppelingen-laten-maken"],"onderhoud-doorontwikkeling":["Website-onderhoud afspreken","/website-onderhoud-afspreken"]};
   const x = serviceExtra[s.slug];
   const rel = x?.related
     ? projects.find((p) => p.slug === x.related)
@@ -42,6 +43,7 @@ export default function ServiceDetail({ slug }: { slug: string }) {
             <em>en op maat.</em>
           </h2>
           <p>{s.approach}</p>
+          {primary[s.slug]&&<p style={{marginTop:18}}><Link className="text-link" href={primary[s.slug][1]}>{primary[s.slug][0]} <ArrowUpRight size={16}/></Link></p>}
           {rel && (
             <p style={{ marginTop: 18 }}>
               Voorbeeld uit onze praktijk:{" "}

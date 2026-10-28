@@ -1,3 +1,4 @@
+import {imageProps} from '@/lib/image';
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { projects } from "@/data/site";
@@ -21,7 +22,7 @@ export default function ProjectGrid() {
               {img ? (
                 <div className="shot-frame">
                   <img
-                    src={img}
+                    {...imageProps(img)}
                     alt={`Schermafbeelding van ${p.title}`}
                     loading="lazy"
                   />

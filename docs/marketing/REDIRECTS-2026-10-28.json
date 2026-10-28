@@ -1,0 +1,50 @@
+[
+  {
+    "url": "http://nimagodigital.nl",
+    "final": "https://nimagodigital.nl/",
+    "status": 200,
+    "redirects": [
+      {
+        "from": "http://nimagodigital.nl",
+        "status": 302,
+        "to": "https://nimagodigital.nl/"
+      }
+    ]
+  },
+  {
+    "url": "https://www.nimagodigital.nl",
+    "final": "https://nimagodigital.nl/",
+    "status": 200,
+    "redirects": [
+      {
+        "from": "https://www.nimagodigital.nl",
+        "status": 308,
+        "to": "https://nimagodigital.nl/"
+      }
+    ]
+  },
+  {
+    "url": "https://nimago.85.190.105.138.nip.io",
+    "final": "https://nimagodigital.nl/",
+    "status": 200,
+    "redirects": [
+      {
+        "from": "https://nimago.85.190.105.138.nip.io",
+        "status": 308,
+        "to": "https://nimagodigital.nl/"
+      }
+    ]
+  },
+  {
+    "url": "https://nimagodigital.nl/maatwerk-software-apeldoorn",
+    "final": "https://nimagodigital.nl/softwarebedrijf-apeldoorn",
+    "status": 200,
+    "redirects": [
+      {
+        "from": "https://nimagodigital.nl/maatwerk-software-apeldoorn",
+        "status": 308,
+        "to": "https://nimagodigital.nl/softwarebedrijf-apeldoorn"
+      }
+    ]
+  }
+]
