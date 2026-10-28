@@ -1,0 +1,6 @@
+import {reviews,sampleReviews} from '@/data/reviews';import {Star} from 'lucide-react';
+/** Toont alleen echte reviews. Met PREVIEW_SAMPLE_REVIEWS=1 (alleen lokaal) verschijnen gelabelde voorbeeldreviews om de opmaak te testen. */
+export default function ReviewsSection(){
+  const preview=process.env.PREVIEW_SAMPLE_REVIEWS==='1';const list=reviews.length?reviews:preview?sampleReviews:[];if(!list.length)return null;
+  return <section className="section container" aria-labelledby="reviews"><div className="section-head"><div><span className="eyebrow"><i className="eyebrow-line"/>Ervaringen</span><h2 id="reviews">Wat klanten <em>zeggen.</em></h2></div>{!reviews.length&&<p><b>Voorbeeld:</b> verzonnen teksten om de opmaak te testen.</p>}</div>
+    <div className="values">{list.map(r=><figure className="value" key={r.name} style={{margin:0}}><div aria-label={`${r.rating} van 5 sterren`} style={{display:'flex',gap:3,color:'var(--copper)',marginBottom:10}}>{Array.from({length:5}).map((_,i)=><Star key={i} size={18} fill={i<r.rating?'currentColor':'none'}/>)}</div><blockquote style={{margin:0,fontSize:16,lineHeight:1.6}}>“{r.text}”</blockquote><figcaption style={{marginTop:14,fontSize:14,color:'var(--muted)'}}><b style={{color:'var(--ink)'}}>{r.name}</b><br/>{r.role}</figcaption></figure>)}</div></section>}
