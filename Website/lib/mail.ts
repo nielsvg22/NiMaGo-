@@ -4,7 +4,7 @@ const cfg=()=>({host:process.env.SMTP_HOST||'',port:Number(process.env.SMTP_PORT
 export const mailEnabled=()=>{const c=cfg();return !!(process.env.MAIL_PREVIEW_DIR||(c.host&&c.user&&c.pass))};
 const line=(s:string)=>String(s).replace(/[\r\n]+/g,' ').trim().slice(0,200);
 export const siteUrl=()=>(process.env.NEXT_PUBLIC_SITE_URL||'').replace(/\/$/,'');
-let tr:nodemailer.Transporter|null=null;
+let tr:ReturnType<typeof nodemailer.createTransport>|null=null;
 const transport=()=>{if(tr)return tr;const c=cfg();tr=nodemailer.createTransport({host:c.host,port:c.port,secure:c.port===465,auth:{user:c.user,pass:c.pass},connectionTimeout:10000,greetingTimeout:10000,socketTimeout:15000});return tr};
 export async function sendMail(o:{to:string;subject:string;text:string;replyTo?:string}){
   if(!mailEnabled()||!/^\S+@\S+\.\S+$/.test(o.to))return false;

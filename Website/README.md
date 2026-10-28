@@ -42,6 +42,12 @@ Op `/admin` staat een beveiligde beheeromgeving.
 - **Berichten:** het contactformulier op de site slaat berichten op in de admin. Een e-mailmelding via Resend is optioneel.
 - **Opslag:** SQLite in `DATA_DIR` (op de server `/data`). Koppel hier een persistent volume aan en maak er back-ups van; zonder volume verdwijnen de gegevens bij elke nieuwe deploy.
 
+### Back-ups, monitoring en indexering
+- **Back-up:** elke dag een automatische kopie in `/data/backups` (laatste 14). Download ook regelmatig via Admin → Instellingen → *Download back-up nu* en bewaar die buiten de server.
+- **Monitoring:** `/api/health` geeft 200 als site en database werken (voor UptimeRobot e.d.).
+- **Indexering:** staat uit totdat `ALLOW_INDEXING=1` is gezet. Optioneel `GOOGLE_SITE_VERIFICATION` en `BING_SITE_VERIFICATION`. `sitemap.xml`, `robots.txt` en `llms.txt` volgen vanzelf.
+- Bekende restmelding in `npm audit`: postcss in Next.js (alleen bij het bouwen, eigen vertrouwde CSS); oplossen kan pas met een grote Next-upgrade.
+
 ### E-mail (SMTP)
 Meldingen en klantmails gaan via de mailbox bij je hosting. Zet in Coolify: `SMTP_HOST` (bijv. `web209.your-webhost.nl`), `SMTP_PORT` (465), `SMTP_USER` (`info@nimagodigital.nl`), `SMTP_PASS`, optioneel `MAIL_FROM` en `NOTIFY_TO` (standaard het e-mailadres uit Instellingen). Zonder deze variabelen worden er geen mails verstuurd en blijft alles werken.
 Naar jou: contactbericht, offerte-aanvraag, website-check, nieuwe afspraak, nieuw klantaccount, klantbericht, offerte geaccepteerd/afgewezen. Naar klanten: bevestiging van een afspraakaanvraag, account geactiveerd, offerte klaar, nieuw bericht, project-update.
