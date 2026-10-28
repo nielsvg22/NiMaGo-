@@ -24,7 +24,7 @@ Een betrokken digitaal bureau dat digitale ideeën vertaalt naar sterke, bruikba
 NiMaGo helpt ondernemers en bedrijven met websites, webshops en slimme software die niet alleen mooi zijn, maar vooral goed werken. We verbinden creativiteit en techniek en blijven van eerste idee tot lang na oplevering betrokken.
 
 ## De naam en het symbool
-De naam verwijst subtiel naar Niels, Matthijs en de familienaam Van Gortel. Het licht zalmkleurige, doorlopende N-beeldmerk verbeeldt verbinding. In het horizontale logo **vervangt het N-beeldmerk de eerste letter N**; rechts staat uitsluitend `iMaGo`. Samen is dat het woord NiMaGo. Geen dubbele zwarte N.
+NiMaGo staat voor Niels Maarten Gortel: Ni van Niels, Ma van Maarten en Go van Gortel. Het licht zalmkleurige, doorlopende N-beeldmerk verbeeldt verbinding. In het horizontale logo **vervangt het N-beeldmerk de eerste letter N**; rechts staat uitsluitend `iMaGo`. Samen is dat het woord NiMaGo. Geen dubbele zwarte N.
 
 ## Tone of voice
 Schrijf nuchter, helder, vriendelijk en zelfverzekerd. Vermijd niet-geverifieerde resultaten, klanten, reviews of garanties. Werkwoorden voorop. Voorbeelden: 'Laten we jouw idee concreet maken', 'Software die bij je werk past', 'Minder handwerk, meer overzicht'.
