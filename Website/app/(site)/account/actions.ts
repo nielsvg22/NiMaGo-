@@ -3,7 +3,7 @@ import {redirect} from 'next/navigation';import {revalidatePath} from 'next/cach
 import {db} from '@/lib/db';import {rateLimit,clientIp} from '@/lib/auth';
 import {hashPassword,verifyPassword,dummyVerify,passwordProblem} from '@/lib/pass';
 import {requireCustomer,requireAccount,setAcctSession,clearAcctSession,portalEnabled,type Account} from '@/lib/account';
-import {getQuote,effectiveStatus} from '@/lib/portal';import {notifyOwner} from '@/lib/mail';
+import {getQuote,effectiveStatus} from '@/lib/portal';import {notifyOwner,sendMail,siteUrl} from '@/lib/mail';
 
 const str=(v:FormDataEntryValue|null,max=500)=>String(v??'').trim().slice(0,max);
 const EMAIL=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -21,6 +21,7 @@ export async function registerAccount(fd:FormData){
   const d=db();if(d.prepare('SELECT 1 FROM accounts WHERE email=?').get(email))redirect('/account/registreren?fout=bestaat'+keep);
   const {salt,hash}=hashPassword(pw);
   const id=Number(d.prepare("INSERT INTO accounts(email,name,pw_hash,salt) VALUES(?,?,?,?)").run(email,name,hash,salt).lastInsertRowid);
+  void sendMail({to:email,subject:'Je account is aangemaakt',text:`Hoi ${name.split(' ')[0]},\n\nWelkom bij het NiMaGo-klantportaal. Je account is aangemaakt. We koppelen het zo snel mogelijk aan je gegevens, meestal binnen één werkdag. Zodra dat is gebeurd, ontvang je een e-mail en zie je je offertes, projecten, afspraken en facturen.\n\nJe hoeft verder niets te doen.`});
   notifyOwner(`Nieuw klantaccount: ${name}`,`${name} <${email}> heeft een account aangemaakt. Koppel het aan een klant in Admin > Klantaccounts.`);
   await setAcctSession({id,pw_hash:hash});revalidatePath('/admin','layout');redirect('/account');
 }
@@ -52,9 +53,9 @@ export async function changePassword(fd:FormData){
 }
 
 /** Een bericht van de klant aan NiMaGo; verschijnt in de admin onder Klantberichten. */
-function notifyAdmin(customerId:number,body:string,author:string,projectId:number|null=null){
+function notifyAdmin(customerId:number,body:string,author:string,projectId:number|null=null,subject?:string){
   db().prepare("INSERT INTO portal_messages(customer_id,project_id,direction,body,author) VALUES(?,?,'klant',?,?)").run(customerId,projectId,body,author);
-  notifyOwner(`Klantbericht van ${author}`,`${body}\n\nAntwoord in Admin > Klantberichten.`);
+  notifyOwner(subject||`Klantbericht van ${author}`,`${body}\n\nAntwoord in Admin > Klantberichten.`);
 }
 export async function sendPortalMessage(fd:FormData){
   const {account,customer}=await requireCustomer();
@@ -73,7 +74,7 @@ export async function acceptQuote(fd:FormData){
   if(effectiveStatus(x.q)!=='verzonden')redirect(`${to}&fout=status`);
   const name=str(fd.get('name'),100);if(name.length<2||!fd.get('agree'))redirect(`${to}&fout=akkoord`);
   const r=db().prepare("UPDATE quotes SET status='geaccepteerd',accepted_at=datetime('now'),accepted_name=? WHERE id=? AND customer_id=? AND status='verzonden'").run(name,id,customer.id);
-  if(r.changes)notifyAdmin(customer.id,`Offerte ${x.q.number} is geaccepteerd door ${name}.`,account.name);
+  if(r.changes){notifyAdmin(customer.id,`Offerte ${x.q.number} is geaccepteerd door ${name}.`,account.name,null,`Offerte ${x.q.number} geaccepteerd`);void sendMail({to:account.email,subject:`Bedankt voor je akkoord op offerte ${x.q.number}`,text:`Hoi ${name.split(' ')[0]},\n\nBedankt voor je akkoord op offerte ${x.q.number}${x.q.title?' ('+x.q.title+')':''}. We nemen binnenkort contact met je op over de start van het project.\n\nJe volgt de voortgang in je klantportaal: ${siteUrl()}/account/projecten`})}
   revalidatePath('/admin','layout');redirect(`${to}&ok=geaccepteerd`);
 }
 export async function declineQuote(fd:FormData){
@@ -82,6 +83,6 @@ export async function declineQuote(fd:FormData){
   const to=`/account/offerte?id=${id}`;if(effectiveStatus(x.q)!=='verzonden')redirect(`${to}&fout=status`);
   const reason=str(fd.get('reason'),1000);
   const r=db().prepare("UPDATE quotes SET status='afgewezen',decline_reason=? WHERE id=? AND customer_id=? AND status='verzonden'").run(reason,id,customer.id);
-  if(r.changes)notifyAdmin(customer.id,`Offerte ${x.q.number} is afgewezen door ${account.name}.${reason?`\nReden: ${reason}`:''}`,account.name);
+  if(r.changes)notifyAdmin(customer.id,`Offerte ${x.q.number} is afgewezen door ${account.name}.${reason?`\nReden: ${reason}`:''}`,account.name,null,`Offerte ${x.q.number} afgewezen`);
   revalidatePath('/admin','layout');redirect(`${to}&ok=afgewezen`);
 }

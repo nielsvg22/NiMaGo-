@@ -100,7 +100,10 @@ export async function resetData(fd:FormData){
 
 export async function setAppointmentStatus(fd:FormData){
   await requireAdmin();const id=Number(fd.get('id'));const st=String(fd.get('status'));if(!['aangevraagd','bevestigd','geannuleerd','afgerond'].includes(st))return;
-  db().prepare('UPDATE appointments SET status=? WHERE id=?').run(st,id);revalidatePath('/admin','layout');
+  const ap=db().prepare('SELECT name,email,slot FROM appointments WHERE id=?').get(id) as {name:string;email:string;slot:string}|undefined;
+  db().prepare('UPDATE appointments SET status=? WHERE id=?').run(st,id);
+  if(ap&&st==='bevestigd')void sendMail({to:ap.email,subject:'Je afspraak is bevestigd',text:`Hoi ${ap.name.split(' ')[0]},\n\nJe kennismaking met NiMaGo is bevestigd.\n\nDatum: ${ap.slot.slice(8,10)}-${ap.slot.slice(5,7)}-${ap.slot.slice(0,4)}\nTijd: ${ap.slot.slice(11)}\n\nVerhinderd? Reageer dan gewoon op deze mail, dan plannen we een ander moment.`});
+  if(ap&&st==='geannuleerd')void sendMail({to:ap.email,subject:'Je afspraak is geannuleerd',text:`Hoi ${ap.name.split(' ')[0]},\n\nDe afspraak op ${ap.slot.slice(8,10)}-${ap.slot.slice(5,7)}-${ap.slot.slice(0,4)} om ${ap.slot.slice(11)} is geannuleerd. Wil je een nieuw moment kiezen? Dat kan op onze website of door te reageren op deze mail.`});revalidatePath('/admin','layout');
 }
 export async function deleteSubscriber(fd:FormData){await requireAdmin();db().prepare('DELETE FROM subscribers WHERE id=?').run(Number(fd.get('id')));revalidatePath('/admin/nieuwsbrief')}
 
