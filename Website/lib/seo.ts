@@ -17,14 +17,14 @@ const e164=(p:string)=>{const d=p.replace(/[^\d+]/g,'');return d.startsWith('+')
 export function organization(){
   const c=company();const same=[site.instagram,site.linkedin].filter(Boolean);
   return{'@type':['ProfessionalService','LocalBusiness'],'@id':abs('/#organization'),name:'NiMaGo',alternateName:['Nimago Digital','NiMaGo Digital Solutions'],legalName:c.name,url:abs('/'),slogan:site.tagline,
-    description:'NiMaGo bouwt websites, webshops, maatwerk software en slimme koppelingen voor ondernemers en organisaties. Persoonlijk, creatief en technisch sterk, gevestigd in Apeldoorn.',
+    description:'NiMaGo is een softwarebedrijf en digitale studio in Apeldoorn. We bouwen maatwerk software, klantportalen, websites, webshops en slimme koppelingen voor ondernemers en organisaties. Persoonlijk, creatief en technisch sterk.',
     logo:{'@type':'ImageObject',url:abs('/logos/08_beeldmerk.png'),width:360,height:360},image:abs('/og-default.png'),
     ...(c.email?{email:c.email}:{}),...(c.phone?{telephone:e164(c.phone)}:{}),
     address:{'@type':'PostalAddress',...(c.address?{streetAddress:c.address}:{}),...(c.postcode?{postalCode:c.postcode}:{}),addressLocality:c.city||'Apeldoorn',addressRegion:'Gelderland',addressCountry:'NL'},
     areaServed:[{'@type':'City',name:'Apeldoorn'},{'@type':'AdministrativeArea',name:'Gelderland'},{'@type':'Country',name:'Nederland'}],
     knowsLanguage:['nl','en'],foundingDate:'2026-10-28',founder:{'@type':'Person','@id':abs('/#founder'),name:'Niels Maarten Gortel',jobTitle:'Oprichter',worksFor:{'@id':abs('/#organization')}},
     ...(c.kvk?{identifier:{'@type':'PropertyValue',propertyID:'KvK-nummer',value:c.kvk}}:{}),...(c.vat_id?{vatID:c.vat_id}:{}),
-    knowsAbout:['Website laten maken','Webshop laten maken','Maatwerk software','Automatisering en koppelingen','Webdesign','Zoekmachine-optimalisatie'],
+    knowsAbout:['Maatwerk software','Softwareontwikkeling','Website laten maken','Webshop laten maken','Maatwerk software','Automatisering en koppelingen','Webdesign','Zoekmachine-optimalisatie'],
     hasOfferCatalog:{'@type':'OfferCatalog',name:'Diensten',itemListElement:services.map(s=>({'@type':'Offer',itemOffered:{'@type':'Service',name:s.title,description:s.lead,url:abs('/diensten/'+s.slug)}}))},
     ...(same.length?{sameAs:same}:{})}}
 export function schemaGraph(path:string){
