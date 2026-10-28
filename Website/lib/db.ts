@@ -9,6 +9,8 @@ export function db():Database.Database{
   d.pragma('journal_mode = WAL');d.pragma('foreign_keys = ON');
   d.exec(`
   CREATE TABLE IF NOT EXISTS settings(key TEXT PRIMARY KEY,value TEXT NOT NULL DEFAULT '');
+  CREATE TABLE IF NOT EXISTS marketing_visitors(id_hash TEXT PRIMARY KEY,first_day TEXT NOT NULL,last_day TEXT NOT NULL);
+  INSERT OR IGNORE INTO settings(key,value) VALUES('unique_visitors_started_at',datetime('now'));
   CREATE TABLE IF NOT EXISTS marketing_events(day TEXT NOT NULL,event TEXT NOT NULL,path TEXT NOT NULL,source TEXT NOT NULL,count INTEGER NOT NULL DEFAULT 0,PRIMARY KEY(day,event,path,source));
   CREATE TABLE IF NOT EXISTS marketing_vitals(day TEXT NOT NULL,path TEXT NOT NULL,metric TEXT NOT NULL,device TEXT NOT NULL,value INTEGER NOT NULL,count INTEGER NOT NULL DEFAULT 0,PRIMARY KEY(day,path,metric,device,value));
   INSERT OR IGNORE INTO settings(key,value) VALUES('marketing_started_at',datetime('now'));

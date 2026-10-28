@@ -1,3 +1,4 @@
+import {createHash} from 'node:crypto';
 import {db,getSetting} from './db';import {publicPaths} from './page-seo';
 export const EVENTS=['cta_click','phone_click','email_click','contact_submit','quote_submit','scan_submit','booking_submit'] as const;
 export type MarketingEvent=typeof EVENTS[number];
@@ -7,7 +8,7 @@ export function sourceOf(input:unknown){if(typeof input!=='string')return'direct
 export function privacyAllowed(headers:Headers){return headers.get('dnt')!=='1'&&headers.get('sec-gpc')!=='1'}
 export function recordEvent(event:MarketingEvent,path:string,ref:unknown){db().prepare('INSERT INTO marketing_events(day,event,path,source,count) VALUES(?,?,?,?,1) ON CONFLICT(day,event,path,source) DO UPDATE SET count=count+1').run(marketingDay(),event,path,sourceOf(ref))}
 /** Alleen ná succesvolle opslag van een echte aanvraag. Honeypots/fouten tellen niet mee. */
-export function recordSubmission(req:Request,event:MarketingEvent,input:unknown){try{if(!privacyAllowed(req.headers)||!input||typeof input!=='object')return;const context=input as {path?:unknown;ref?:unknown};const path=publicPath(context.path);if(path)recordEvent(event,path,context.ref)}catch(e){console.error('Marketingmeting mislukt',e instanceof Error?e.name:'onbekend')}}
+export function recordSubmission(req:Request,event:MarketingEvent,input:unknown){try{if(!req.headers.get('cookie')?.split('; ').includes('nm_consent=v1-accepted')||!privacyAllowed(req.headers)||!input||typeof input!=='object')return;const context=input as {path?:unknown;ref?:unknown};const path=publicPath(context.path);if(path)recordEvent(event,path,context.ref)}catch(e){console.error('Marketingmeting mislukt',e instanceof Error?e.name:'onbekend')}}
 export function recordVital(path:string,metric:string,raw:unknown,device:string){if(!['LCP','INP','CLS'].includes(metric)||!['mobile','desktop'].includes(device)||typeof raw!=='number'||!Number.isFinite(raw)||raw<0)return false;const value=Math.round(raw*(metric==='CLS'?1000:1));if(value>(metric==='CLS'?10000:120000)||(metric!=='CLS'&&value===0))return false;db().prepare('INSERT INTO marketing_vitals(day,path,metric,device,value,count) VALUES(?,?,?,?,?,1) ON CONFLICT(day,path,metric,device,value) DO UPDATE SET count=count+1').run(marketingDay(),path,metric,device,value);return true}
 export function percentile75(rows:{value:number;n:number}[]){const count=rows.reduce((n,r)=>n+r.n,0);if(!count)return null;let seen=0;for(const row of [...rows].sort((a,b)=>a.value-b.value)){seen+=row.n;if(seen>=Math.ceil(count*.75))return{value:row.value,count}}return null}
 export function marketingSummary(){const day=marketingDay();const date=new Date(day+'T12:00:00Z');date.setUTCDate(date.getUTCDate()-27);const start=date.toISOString().slice(0,10),end=day;const d=db();
@@ -18,5 +19,9 @@ export function marketingSummary(){const day=marketingDay();const date=new Date(
  const pages=d.prepare('SELECT path,SUM(count) n FROM pageviews WHERE day>=? AND day<=? GROUP BY path ORDER BY n DESC LIMIT 12').all(start,end) as {path:string;n:number}[];
  const sources=d.prepare("SELECT source,SUM(count) n FROM marketing_events WHERE event LIKE '%_submit' AND day>=? AND day<=? GROUP BY source ORDER BY n DESC").all(start,end) as {source:string;n:number}[];
  const vitals=['mobile','desktop'].flatMap(device=>['LCP','INP','CLS'].map(metric=>({device,metric,...(percentile75(d.prepare('SELECT value,SUM(count) n FROM marketing_vitals WHERE day>=? AND day<=? AND device=? AND metric=? GROUP BY value').all(start,end,device,metric) as {value:number;n:number}[])||{value:null,count:0})})));
- return{start,end,views,forms,bookings,events,pages,sources,vitals,started:getSetting('marketing_started_at')};
+ const unique=(d.prepare('SELECT COUNT(*) n FROM marketing_visitors WHERE last_day>=? AND last_day<=?').get(start,end) as {n:number}).n;
+ return{start,end,unique,uniqueStarted:getSetting('unique_visitors_started_at'),views,forms,bookings,events,pages,sources,vitals,started:getSetting('marketing_started_at')};
 }
+
+export function visitorHash(id:string){return createHash('sha256').update(id).digest('hex')}
+export function recordVisitor(id:string){if(!/^[a-f0-9]{64}$/.test(id))return false;const day=marketingDay();const d=db();d.prepare('INSERT INTO marketing_visitors(id_hash,first_day,last_day) VALUES(?,?,?) ON CONFLICT(id_hash) DO UPDATE SET last_day=excluded.last_day').run(visitorHash(id),day,day);d.prepare("DELETE FROM marketing_visitors WHERE last_day < date(?, '-90 days')").run(day);return true}

@@ -248,3 +248,13 @@ Geraadpleegd op 28 oktober 2026:
 - GSC/GA4/Google Bedrijfsprofiel blijven zonder echte gekoppelde gegevens. De concrete profieltekst, toegangsbehoefte en meetdefinities staan hierboven. Er is geen betaalde campagne gestart en geen extern marketingbericht verstuurd.
 
 Volgende sessie: lees eerst deze roadmap en de actuele bronbestanden; vergelijk met echte GSC/aanvraagdata zodra beschikbaar. Werk alleen verder aan aantoonbare kansen. Publicatie-/toegangsblokkades expliciet vermelden in plaats van resultaten te veronderstellen.
+
+
+### Aanvulling 28 oktober 2026 — unieke bezoekers en cookiekeuze
+
+- Op verzoek toegevoegd: eigen statistiekcookie met voorafgaande toestemming; de eerdere cookieloze meting hierboven beschrijft de oude situatie. Nieuwe pagina-, klik-, aanvraag- en CWV-metingen vereisen toestemming. Administratieve aanvragen blijven functioneel opgeslagen zonder toestemming.
+- Cookievenster in warme huisstijl op Nederlandse en Engelse pagina’s, met gelijkwaardige keuzes, blijvende knop Cookie-instellingen en foutmelding bij mislukte opslag. Geen advertentie- of externe marketingscripts toegevoegd.
+- `nm_consent` bewaart de keuze 180 dagen; `nm_visitor` is een willekeurige HttpOnly-code met vaste levensduur van 90 dagen. Server bewaart uitsluitend SHA-256-hash plus eerste/laatste bezoekdag, geen IP of fingerprint. Inactieve records ouder dan 90 dagen worden bij de volgende meting opgeruimd. Intrekken verwijdert cookie en bijbehorend record. DNT/GPC blijven leidend.
+- Admin → Marketing toont unieke toestemmende browsers over 28 dagen, startdatum en meetbeperkingen. Geen exacte telling van personen: meerdere apparaten/cookies kunnen dubbeltellen en weigeringen ontbreken. Historische unieke bezoekers zijn niet te reconstrueren. Geen conversieratio met verschillende meetbasissen berekend.
+- Cookiebeleid/privacyverklaring aangepast. Geen nieuwe externe kosten of Google-koppeling.
+- Verificatie: 19 tests (marketing + boekhouding), productiebuild; lokale mobiele browsertest controleert geen tracking vóór toestemming, weigeren en onthouden, accepteren zonder reload, stabiele cookie bij navigatie, intrekken, DNT en afwijzen van externe origins. Testdata uitsluitend in aparte lokale database.
