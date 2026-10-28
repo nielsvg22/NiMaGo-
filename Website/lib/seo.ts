@@ -13,12 +13,13 @@ export function breadcrumbs(path:string){
   if(path==='/'||path==='/en')return null;const parts=path.split('/').filter(Boolean);const isEn=parts[0]==='en';const items:{name:string;url:string}[]=[{name:isEn?'Home':'Home',url:abs(isEn?'/en':'/')}];let acc='';
   parts.forEach((seg,i)=>{acc+='/'+seg;if(isEn&&i===0)return;const parent=acc==='/branches'?null:acc;const name=labelFor(acc)||(acc==='/branches'?'Branches':undefined);if(!name&&i<parts.length-1)return;items.push({name:name||seg,url:abs(parent||acc)})});
   return items.length>1?{'@type':'BreadcrumbList',itemListElement:items.map((it,i)=>({'@type':'ListItem',position:i+1,name:it.name,item:it.url}))}:null}
+const e164=(p:string)=>{const d=p.replace(/[^\d+]/g,'');return d.startsWith('+')?d:d.startsWith('00')?'+'+d.slice(2):d.startsWith('0')?'+31'+d.slice(1):d};
 export function organization(){
   const c=company();const same=[site.instagram,site.linkedin].filter(Boolean);
   return{'@type':['ProfessionalService','LocalBusiness'],'@id':abs('/#organization'),name:'NiMaGo',alternateName:['Nimago Digital','NiMaGo Digital Solutions'],legalName:c.name,url:abs('/'),slogan:site.tagline,
     description:'NiMaGo bouwt websites, webshops, maatwerk software en slimme koppelingen voor ondernemers en organisaties. Persoonlijk, creatief en technisch sterk, gevestigd in Apeldoorn.',
     logo:{'@type':'ImageObject',url:abs('/logos/08_beeldmerk.png'),width:360,height:360},image:abs('/og-default.png'),
-    ...(c.email?{email:c.email}:{}),...(c.phone?{telephone:c.phone}:{}),
+    ...(c.email?{email:c.email}:{}),...(c.phone?{telephone:e164(c.phone)}:{}),
     address:{'@type':'PostalAddress',...(c.address?{streetAddress:c.address}:{}),...(c.postcode?{postalCode:c.postcode}:{}),addressLocality:c.city||'Apeldoorn',addressRegion:'Gelderland',addressCountry:'NL'},
     areaServed:[{'@type':'City',name:'Apeldoorn'},{'@type':'AdministrativeArea',name:'Gelderland'},{'@type':'Country',name:'Nederland'}],
     knowsLanguage:['nl','en'],foundingDate:'2026-10-28',founder:{'@type':'Person','@id':abs('/#founder'),name:'Niels Maarten Gortel',jobTitle:'Oprichter',worksFor:{'@id':abs('/#organization')}},

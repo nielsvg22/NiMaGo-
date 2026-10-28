@@ -62,7 +62,7 @@ export default function Page() {
             {facts.map(([k, v]) => (
               <li key={k}>
                 <b>{k}</b>
-                <span>{v}</span>
+                <span>{k === "Telefoon" ? <a className="text-link" href={`tel:${v.replace(/[^+\d]/g, "")}`}>{v}</a> : k === "E-mail" ? <a className="text-link" href={`mailto:${v}`}>{v}</a> : v}</span>
               </li>
             ))}
           </ul>
