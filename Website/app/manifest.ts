@@ -1,0 +1,2 @@
+import type {MetadataRoute} from 'next';
+export default function manifest():MetadataRoute.Manifest{return{name:'NiMaGo | Digitale ideeën. Sterk uitgevoerd.',short_name:'NiMaGo',description:'Websites, webshops, maatwerk software en slimme koppelingen uit Apeldoorn.',start_url:'/',display:'browser',background_color:'#F8EFE4',theme_color:'#241310',lang:'nl-NL',icons:[{src:'/apple-touch-icon.png',sizes:'180x180',type:'image/png'},{src:'/logos/11_app_icon_licht.png',sizes:'360x360',type:'image/png'}]}}

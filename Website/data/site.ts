@@ -1,7 +1,7 @@
 export const site = {
   name: 'NiMaGo', subtitle: 'Digital Solutions',
   tagline: 'Digitale ideeën. Sterk uitgevoerd.',
-  url: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
+  url: process.env.NEXT_PUBLIC_SITE_URL || 'https://nimagodigital.nl',
   // Voer pas echte contactgegevens in na controle/registratie van domein en e-mail.
   email: '', phone: '', kvk: '', vat: '', postalAddress: '',
   instagram: '', linkedin: '',
@@ -26,3 +26,6 @@ export const steps = [
  {n:'04',title:'Bouwen',description:'We ontwikkelen, testen en stemmen regelmatig met je af.'},
  {n:'05',title:'Live & verder',description:'We leveren zorgvuldig op en denken mee over je volgende stap.'}
 ];
+
+/** Prijzen-pagina staat uit tot de echte prijzen zijn ingevuld (data/samples.ts). Zet op true om de pagina, het menu en de sitemap weer te tonen. */
+export const showPrices=false;
