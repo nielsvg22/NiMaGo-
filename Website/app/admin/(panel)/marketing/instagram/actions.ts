@@ -2,7 +2,7 @@
 import {revalidatePath} from 'next/cache';import {redirect} from 'next/navigation';
 import {processInstagram} from '@/lib/instagram/worker';
 import {requireAdmin} from '@/lib/auth';
-import {saveCredential,forgetCredential,setConfig,amsterdamTime,saveDraft,approvePost,cancelPost,markVerified,config,igdb,log} from '@/lib/instagram/store';
+import {saveCredential,forgetCredential,setConfig,amsterdamTime,saveDraft,approvePost,cancelPost,markVerified,config,igdb,log,authorizeScheduledPost,pauseAllPublications} from '@/lib/instagram/store';
 import {checkConnection,connectUrl,WindsorError} from '@/lib/instagram/api';
 const target='/admin/marketing/instagram';
 function finish(message:string,error=false):never{revalidatePath(target);redirect(target+'?'+new URLSearchParams({[error?'fout':'melding']:message}))}
@@ -20,3 +20,7 @@ export async function verify(fd:FormData){await requireAdmin();try{if(!fd.has('c
 export async function resolveNotPublished(fd:FormData){await requireAdmin();try{const reason=field(fd,'reason').trim();if(reason.length<10||!fd.has('checked'))throw Error('Controleer Instagram en Windsor en leg je bevinding vast (minimaal 10 tekens).');const id=number(fd);const changed=igdb().prepare("UPDATE instagram_posts SET status='cancelled',error='Handmatig gesloten zonder nieuwe publicatie. Controleer het logboek.' WHERE id=? AND status IN ('uncertain','submitted')").run(id);if(!changed.changes)throw Error('Dit bericht vraagt geen handmatige afhandeling.');log('resolved_not_published','Beheerder heeft na externe controle afgesloten: '+reason,id)}catch(e){finish(e instanceof Error?e.message:'Afsluiten mislukt.',true)}finish('Bericht afgesloten. Er is niets opnieuw verzonden.')}
 
 export async function publishNow(fd:FormData){await requireAdmin();try{if(!fd.has('reviewed')||field(fd,'confirmation')!=='PUBLICEREN')throw Error('Controleer het volledige voorbeeld en typ PUBLICEREN voor deze ene openbare post.');const id=number(fd),revision=number(fd,'revision');approvePost(id,revision);await processInstagram(undefined,{id,revision})}catch(e){finish(e instanceof Error?e.message:'Publicatie niet gestart.',true)}finish('Eenmalige publicatie verwerkt. Controleer de status in de kalender; automatisch publiceren is niet ingeschakeld.')}
+
+export async function authorizeScheduled(fd:FormData){await requireAdmin();try{if(!fd.has('reviewed')||field(fd,'confirmation')!=='PUBLICEREN')throw Error('Controleer dit exacte bericht en typ PUBLICEREN voor de eenmalige planning.');authorizeScheduledPost(number(fd),number(fd,'revision'))}catch(e){finish(e instanceof Error?e.message:'Eenmalige planning niet toegestaan.',true)}finish('Dit bericht wordt eenmalig op het ingestelde tijdstip gepubliceerd. Andere berichten en algemene automatische instellingen zijn niet gewijzigd.')}
+
+export async function pauseAll(){await requireAdmin();pauseAllPublications();finish('Alle toekomstige publicaties gepauzeerd, inclusief eenmalige planningen. Een al verzonden opdracht kan nog afronden.')}

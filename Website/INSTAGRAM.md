@@ -68,3 +68,7 @@ Geen AI-generatie, TikTok, bereik-/engagementdashboard of volledige campagne toe
 Productiecommit `95bdc42`. Echte serververbinding getest. Eén door de eigenaar exact goedgekeurde afbeeldingspost vanuit deze backend gepubliceerd en via Instagram-media-uitvoer geverifieerd: https://www.instagram.com/p/DfE5pKcjUR0/. Het aanvankelijke generieke schrijfantwoord kreeg veilig de status 'controleer publicatie'; na bevestiging van media-ID, caption en permalink is de link in de admin vastgelegd.
 
 Op verzoek een eerste kalender ingevuld: 2–15 november, zeven berichten (vijf afbeeldingen, twee carrousels), allemaal met echte media en captions, zonder goedkeuring en zonder ingeschakelde automatische/openbare publicatie. 38 tests, productiebuild en browsercontroles geslaagd. Reels en carrousels zijn niet publiek als aanvullende tests geplaatst.
+
+## Eenmalige geplande toestemming
+
+Naast direct publiceren kan een beheerder één exact bericht voor één gepland tijdstip autoriseren. De databasegrant is gebonden aan bericht-ID, inhoudsrevisie en tijdstip. De eigen scheduler verwerkt dat bericht ook als de brede automatische kalenderstand uit staat. Wijzigen van inhoud/planning maakt de grant ongeldig; vervangen/verwijderen van de serversleutel verwijdert alle grants. De admin vermeldt actieve grants expliciet. **Alles pauzeren** trekt zowel brede automatische toestemming als afzonderlijke grants in. Al verzonden opdrachten kunnen nog afronden. Andere ongekeurde kalenderberichten worden hierdoor niet vrijgegeven.
