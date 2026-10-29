@@ -1,0 +1,26 @@
+{
+  "postId": 3,
+  "revision": 2,
+  "scheduledAt": "2026-10-29T19:40:00.000Z",
+  "timezone": "Europe/Amsterdam",
+  "localTime": "2026-10-29 20:40",
+  "oneTimeGrant": true,
+  "globalAuto": false,
+  "globalAuthorization": false,
+  "otherUnapproved": 7,
+  "application_commit": "a31c8ab",
+  "deployment": "dprinaikc2pdyotpo1dxhzqo",
+  "deployment_status": "finished",
+  "automated_tests": 41,
+  "build": "passed",
+  "approval_source": "Explicit confirmation of the full software-carousel draft and 20:40 Europe/Amsterdam time in chat",
+  "caption_source": "INSTAGRAM-KALENDER-2026-11-02.json, second post",
+  "public_outcome": "Not published yet; scheduled on own hosting",
+  "intro": {
+    "post_id": 9,
+    "status": "draft",
+    "approval": "Pending explicit confirmation of the revised full intro draft",
+    "original_website_post_id": 2,
+    "original_website_post_not_published": true
+  }
+}
