@@ -90,7 +90,7 @@ export default function Home() {
         <div className="container hero-content">
           <div className="hero-copy">
             <span className="eyebrow">
-              <i className="eyebrow-dot" /> Voor ondernemers en groeiende teams
+              <i className="eyebrow-dot" /> Websites, webshops en software uit Apeldoorn
             </span>
             <h1>
               Je bedrijf gaat vooruit.
