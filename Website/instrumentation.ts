@@ -6,5 +6,7 @@ export async function register(){
   startBookkeepingScheduler();
   const {startInstagramScheduler}=await import('./lib/instagram/worker');
   startInstagramScheduler();
+  const {startLeadDigest}=await import('./lib/leads');
+  startLeadDigest();
  }
 }

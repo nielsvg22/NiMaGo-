@@ -6,6 +6,7 @@ import {parseEuro,today,addDays} from '@/lib/money';
 import {nextNumber,type Invoice} from '@/lib/invoice';
 import {audit} from '@/lib/bookkeeping';
 import {nextQuoteNumber,STAGES,type Quote} from '@/lib/portal';
+import {STAGES as LEAD_STAGES,type Lead} from '@/lib/leads';
 import {hashPassword,passwordProblem} from '@/lib/pass';import {sendMail,siteUrl} from '@/lib/mail';
 
 const str=(v:FormDataEntryValue|null,max=500)=>String(v??'').trim().slice(0,max);
@@ -216,3 +217,34 @@ export async function planAppointment(fd:FormData){
   try{db().prepare("INSERT INTO appointments(name,email,topic,slot,status,customer_id) VALUES(?,?,?,?,'bevestigd',?)").run(c.name,c.email||'-',topic,`${date} ${time}`,cid)}catch{redirect('/admin/agenda?fout=bezet')}
   revalidatePath('/admin/agenda');redirect('/admin/agenda?ok=gepland');
 }
+
+/* ───── Leadbeheer ───── */
+const stageKeys:string[]=LEAD_STAGES.map(s=>s[0]);
+export async function setLeadStage(fd:FormData){
+  await requireAdmin();const id=Number(fd.get('id'));const st=String(fd.get('stage'));if(!stageKeys.includes(st))return;
+  db().prepare("UPDATE messages SET stage=?,is_read=1,contacted_at=CASE WHEN ?!='nieuw' AND contacted_at='' THEN datetime('now') ELSE contacted_at END WHERE id=?").run(st,st,id);
+  revalidatePath('/admin','layout');redirect(`/admin/lead?id=${id}`);
+}
+export async function saveLeadMeta(fd:FormData){
+  await requireAdmin();const id=Number(fd.get('id'));const fu=str(fd.get('follow_up'),10);
+  db().prepare('UPDATE messages SET note=?,follow_up=?,value_cents=?,is_read=1 WHERE id=?').run(str(fd.get('note'),3000),/^\d{4}-\d{2}-\d{2}$/.test(fu)?fu:'',Math.max(0,parseEuro(String(fd.get('value')||'0'))),id);
+  revalidatePath('/admin','layout');redirect(`/admin/lead?id=${id}&ok=opgeslagen`);
+}
+/** Stuurt een e-mail aan de lead in de huisstijl en zet de lead op "Opgevolgd" (alleen als hij nog nieuw was). */
+export async function replyLead(fd:FormData){
+  await requireAdmin();const id=Number(fd.get('id'));const l=db().prepare('SELECT * FROM messages WHERE id=?').get(id) as Lead|undefined;if(!l)redirect('/admin/leads');
+  const body=str(fd.get('body'),5000),subject=str(fd.get('subject'),160);if(!body||!subject)redirect(`/admin/lead?id=${id}&fout=leeg`);
+  const ok=await sendMail({to:l.email,subject,text:body,replyTo:getSetting('email')||process.env.NOTIFY_TO||undefined});
+  if(!ok)redirect(`/admin/lead?id=${id}&fout=mail`);
+  db().prepare("UPDATE messages SET is_read=1,stage=CASE WHEN stage='nieuw' THEN 'opgevolgd' ELSE stage END,contacted_at=CASE WHEN contacted_at='' THEN datetime('now') ELSE contacted_at END,note=note||?  WHERE id=?").run(`\n[${today()}] E-mail verstuurd: ${subject}`,id);
+  revalidatePath('/admin','layout');redirect(`/admin/lead?id=${id}&ok=verzonden`);
+}
+export async function convertLead(fd:FormData){
+  await requireAdmin();const id=Number(fd.get('id'));const d=db();const l=d.prepare('SELECT * FROM messages WHERE id=?').get(id) as Lead|undefined;if(!l)redirect('/admin/leads');
+  let cid=l.customer_id;
+  if(!cid){const ex=d.prepare("SELECT id FROM customers WHERE lower(email)=lower(?) AND email!=''").get(l.email) as {id:number}|undefined;
+    cid=ex?ex.id:Number(d.prepare('INSERT INTO customers(name,contact,email) VALUES(?,?,?)').run(l.company||l.name,l.name,l.email).lastInsertRowid);
+    d.prepare('UPDATE messages SET customer_id=? WHERE id=?').run(cid,id)}
+  revalidatePath('/admin','layout');redirect(`/admin/klant?id=${cid}`);
+}
+export async function deleteLead(fd:FormData){await requireAdmin();db().prepare('DELETE FROM messages WHERE id=?').run(Number(fd.get('id')));revalidatePath('/admin','layout');redirect('/admin/leads')}

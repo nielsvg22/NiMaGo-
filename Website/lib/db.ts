@@ -37,6 +37,8 @@ export function db():Database.Database{
   const cols=(d.prepare("PRAGMA table_info(messages)").all() as {name:string}[]).map(c=>c.name);
   if(!cols.includes('kind'))d.exec("ALTER TABLE messages ADD COLUMN kind TEXT NOT NULL DEFAULT 'contact'");
   if(!cols.includes('payload'))d.exec("ALTER TABLE messages ADD COLUMN payload TEXT NOT NULL DEFAULT ''");
+  // Leadbeheer: pijplijnfase, notitie, opvolgdatum, geschatte waarde, herkomst en gekoppelde klant
+  for(const [c,def] of [['stage',"TEXT NOT NULL DEFAULT 'nieuw'"],['note',"TEXT NOT NULL DEFAULT ''"],['follow_up',"TEXT NOT NULL DEFAULT ''"],['value_cents','INTEGER NOT NULL DEFAULT 0'],['source',"TEXT NOT NULL DEFAULT ''"],['page',"TEXT NOT NULL DEFAULT ''"],['contacted_at',"TEXT NOT NULL DEFAULT ''"],['customer_id','INTEGER']] as const)if(!cols.includes(c))d.exec(`ALTER TABLE messages ADD COLUMN ${c} ${def}`);
   const ac=(d.prepare("PRAGMA table_info(appointments)").all() as {name:string}[]).map(c=>c.name);
   if(!ac.includes('customer_id'))d.exec("ALTER TABLE appointments ADD COLUMN customer_id INTEGER");
   _db=d;return d;
