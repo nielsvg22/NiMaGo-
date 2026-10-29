@@ -378,3 +378,8 @@ em{font-style:normal;color:var(--copper-text)}
 /* Mobiel: vaste contactbalk */
 .contact-bar{display:none}
 @media(max-width:740px){.contact-bar{position:fixed;left:10px;right:10px;bottom:10px;z-index:40;display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:8px;padding:8px;border-radius:22px;background:rgba(42,23,19,.96);box-shadow:0 14px 34px rgba(0,0,0,.35);backdrop-filter:blur(8px)}.contact-bar a{display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 8px;border-radius:16px;color:#fff;font:700 14.5px var(--display);background:rgba(255,255,255,.08)}.contact-bar a.primary{background:var(--copper)}.footer{padding-bottom:84px}}
+/* Gratis downloads */
+.magnet-box{display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center;margin:24px 0 0;padding:22px 26px;border-radius:26px;background:var(--surface);border:1.5px solid var(--copper)}
+.magnet-box b{font:800 18px var(--display)}.magnet-box p{margin:4px 0 0;color:var(--muted);font-size:15px}
+.magnet-ico{display:grid;place-items:center;width:52px;height:52px;border-radius:50%;background:var(--copper);color:#fff}
+@media(max-width:740px){.magnet-box{grid-template-columns:1fr;text-align:left}}

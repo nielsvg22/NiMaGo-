@@ -1,4 +1,4 @@
-import {services,projects} from '@/data/site';
+import {services,projects} from '@/data/site';import {magnets} from '@/data/magnets';
 import {articles} from '@/data/articles';
 import {landings,branches} from '@/data/pages';
 import {cities} from '@/data/samples';
@@ -28,10 +28,12 @@ export function pageSeo(path:string):{title:string;description:string}{
  const landing=landings.find(l=>'/'+l.slug===path);if(landing)return{title:landing.title,description:landing.description};
  const service=services.find(s=>'/diensten/'+s.slug===path);if(service)return{title:service.title+' op maat',description:service.lead+' '+service.approach};
  const project=projects.find(p=>'/projecten/'+p.slug===path);if(project)return{title:project.title+' — '+project.sector,description:project.description};
+ if(path==='/downloads')return{title:'Gratis downloads: checklists voor website en software',description:'Praktische checklists en keuzegidsen voor ondernemers: website-check, voorbereiding, maatwerk software en lokaal vindbaar worden. Gratis PDF.'};
+ const magnet=magnets.find(x=>'/downloads/'+x.slug===path);if(magnet)return{title:magnet.title,description:magnet.desc};
  const article=articles.find(a=>'/inzichten/'+a.slug===path);if(article)return{title:article.title,description:article.description};
  const branch=branches.find(b=>'/branches/'+b.slug===path);if(branch)return{title:branch.h1,description:branch.description};
  const city=cities.find(c=>'/werkgebied/'+c.slug===path);if(city)return{title:'Digitale oplossingen in '+city.name,description:city.lead};
  const titles:Record<string,string>={'/afspraken':'Onze afspraken','/woordenlijst':'Woordenlijst voor digitale projecten','/privacyverklaring':'Privacyverklaring','/cookiebeleid':'Cookiebeleid','/algemene-voorwaarden':'Algemene voorwaarden','/zoeken':'Zoeken op de website'};
  const title=titles[path]||'NiMaGo Digital';return{title,description:title+' van NiMaGo Digital. Informatie voor bezoekers en opdrachtgevers over onze dienstverlening.'};
 }
-export function publicPaths(){return [...new Set([...Object.keys(pages),'/afspraken','/woordenlijst','/privacyverklaring','/cookiebeleid','/algemene-voorwaarden','/zoeken',...services.map(s=>'/diensten/'+s.slug),...projects.map(p=>'/projecten/'+p.slug),...articles.map(a=>'/inzichten/'+a.slug),...landings.map(l=>'/'+l.slug),...branches.map(b=>'/branches/'+b.slug),...cities.map(c=>'/werkgebied/'+c.slug)])]}
+export function publicPaths(){return [...new Set([...Object.keys(pages),'/downloads',...magnets.map(x=>'/downloads/'+x.slug),'/afspraken','/woordenlijst','/privacyverklaring','/cookiebeleid','/algemene-voorwaarden','/zoeken',...services.map(s=>'/diensten/'+s.slug),...projects.map(p=>'/projecten/'+p.slug),...articles.map(a=>'/inzichten/'+a.slug),...landings.map(l=>'/'+l.slug),...branches.map(b=>'/branches/'+b.slug),...cities.map(c=>'/werkgebied/'+c.slug)])]}

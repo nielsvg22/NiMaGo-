@@ -8,5 +8,7 @@ export async function register(){
   startInstagramScheduler();
   const {startLeadDigest}=await import('./lib/leads');
   startLeadDigest();
+  const {startNurture}=await import('./lib/nurture');
+  startNurture();
  }
 }

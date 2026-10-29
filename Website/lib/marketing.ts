@@ -1,6 +1,6 @@
 import {createHash} from 'node:crypto';
 import {db,getSetting} from './db';import {publicPaths} from './page-seo';
-export const EVENTS=['cta_click','phone_click','email_click','contact_submit','quote_submit','scan_submit','booking_submit'] as const;
+export const EVENTS=['cta_click','phone_click','email_click','contact_submit','quote_submit','scan_submit','booking_submit','download_submit'] as const;
 export type MarketingEvent=typeof EVENTS[number];
 export function marketingDay(){return new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Amsterdam'}).format(new Date())}
 export function publicPath(input:unknown){if(typeof input!=='string'||input.length>240)return null;const path=input.split('?')[0].split('#')[0].replace(/\/+$/,'')||'/';return publicPaths().includes(path)?path:null}

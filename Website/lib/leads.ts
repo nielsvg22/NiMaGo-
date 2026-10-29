@@ -3,7 +3,7 @@ import {db,allSettings} from './db';import {sendMail,siteUrl} from './mail';
 export const STAGES=[['nieuw','Nieuw'],['opgevolgd','Opgevolgd'],['gesprek','In gesprek'],['gewonnen','Gewonnen'],['verloren','Verloren']] as const;
 export type Stage=typeof STAGES[number][0];
 export const stageLabel=(s:string)=>STAGES.find(x=>x[0]===s)?.[1]||s;
-export const KIND:Record<string,string>={contact:'Bericht',offerte:'Offerte-aanvraag',scan:'Website-check',afspraak:'Afspraakverzoek'};
+export const KIND:Record<string,string>={contact:'Bericht',offerte:'Offerte-aanvraag',scan:'Website-check',afspraak:'Afspraakverzoek',download:'Download'};
 export type Lead={id:number;name:string;email:string;company:string;service:string;message:string;is_read:number;created_at:string;kind:string;payload:string;stage:Stage;note:string;follow_up:string;value_cents:number;source:string;page:string;contacted_at:string;customer_id:number|null};
 const ams=()=>new Date().toLocaleDateString('en-CA',{timeZone:'Europe/Amsterdam'});
 export const ageHours=(l:Pick<Lead,'created_at'>)=>(Date.now()-Date.parse(l.created_at.replace(' ','T')+'Z'))/3600000;

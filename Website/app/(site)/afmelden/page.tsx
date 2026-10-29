@@ -1,0 +1,5 @@
+import type {Metadata} from 'next';import {checkUnsub} from '@/lib/magnet-token';import {unsubscribe} from './actions';
+export const metadata:Metadata={title:'Afmelden',robots:{index:false,follow:false}};
+export default async function Page({searchParams}:{searchParams:Promise<{e?:string;t?:string;klaar?:string;fout?:string}>}){const {e='',t='',klaar,fout}=await searchParams;const valid=!!e&&checkUnsub(e.toLowerCase(),t);
+return <section className="container page-hero"><span className="eyebrow">Afmelden</span><h1>{klaar?'Je bent afgemeld.':'Geen mails meer ontvangen?'}</h1>
+{klaar?<p>Je ontvangt geen tips of nieuwsbrieven meer van NiMaGo. Een eventuele download die je al hebt aangevraagd blijft gewoon werken.</p>:fout||!valid?<p>Deze afmeldlink is niet geldig. Mail naar <a className="text-link" href="mailto:info@nimagodigital.nl">info@nimagodigital.nl</a> en we verwijderen je direct.</p>:<form action={unsubscribe}><p>Je meldt <b>{e}</b> af voor tips en nieuwsbrieven van NiMaGo.</p><input type="hidden" name="e" value={e}/><input type="hidden" name="t" value={t}/><button className="button button-primary" type="submit">Ja, meld me af</button></form>}</section>}

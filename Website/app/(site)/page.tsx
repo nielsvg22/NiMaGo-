@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import ReviewsSection from "@/components/ReviewsSection";
+import { magnets } from "@/data/magnets";
 import {
   ArrowUpRight,
   ArrowRight,
@@ -378,6 +379,20 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="section container" aria-labelledby="downloads">
+        <div className="section-head">
+          <div>
+            <span className="eyebrow"><i className="eyebrow-line" />Gratis downloads</span>
+            <h2 id="downloads">Praktische checklists, <em>direct bruikbaar.</em></h2>
+          </div>
+          <Link href="/downloads" className="button button-dark">Alle downloads <ArrowUpRight size={17} /></Link>
+        </div>
+        <div className="values">
+          {magnets.slice(0, 3).map((m) => (
+            <Link key={m.slug} className="value" href={"/downloads/" + m.slug}><h3>{m.short}</h3><p>{m.desc}</p></Link>
+          ))}
+        </div>
+      </section>
       <ReviewsSection />
       <section className="section container" aria-labelledby="lokaal">
         <div className="section-head">
