@@ -230,8 +230,7 @@ export default function Home() {
           </div>
           <p>
             Dossiers en facturen in één platform. Zoekopdrachten in een
-            partnerportaal. Vacatures en kandidaten in een recruitmentomgeving.
-            Bekijk de aanpak per project.
+            partnerportaal. Bekijk de aanpak per project.
           </p>
           <Link href="/projecten" className="button button-dark">
             Alle projecten <ArrowUpRight size={17} />
