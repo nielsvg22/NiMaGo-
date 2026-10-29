@@ -97,6 +97,12 @@ export default function ProjectDetail({ slug }: { slug: string }) {
           )}
         </aside>
       </section>
+      {ex?.workflow && <section className="container" style={{paddingBottom:80}} aria-labelledby="project-werkproces">
+        <div className="section-head"><div><span className="eyebrow">Het werkproces</span><h2 id="project-werkproces">Zo hangen de onderdelen <em>samen.</em></h2></div></div>
+        <div className="values">{ex.workflow.map(([title,text])=><div className="value" key={title}><h3>{title}</h3><p>{text}</p></div>)}</div>
+        <p className="disclaimer">{p.note}</p>
+        <p style={{marginTop:20}}>Een vergelijkbaar proces in jouw bedrijf? <Link className="text-link" href="/softwarebedrijf-apeldoorn">Bekijk onze aanpak voor maatwerk software in Apeldoorn</Link> of <Link className="text-link" href="/kennismaking">bespreek je werkproces</Link>.</p>
+      </section>}
       <section className="container">
         <div className="section-head">
           <div>
@@ -124,7 +130,7 @@ export default function ProjectDetail({ slug }: { slug: string }) {
                   <span className="project-label">{o.sector}</span>
                   {img ? (
                     <div className="shot-frame">
-                      <img src={img} alt="" loading="lazy" />
+                      <img {...imageProps(img)} alt="" loading="lazy" />
                     </div>
                   ) : (
                     <ProjectArt
