@@ -1,0 +1,10 @@
+import {NextRequest} from 'next/server';
+import path from 'node:path';import fs from 'node:fs';import {Readable} from 'node:stream';
+import {isAdmin} from '@/lib/auth';import {asset} from '@/lib/instagram/store';import {validMediaSignature} from '@/lib/instagram/security';import {mediaDir} from '@/lib/instagram/media';
+export const runtime='nodejs';export const dynamic='force-dynamic';
+export async function GET(req:NextRequest,{params}:{params:Promise<{id:string}>}){
+ const {id}=await params;if(!/^[a-f0-9-]{36}$/.test(id))return new Response(null,{status:404});
+ if(!await isAdmin()&&!validMediaSignature(id,req.nextUrl.searchParams.get('expires')||'',req.nextUrl.searchParams.get('signature')||''))return new Response(null,{status:404});
+ const a=asset(id);if(!a||!new RegExp('^'+id+'\\.(jpg|mp4)$').test(a.filename))return new Response(null,{status:404});const file=path.join(mediaDir(),a.filename);let size:number;try{size=fs.statSync(file).size}catch{return new Response(null,{status:404})}
+ const headers=new Headers({'Content-Type':a.mime,'Cache-Control':'private, no-store','X-Robots-Tag':'noindex, nofollow','Accept-Ranges':'bytes','Content-Disposition':'inline; filename="'+a.filename+'"'});let start=0,end=size-1,status=200;const range=req.headers.get('range');if(range){const match=/^bytes=(\d*)-(\d*)$/.exec(range);if(!match||(!match[1]&&!match[2]))return new Response(null,{status:416,headers:{'Content-Range':`bytes */${size}`}});if(!match[1])start=Math.max(0,size-Number(match[2]));else{start=Number(match[1]);if(match[2])end=Math.min(size-1,Number(match[2]))}if(!Number.isSafeInteger(start)||!Number.isSafeInteger(end)||start<0||start>=size||end<start)return new Response(null,{status:416,headers:{'Content-Range':`bytes */${size}`}});status=206;headers.set('Content-Range',`bytes ${start}-${end}/${size}`)}headers.set('Content-Length',String(end-start+1));const stream=Readable.toWeb(fs.createReadStream(file,{start,end})) as ReadableStream<Uint8Array>;return new Response(stream,{status,headers});
+}

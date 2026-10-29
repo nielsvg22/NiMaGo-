@@ -14,7 +14,7 @@ RUN npm run build
 
 FROM node:22-alpine AS run
 WORKDIR /app
-RUN apk add --no-cache su-exec && addgroup -S app && adduser -S app -G app
+RUN apk add --no-cache su-exec ffmpeg && addgroup -S app && adduser -S app -G app
 ENV NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 PORT=3000 HOSTNAME=0.0.0.0 DATA_DIR=/data
 COPY --from=build --chown=app:app /app/.next/standalone ./
 COPY --from=build --chown=app:app /app/.next/static ./.next/static

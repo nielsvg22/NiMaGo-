@@ -4,5 +4,7 @@ export async function register(){
   startBackups();
   const {startBookkeepingScheduler}=await import('./lib/bookkeeping-scheduler');
   startBookkeepingScheduler();
+  const {startInstagramScheduler}=await import('./lib/instagram/worker');
+  startInstagramScheduler();
  }
 }
