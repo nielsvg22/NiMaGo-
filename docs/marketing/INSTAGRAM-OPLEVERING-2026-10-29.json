@@ -1,0 +1,59 @@
+{
+  "checked_on": "2026-10-29",
+  "application_commit": "95bdc42",
+  "deployment": "cbm3bg17un5bdqgamdwbst64",
+  "deployment_status": "finished",
+  "account": "nimagodigital",
+  "server_credential": "Stored encrypted; not included in this report",
+  "server_read_test": "passed",
+  "automated_tests": 38,
+  "production_build": "passed",
+  "browser_checks": [
+    "admin authentication",
+    "encrypted credential save",
+    "live Windsor read-only test",
+    "image upload and private preview",
+    "calendar save",
+    "approval and invalidation on edit",
+    "media range requests",
+    "origin validation",
+    "mobile layout"
+  ],
+  "public_test": {
+    "authorized_exact_draft": true,
+    "local_post_id": 1,
+    "instagram_media_id": "17992316907066364",
+    "permalink": "https://www.instagram.com/p/DfE5pKcjUR0/",
+    "published_at_utc": "2026-10-29T11:28:43+00:00",
+    "verification": "Read from connected Instagram account via Windsor, exact caption matched; stored as verified published in the admin",
+    "automatic_publication_enabled": false,
+    "global_publication_authorized": false,
+    "approval_required": true
+  },
+  "content_calendar": {
+    "start": "2026-11-02",
+    "end": "2026-11-15",
+    "timezone": "Europe/Amsterdam",
+    "post_ids": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "single_image_posts": 5,
+    "carousels": 2,
+    "approved": 0,
+    "automatic_publication_enabled": false,
+    "global_publication_authorized": false,
+    "source": "Existing approved website images and one portfolio screenshot explicitly labelled as demo",
+    "captions": "INSTAGRAM-KALENDER-2026-11-02.json"
+  },
+  "limitations": [
+    "Real public test covered one image, not a live carousel or Reel",
+    "Windsor write responses without a confirmed media result require link verification",
+    "No AI-generation provider, TikTok or Instagram performance dashboard added"
+  ]
+}

@@ -62,3 +62,9 @@ Geen AI-generatie, TikTok, bereik-/engagementdashboard of volledige campagne toe
 - https://windsor.ai/documentation/windsor-mcp/write-actions/ — beeld-, carrousel- en Reel-voorwaarden.
 - Live `get_connectors` en `list_actions` voor de gekoppelde Instagram-connector — daadwerkelijke account-ID, actienamen, velden en JSON-schema’s. De server leest die opnieuw bij iedere voorcontrole.
 - https://www.postman.com/meta/instagram/folder/1z5vxzu/instagram-api-with-instagram-login — officiële Meta-collectie, professionele accounts en scopeverschillen. Rechtstreekse developers.facebook.com-pagina’s gaven tijdens eerder onderzoek 429; geen definitieve appreviewgoedkeuring voor een eigen Meta-app geclaimd.
+
+## Oplevering 29 oktober 2026
+
+Productiecommit `95bdc42`. Echte serververbinding getest. Eén door de eigenaar exact goedgekeurde afbeeldingspost vanuit deze backend gepubliceerd en via Instagram-media-uitvoer geverifieerd: https://www.instagram.com/p/DfE5pKcjUR0/. Het aanvankelijke generieke schrijfantwoord kreeg veilig de status 'controleer publicatie'; na bevestiging van media-ID, caption en permalink is de link in de admin vastgelegd.
+
+Op verzoek een eerste kalender ingevuld: 2–15 november, zeven berichten (vijf afbeeldingen, twee carrousels), allemaal met echte media en captions, zonder goedkeuring en zonder ingeschakelde automatische/openbare publicatie. 38 tests, productiebuild en browsercontroles geslaagd. Reels en carrousels zijn niet publiek als aanvullende tests geplaatst.
