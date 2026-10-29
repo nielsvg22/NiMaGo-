@@ -264,3 +264,12 @@ Volgende sessie: lees eerst deze roadmap en de actuele bronbestanden; vergelijk 
 
 - Op verzoek verdwijnt na accepteren/weigeren alle zwevende cookiebediening. Cookie-instellingen staan voortaan in de Nederlandse en Engelse footer om de keuze opnieuw te openen. Cookiekeuze, metingen en intrekken blijven werken. Cookiebeleid bijgewerkt.
 - Productiebouw en lokale Nederlandse/Engelse browsertests geslaagd. Live gecontroleerd op commit `75e2dbb`: na accepteren geen cookievenster of zwevende knop, na vernieuwen blijft de melding weg, footerknop opent de instellingen. Deployment `8kaqsl71ihpaon5861bbxt7v` afgerond.
+
+### Sessie 29 oktober 2026 — softwarebedrijf Apeldoorn
+
+- Gebruiker preciseert de zoekvraag: `softwarebedrijf Apeldoorn`, eigen waarneming midden op pagina 2; geen exact gemeten positie.
+- Windsor.ai nu werkelijk beschikbaar; Search Console-domeinproperty bevestigd. 28-daagse dagreeks en 3-maands query/pagina-opvraag leveren geen regels. Extra jaaraggregatie geeft 0/0, sitemapvelden null; geen betrouwbare rankingnulmeting of bewezen sitemapverwerking uit afgeleid. Vergelijking met native GSC en URL-inspectie is eerste meetactie.
+- Live doelpagina HTTP 200, relevante title/H1, eigen canonical, index/follow en opgenomen in bereikbare sitemap. Dat is geen bewezen Google-indexstatus.
+- Onderzoek nu gericht op softwarebedrijven: appiQue, IDAS en Apeldoorn.ai; openbare inhoud bestudeerd, geen claim over exacte Google-volgorde. Kans: concrete softwarevoorbeelden eerder tonen, praktische beslisinformatie en gerichte interne links. Echte reviewlijst leeg; bestaande projecten tonen demo-/ontwikkelstatus, geen resultaten verzinnen.
+- [Specifiek 90-dagenplan](docs/marketing/SOFTWAREBEDRIJF-APELDOORN-GROEIPLAN-2026-10-29.md) toegevoegd met meetstatus, zoekwoord-/URL-eigenaarschap, concurrentie, prioriteiten, oplevercriteria, inspanning en evaluatiemomenten. Gefaseerde ambitie eerste pagina → top 5 → top 3, geen gegarandeerde termijn of verzonnen verkeerdoel.
+- Deze sessie: onderzoek en documentatie. Geen applicatiecode, Google-profiel of externe publicatie gewijzigd; geen kosten, outreach of betaalde campagnes gestart. Geen appbuild nodig voor documentatie.
