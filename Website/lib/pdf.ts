@@ -57,6 +57,7 @@ async function renderPdf(doc:Doc):Promise<Uint8Array>{
   let y=H-M-52;
   const sender=[s.company_name,s.legal_form,s.address,[s.postcode,s.city].filter(Boolean).join(' '),s.country].filter(Boolean);
   for(const l of sender){text(l,W-M,y,{size:8.5,color:MUTED,align:'right'});y-=11}
+  y-=3;for(const [k,v] of [['KvK',s.kvk],['Btw-nr',s.vat_id]] as [string,string][]){if(!v)continue;text(`${k} `,W-M-bold.widthOfTextAtSize(v,8.5)-2,y,{size:8.5,color:MUTED,align:'right'});text(v,W-M,y,{size:8.5,font:bold,color:INK,align:'right'});y-=11}
 
   // aan + metagegevens
   let top=H-210;
@@ -104,6 +105,7 @@ async function renderPdf(doc:Doc):Promise<Uint8Array>{
   ty-=6;}
   const note=[inv.notes,doc.pay?s.footer_note:'Deze offerte is vrijblijvend tot de genoemde datum. Akkoord geven kan via je klantaccount of door deze offerte ondertekend te retourneren.'].filter(Boolean).join('\n\n');
   for(const t of wrap(note,reg,8.8,W-2*M)){if(ty<80)break;text(t,M,ty,{size:8.8,color:MUTED});ty-=11.5}
+  if(doc.pay){ty-=10;if(ty<96){footer();page=pdf.addPage([W,H]);pageNo++;ty=H-M-10}page.drawRectangle({x:M,y:ty+14,width:34,height:2,color:AMBER});text('Reclames binnen 8 dagen - betaling binnen 14 dagen.',M,ty-2,{size:10,font:bold,color:INK})}
   footer();
   return pdf.save();
 }
