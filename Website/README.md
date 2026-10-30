@@ -73,3 +73,13 @@ Lees bij marketingwerk eerst [`../MARKETING-SEO-ROADMAP.md`](../MARKETING-SEO-RO
 - `node --test scripts/marketing.test.cjs scripts/bookkeeping.test.cjs` test in tijdelijke databases; geen productiegegevens of externe mail nodig.
 - `python scripts/seo-audit.py https://nimagodigital.nl /tmp/nimago-audit` crawlt alleen sitemap en openbare interne GET-links. Geen formulieren of privé-routes.
 - `data/image-sizes.json` beschrijft responsive beeldvarianten. Bij vervanging van een bronafbeelding ook de bijbehorende varianten/manifest bijwerken. Varianten `-480`, `-800` en `-1200` zijn geen afzonderlijke projectschermen.
+
+## Google-reviews live (optioneel)
+
+De homepage toont automatisch je echte Google-reviews zodra deze variabelen gezet zijn (Coolify → Environment):
+
+- `GOOGLE_PLACES_API_KEY` – API-sleutel met "Places API (New)" aan (beperk de sleutel, stel een budgetalert in)
+- `GOOGLE_PLACE_ID` – Place ID van het bedrijfsprofiel (Place ID Finder)
+- `PLACES_CACHE_MINUTES` – cache in geheugen, standaard 60 (reviews worden niet opgeslagen, conform Google-voorwaarden)
+
+Zonder variabelen valt de sectie terug op `data/reviews.ts` (handmatig, alleen echte reviews) of blijft verborgen.
